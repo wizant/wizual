@@ -2,16 +2,20 @@
 <header id="header" ng-controller="CategoryController">
     <div class="content">
         <img src="../images/legend-rounds.png" width="127" height="105" class="pull-right" alt="" title="" />
-        <nav id="categories">
+        <nav id="categories" class="small-cats">
             <ul>
                 <li ng-repeat="category in categories" ng-mouseenter="showCats()" ng-mouseleave="hideCats()">
-                    <span class="cat-color" style="background: {{category.color}}"></span>
-                    <span class="cat-name">{{category.name}}</span>
-                    <ul>
-                        <li ng-repeat="result in results[category.permalink].data">
-                            <a ng-href="#/company/{{ result.permalink }}">{{ result.name }}</a>
-                        </li>
-                    </ul>
+                    <div class="cat-label">
+                        <span class="cat-color" style="background: {{category.color}}"></span>
+                        <span class="cat-name">{{category.name}}</span>
+                    </div>
+                    <div class="drop-down">
+                        <ul>
+                            <li ng-repeat="result in results[category.permalink].data">
+                                <a ng-href="#/entity/{{ result.permalink }}">{{ result.name }}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
         </nav>

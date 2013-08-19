@@ -309,12 +309,59 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         color: #666;
     }
 
-    .category {
-        float: left;
-        margin-right: 10px;
+    #categories.small-cats {
+        height: 8em;
+        font-size: 1em;
     }
 
-    .csstransforms .category {
+    #categories > ul > li {
+        float: left;
+        margin-right: 0.8em;
+        position: relative;
+    }
+
+    #categories.small-cats > ul > li {
+        margin: 6em 2em 0 0;
+    }
+
+    .drop-down {
+        display: none;
+        width: 15em;
+        min-height: 65px;
+        padding: 0.3em;
+        position: absolute;
+        top: 1.4em;
+        left: -50%;
+        z-index: 30;
+        border: 1px solid #ccc;
+        font-size: 90%;
+        background: #fff url("../images/droplet.gif") center no-repeat;
+        -moz-border-radius: 11px;
+        -webkit-border-radius: 11px;
+        border-radius: 11px;
+    }
+
+    .drop-down ul {
+        overflow: hidden;
+    }
+
+    .drop-down a {
+        display: block;
+        padding: 0.3em;
+        text-decoration: none;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        color: #222;
+    }
+
+    .drop-down a:hover,
+    .drop-down a:focus,
+    .drop-down a:active {
+        color: #fff;
+        background: #3399ff;
+    }
+
+    .cat-label {
         white-space:nowrap;
         -webkit-transform:rotate(-35deg);
         -moz-transform:rotate(-35deg);
@@ -322,6 +369,10 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         -o-transform:rotate(-35deg);
         transform:rotate(-35deg);
         cursor:pointer
+    }
+
+    .csstransforms .cat-label {
+        width: 2em;
     }
 
     .cat-color {
@@ -339,18 +390,28 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         border-radius: 50%;
     }
 
+    #categories.small-cats .cat-color {
+        width: 1.15em;
+        height: 1.15em;
+    }
+
     .cat-color:after {
         display: block;
         content: ' ';
         width: 1.4em;
         height: 1.4em;
         position: absolute;
-        top: 0.3;
-        left: 0.3;
+        top: 0.3em;
+        left: 0.3em;
         border: 1px solid #333;
         -moz-border-radius: 50%;
         -webkit-border-radius: 50%;
         border-radius: 50%;
+    }
+
+    #categories.small-cats .cat-color:after {
+        width: 1em;
+        height: 1em;
     }
 
     /*------------ =content--------------*/
