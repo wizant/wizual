@@ -368,6 +368,34 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         border-radius: 10px;
     }
 
+    #profile img {
+        margin-right: 1em;
+    }
+
+    #profile ul {
+        overflow: hidden;
+        zoom: 1;
+        color: #770000;
+    }
+
+    #profile li {
+        margin-bottom: 5px;
+    }
+
+    #profile a {
+        color: #808080;
+    }
+
+    #profile .label {
+        display: -moz-inline-stack;
+        display: inline-block;
+        *display: inline;
+        zoom: 1;
+        width: 5em;
+        font-style: italic;
+        color: #222;
+    }
+
     /* entries */
     .post {
     }

@@ -33,27 +33,27 @@
         <div class="content">
             <div id="profile" class="clearfix">
                 <div class="col col-span-1">
-                    <a  ng-if="entity.profile.image[0].image" ng-href="entity.profile.homepage_url" target="_blank">
+                    <a class="pull-left" ng-if="entity.profile.image[0].image" ng-href="entity.profile.homepage_url" target="_blank">
                         <img ng-src="{{ entity.profile.image[0].image }}" title="{{ entity.profile.name }}" />
                     </a>
                     <ul>
                         <li ng-if="entity.profile.homepage_url">
-                            Website:
+                            <span class="label">Website:</span>
                             <a ng-href="{{ entity.profile.homepage_url }}" target="_blank">{{ entity.profile.homepage_url }}</a>
                         </li>
                         <li ng-if="entity.profile.twitter_username">
-                            Twitter:
+                            <span class="label">Twitter:</span>
                             <a ng-href="https:www.twitter.com/{{ entity.profile.twitter_username }}" target="_blank">@{{ entity.profile.twitter_username }}</a>
                         </li>
                         <li ng-if="entity.profile.email_address">
-                            Email:
+                            <span class="label">Email:</span>
                             <a ng-href="mailto:{{ entity.profile.email_address }}">{{ entity.profile.email_address }}</a>
                         </li>
                         <li ng-if="entity.profile.offices">
-                            Offices:
-                            <div ng-repeat="office in entity.profile.offices">
+                            <span class="label">Offices:</span>
+                            <span ng-repeat="office in entity.profile.offices">
                                 {{ office.city }}<span ng-if="office.state_code">,</span> {{ office.state_code }}
-                            </div>
+                            </span>
                         </li>
                     </ul>
                 </div>
