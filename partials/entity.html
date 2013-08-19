@@ -1,0 +1,49 @@
+<!--header-->sssssssssssssssssssssss
+<header id="header" ng-controller="CategoryController">
+    <nav id="categories">
+        <ul>
+            <li ng-repeat="category in categories" ng-mouseenter="showCats()" ng-mouseleave="hideCats()">
+                <span class="cat-color" style="background: {{category.color}}"><span></span></span>
+                <span class="cat-name">{{category.name}}</span>
+                <ul>
+                    <li ng-repeat="result in results[category.permalink].data">
+                        <a ng-href="#/company/{{ result.permalink }}">{{ result.name }}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+<!--/header-->
+
+<!--content-->
+<div id="content" ng-controller="EntityController">
+    <div bubble-chart id="chart" entities="entity.profile.funding_rounds"></div>
+    <div id="profile">
+        <a  ng-if="entity.profile.image[0].image" ng-href="entity.profile.homepage_url" target="_blank">
+            <img ng-src="{{ entity.profile.image[0].image }}" title="{{ entity.profile.name }}" />
+        </a>
+        <ul>
+            <li ng-if="entity.profile.homepage_url">
+                Website:
+                <a ng-href="{{ entity.profile.homepage_url }}" target="_blank">{{ entity.profile.homepage_url }}</a>
+            </li>
+            <li ng-if="entity.profile.twitter_username">
+                Twitter:
+                <a ng-href="https:www.twitter.com/{{ entity.profile.twitter_username }}" target="_blank">@{{ entity.profile.twitter_username }}</a>
+            </li>
+            <li ng-if="entity.profile.email_address">
+                Email:
+                <a ng-href="mailto:{{ entity.profile.email_address }}">{{ entity.profile.email_address }}</a>
+            </li>
+            <li ng-if="entity.profile.offices">
+                Offices:
+                <div ng-repeat="office in entity.profile.offices">
+                    {{ office.city }}<span ng-if="office.state_code">,</span> {{ office.state_code }}
+                </div>
+            </li>
+        </ul>
+        <div ng-bind-html="entity.profile.overview"></div>
+    </div>
+</div>
+<!--/content-->

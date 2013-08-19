@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Advertising",
+        "permalink": "advertising",
+        "color": "#e1b375"
+    },
+    {
+        "name": "Communication",
+        "permalink": "public_relations",
+        "color": "#9d844f"
+    },
+    {
+        "name": "Consumer Web",
+        "permalink": "web",
+        "color": "#606b3e"
+    },
+    {
+        "name": "eCommerce",
+        "permalink": "ecommerce",
+        "color": "#b0b960"
+    }
+]
