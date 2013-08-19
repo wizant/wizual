@@ -132,8 +132,6 @@ wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function
 
 //entity controller
 wizualyApp.controller('EntityController', ['$scope', 'Data', '$http', function($scope, Data, $http){
-    $scope.entity = {};
-
     //get entity data
     $scope.getEntityData = function(permalink){
         $http({
@@ -141,7 +139,7 @@ wizualyApp.controller('EntityController', ['$scope', 'Data', '$http', function($
             'url': 'http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/relations/su/' + permalink
         }).success(
             function(data, status, headers, config){
-                $scope.entity.profile = data;
+                $scope.entity = data;
             }
         ).error(
             function(data, status, headers, config){

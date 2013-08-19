@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca5e0da0-1174-4104-8921-4a1ca08be4ee" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/styles/app.css" afterPath="$PROJECT_DIR$/styles/app.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/app.js" afterPath="$PROJECT_DIR$/scripts/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/partials/entity.html" afterPath="$PROJECT_DIR$/partials/entity.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/partials/index.html" afterPath="$PROJECT_DIR$/partials/index.html" />
     </list>
     <ignored path="wizual.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -66,10 +65,19 @@
       <file leaf-file-name="entity.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/partials/entity.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="69" selection-start="2848" selection-end="2855" vertical-scroll-proportion="0.62310386">
+            <state line="55" column="42" selection-start="2592" selection-end="2592" vertical-scroll-proportion="0.57091343">
               <folding>
                 <element signature="n#style#0;n#span#0;n#div#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#header#0;n#!!top" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="133" column="100" selection-start="3927" selection-end="3927" vertical-scroll-proportion="-15.28">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -93,8 +101,9 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/partials/index.html" />
-        <option value="$PROJECT_DIR$/partials/entity.html" />
         <option value="$PROJECT_DIR$/styles/app.css" />
+        <option value="$PROJECT_DIR$/scripts/app.js" />
+        <option value="$PROJECT_DIR$/partials/entity.html" />
       </list>
     </option>
   </component>
@@ -327,9 +336,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="133" column="100" selection-start="3927" selection-end="3927" vertical-scroll-proportion="-15.28">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/partials/entity.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="69" selection-start="2848" selection-end="2855" vertical-scroll-proportion="0.62310386">
+        <state line="55" column="42" selection-start="2592" selection-end="2592" vertical-scroll-proportion="0.57091343">
           <folding>
             <element signature="n#style#0;n#span#0;n#div#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#header#0;n#!!top" expanded="true" />
           </folding>
