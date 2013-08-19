@@ -309,31 +309,48 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         color: #666;
     }
 
-    #categories li {
+    .category {
         float: left;
         margin-right: 10px;
     }
 
-    .cat-color,
-    .cat-color span {
+    .csstransforms .category {
+        white-space:nowrap;
+        -webkit-transform:rotate(-35deg);
+        -moz-transform:rotate(-35deg);
+        -ms-transform:rotate(-35deg);
+        -o-transform:rotate(-35deg);
+        transform:rotate(-35deg);
+        cursor:pointer
+    }
+
+    .cat-color {
         display: -moz-inline-stack;
         display: inline-block;
         *display: inline;
         zoom: 1;
+        width: 1.47em;
+        height: 1.47em;
+        padding: 0.3em;
+        position: relative;
         vertical-align: middle;
         -moz-border-radius: 50%;
         -webkit-border-radius: 50%;
         border-radius: 50%;
     }
 
-    .cat-color {
-        padding: 0.3em;
-    }
-
-    .cat-color span {
+    .cat-color:after {
+        display: block;
+        content: ' ';
         width: 1.4em;
         height: 1.4em;
+        position: absolute;
+        top: 0.3;
+        left: 0.3;
         border: 1px solid #333;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
     }
 
     /*------------ =content--------------*/

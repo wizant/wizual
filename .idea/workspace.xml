@@ -4,13 +4,13 @@
     <list default="true" id="ca5e0da0-1174-4104-8921-4a1ca08be4ee" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/styles/app.css" afterPath="$PROJECT_DIR$/styles/app.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/partials/entity.html" afterPath="$PROJECT_DIR$/partials/entity.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/partials/index.html" afterPath="$PROJECT_DIR$/partials/index.html" />
     </list>
     <ignored path="wizual.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="ca5e0da0-1174-4104-8921-4a1ca08be4ee" time="1376901787561" ignored="false" />
-    <file path="/app.css" changelist="ca5e0da0-1174-4104-8921-4a1ca08be4ee" time="1376911471143" ignored="false" />
-    <file path="/index.html" changelist="ca5e0da0-1174-4104-8921-4a1ca08be4ee" time="1376909977175" ignored="false" />
+    <file path="/app.css" changelist="ca5e0da0-1174-4104-8921-4a1ca08be4ee" time="1376912318821" ignored="false" />
+    <file path="/index.html" changelist="ca5e0da0-1174-4104-8921-4a1ca08be4ee" time="1376911997652" ignored="false" />
     <file path="/entity.html" changelist="ca5e0da0-1174-4104-8921-4a1ca08be4ee" time="1376911356126" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,10 +34,10 @@
       <file leaf-file-name="app.css" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/styles/app.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="393" column="16" selection-start="10989" selection-end="10989" vertical-scroll-proportion="0.9360947">
+            <state line="331" column="19" selection-start="8683" selection-end="8683" vertical-scroll-proportion="0.4934911">
               <folding>
                 <element signature="e#6621#7368#2" expanded="true" />
-                <element signature="e#8935#9682#2" expanded="true" />
+                <element signature="e#9448#10195#2" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -55,9 +55,9 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/partials/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="14" selection-start="800" selection-end="800" vertical-scroll-proportion="-13.730769">
+            <state line="13" column="87" selection-start="463" selection-end="463" vertical-scroll-proportion="-8.5">
               <folding>
-                <element signature="n#style#0;n#span#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#span#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -66,7 +66,7 @@
       <file leaf-file-name="entity.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/partials/entity.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="34" selection-start="2839" selection-end="2839" vertical-scroll-proportion="-26.807692">
+            <state line="7" column="83" selection-start="446" selection-end="446" vertical-scroll-proportion="-4.576923">
               <folding>
                 <element signature="n#style#0;n#span#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#header#0;n#!!top" expanded="true" />
               </folding>
@@ -301,15 +301,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/partials/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="14" selection-start="800" selection-end="800" vertical-scroll-proportion="-13.730769">
-          <folding>
-            <element signature="n#style#0;n#span#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -317,9 +308,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/partials/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="87" selection-start="463" selection-end="463" vertical-scroll-proportion="-8.5">
+          <folding>
+            <element signature="n#style#0;n#span#0;n#span#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/partials/entity.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="34" selection-start="2839" selection-end="2839" vertical-scroll-proportion="-26.807692">
+        <state line="7" column="83" selection-start="446" selection-end="446" vertical-scroll-proportion="-4.576923">
           <folding>
             <element signature="n#style#0;n#span#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#header#0;n#!!top" expanded="true" />
           </folding>
@@ -328,10 +328,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/styles/app.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="393" column="16" selection-start="10989" selection-end="10989" vertical-scroll-proportion="0.9360947">
+        <state line="331" column="19" selection-start="8683" selection-end="8683" vertical-scroll-proportion="0.4934911">
           <folding>
             <element signature="e#6621#7368#2" expanded="true" />
-            <element signature="e#8935#9682#2" expanded="true" />
+            <element signature="e#9448#10195#2" expanded="true" />
           </folding>
         </state>
       </provider>

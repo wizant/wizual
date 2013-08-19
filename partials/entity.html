@@ -5,7 +5,7 @@
         <nav id="categories">
             <ul>
                 <li ng-repeat="category in categories" ng-mouseenter="showCats()" ng-mouseleave="hideCats()">
-                    <span class="cat-color" style="background: {{category.color}}"><span></span></span>
+                    <span class="cat-color" style="background: {{category.color}}"></span>
                     <span class="cat-name">{{category.name}}</span>
                     <ul>
                         <li ng-repeat="result in results[category.permalink].data">
