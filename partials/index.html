@@ -1,24 +1,26 @@
 <!--header-->
 <header id="header" ng-controller="CategoryController">
-    <nav id="categories">
-        <ul>
-            <li ng-repeat="category in categories" ng-mouseenter="showCats()" ng-mouseleave="hideCats()">
-                <span class="cat-color" style="background: {{category.color}}"><span></span></span>
-                <span class="cat-name">{{category.name}}</span>
-                <ul>
-                    <li ng-repeat="result in results[category.permalink].data">
-                        <a ng-href="#/entity/{{ result.permalink }}">{{ result.name }}</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
+
 </header>
 <!--/header-->
 
 <!--content-->
 <div id="content">
-
+    <div class="content">
+        <nav id="categories">
+            <ul>
+                <li ng-repeat="category in categories" ng-mouseenter="showCats()" ng-mouseleave="hideCats()">
+                    <span class="cat-color" style="background: {{category.color}}"><span></span></span>
+                    <span class="cat-name">{{category.name}}</span>
+                    <ul>
+                        <li ng-repeat="result in results[category.permalink].data">
+                            <a ng-href="#/entity/{{ result.permalink }}">{{ result.name }}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </div>
 <!--/content-->
 

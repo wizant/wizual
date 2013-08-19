@@ -20,6 +20,7 @@ time, mark, audio, video {
     font: inherit;
     vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -39,10 +40,14 @@ audio:not([controls]) { display: none; }
 [hidden] { display: none; }
 iframe { border: 0; background: none; }
 
+html {
+    font-size: 62.5%;
+}
+
 body {
     line-height: 1;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 62.5%;
+    font-size: 1.2em;
 }
 ol, ul {
     list-style: none;
@@ -257,17 +262,25 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content {
 
     /*------------ =container------------*/
     #container {
-        width: 980px;
-        margin: 0 auto;
-        position: relative;
-        font-size: 1.2em;
     }
 
     .content {
+        width: 980px;
+        margin: 0 auto;
+        position: relative;
     }
 
     /*------------ =header-------------*/
     #header {
+        background: #ffffff;
+        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ZkZmRmZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZWVlZWUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+        background: -moz-linear-gradient(top,  #ffffff 0%, #fdfdfd 50%, #eeeeee 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#fdfdfd), color-stop(100%,#eeeeee));
+        background: -webkit-linear-gradient(top,  #ffffff 0%,#fdfdfd 50%,#eeeeee 100%);
+        background: -o-linear-gradient(top,  #ffffff 0%,#fdfdfd 50%,#eeeeee 100%);
+        background: -ms-linear-gradient(top,  #ffffff 0%,#fdfdfd 50%,#eeeeee 100%);
+        background: linear-gradient(to bottom,  #ffffff 0%,#fdfdfd 50%,#eeeeee 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee',GradientType=0 );
     }
 
     #logo {
