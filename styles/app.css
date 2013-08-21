@@ -325,7 +325,6 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
     }
 
     .drop-down {
-        display: none;
         width: 15em;
         min-height: 65px;
         padding: 0.3em;
@@ -416,6 +415,7 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
 
     /*------------ =content--------------*/
     #content {
+        min-height: 200px;
     }
 
     #main-content {
