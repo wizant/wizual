@@ -53,6 +53,7 @@ angular.module('wizualy').directive('bubbleChart', function () {
             };
 
             scope.$watch('entities', function(data){
+
                 angular.forEach(data, function(value, key){
                     scope.drawBubble(value);
                 });
@@ -116,9 +117,12 @@ wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function
             }).success(
                 function(data, status, headers, config){
                     $scope.results[permalink] = data;
+
+                    $('.drop-down').jScrollPane();
                 }
             ).error(
                 function(data, status, headers, config){
+                    console.log('error occured when downloading ' + permalink);
                 }
             );
         }
@@ -126,7 +130,13 @@ wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function
 
     //show cats
     $scope.showCats = function(){
+        $('#category-'+this.category.permalink+' .drop-down').show();
         $scope.getCategoryResults(this.category.permalink);
+    };
+
+    //hide cats
+    $scope.hideCats = function(){
+        $('#category-'+this.category.permalink+' .drop-down').hide();
     };
 }]);
 

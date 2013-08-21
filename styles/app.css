@@ -268,7 +268,7 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
     }
 
     .content {
-        width: 980px;
+        width: 1180px;
         margin: 0 auto;
         position: relative;
     }
@@ -338,6 +338,7 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         -moz-border-radius: 11px;
         -webkit-border-radius: 11px;
         border-radius: 11px;
+        display: none;
     }
 
     .drop-down ul {
@@ -358,6 +359,10 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
     .drop-down a:active {
         color: #fff;
         background: #3399ff;
+    }
+
+    .drop-down ul {
+        height: 168px !important;
     }
 
     .cat-label {
