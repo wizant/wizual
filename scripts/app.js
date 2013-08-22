@@ -49,7 +49,6 @@ angular.module('wizualy').directive('bubbleChart', function () {
                 .attr("height", height + margin + 100);
 
             scope.drawBubble = function (entity) {
-                console.log(entity);
             };
 
             scope.$watch('entities', function(data){
@@ -67,10 +66,11 @@ angular.module('wizualy').directive('scrollPane', function () {
     return {
         restrict:'A',
         replace: true,
-        transclude: true,
-        template: '<div class="scroll-pane" ng-transclude></div>',
         link: function (scope, element, attrs){
-            $(element).jScrollPane({showArrows: true,autoReinitialise:true });
+            $(element[0]).jScrollPane({
+                autoReinitialise: true,
+                contentWidth: '0px'
+            });
         }
     }
 });

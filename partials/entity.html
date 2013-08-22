@@ -9,7 +9,7 @@
                         <span class="cat-color" style="background: {{category.color}}"></span>
                         <span class="cat-name">{{category.name}}</span>
                     </div>
-                    <div class="drop-down" scroll-pane>
+                    <div ng-class="{'drop-down': true, 'drop-down-loaded': results[category.permalink].data.length}" scroll-pane>
                         <ul>
                             <li ng-repeat="result in results[category.permalink].data">
                                 <a ng-href="#/entity/{{ result.permalink }}">{{ result.name }}</a>
