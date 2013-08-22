@@ -64,7 +64,7 @@ angular.module('wizualy').directive('bubbleChart', function () {
 //custom scrollbar directive
 angular.module('wizualy').directive('scrollPane', function () {
     return {
-        restrict:'A',
+        restrict: 'C',
         replace: true,
         link: function (scope, element, attrs){
             $(element[0]).jScrollPane({

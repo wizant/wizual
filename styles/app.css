@@ -326,10 +326,10 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
 
     .drop-down {
         width: 15em;
-        height: 20em;
         padding: 0.5em !important;
         position: absolute;
-        top: 1.4em;
+        z-index: 100;
+        top: 3em;
         left: -7.5em;
         z-index: 30;
         border: 1px solid #ccc;
@@ -339,6 +339,22 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         -webkit-border-radius: 11px;
         border-radius: 11px;
         display: none;
+    }
+
+    .drop-down:before {
+        display: block;
+        content: ' ';
+        width: 14px;
+        height: 8px;
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        margin-left: -3px;
+        background: url("../images/dropdown.png") top center no-repeat;
+    }
+
+    .scroll-pane {
+        height: 20em;
     }
 
     .drop-down-loaded {
