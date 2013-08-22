@@ -62,6 +62,19 @@ angular.module('wizualy').directive('bubbleChart', function () {
     }
 });
 
+//custom scrollbar directive
+angular.module('wizualy').directive('scrollPane', function () {
+    return {
+        restrict:'A',
+        replace: true,
+        transclude: true,
+        template: '<div class="scroll-pane" ng-transclude></div>',
+        link: function (scope, element, attrs){
+            $(element).jScrollPane({showArrows: true,autoReinitialise:true });
+        }
+    }
+});
+
 //configure routes
 wizualyApp.config(['$routeProvider',
         function ($routeProvider) {
@@ -117,8 +130,6 @@ wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function
             }).success(
                 function(data, status, headers, config){
                     $scope.results[permalink] = data;
-
-                    $('.drop-down').jScrollPane();
                 }
             ).error(
                 function(data, status, headers, config){
