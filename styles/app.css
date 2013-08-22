@@ -283,7 +283,7 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
     }
 
     .col-span-2 {
-        width: 60%;
+        width: 64%;
     }
 
     /*------------ =header-------------*/
@@ -353,7 +353,7 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         background: url("../images/dropdown.png") top center no-repeat;
     }
 
-    .scroll-pane {
+    .drop-down .scroll-pane {
         height: 20em;
     }
 
@@ -493,6 +493,10 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         width: 5em;
         font-style: italic;
         color: #222;
+    }
+
+    #footer .scroll-pane {
+        height: 10em;
     }
 
     /* entries */

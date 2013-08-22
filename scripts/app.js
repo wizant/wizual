@@ -147,7 +147,10 @@ wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function
 
     //hide cats
     $scope.hideCats = function(){
-        $('#category-'+this.category.permalink+' .drop-down').hide();
+        var self = this;
+        setTimeout(function(){
+            $('#category-'+self.category.permalink+' .drop-down').hide();
+        }, 1000);
     };
 }]);
 
