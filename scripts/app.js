@@ -140,7 +140,12 @@ wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function
     };
 
     //show cats
+    var hideMenu = false;
+
     $scope.showCats = function(){
+        if(hideMenu){
+            clearTimeout(hideMenu);
+        }
         $('#category-'+this.category.permalink+' .drop-down').show();
         $scope.getCategoryResults(this.category.permalink);
     };
@@ -148,7 +153,7 @@ wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function
     //hide cats
     $scope.hideCats = function(){
         var self = this;
-        setTimeout(function(){
+        hideMenu = setTimeout(function(){
             $('#category-'+self.category.permalink+' .drop-down').hide();
         }, 1000);
     };

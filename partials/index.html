@@ -10,17 +10,19 @@
     <div class="content">
         <nav id="categories">
             <ul>
-                <li ng-repeat="category in categories" ng-mouseenter="showCats()" ng-mouseleave="hideCats()">
+                <li id="category-{{category.permalink}}" ng-repeat="category in categories" ng-mouseenter="showCats()" ng-mouseleave="hideCats()">
                     <div class="cat-label">
                         <span class="cat-color" style="background: {{category.color}}"></span>
                         <span class="cat-name">{{category.name}}</span>
                     </div>
-                    <div class="drop-down">
-                        <ul>
-                            <li ng-repeat="result in results[category.permalink].data">
-                                <a ng-href="#/entity/{{ result.permalink }}">{{ result.name }}</a>
-                            </li>
-                        </ul>
+                    <div ng-class="{'drop-down': true, 'drop-down-loaded': results[category.permalink].data.length}">
+                        <div class="scroll-pane">
+                            <ul>
+                                <li ng-repeat="result in results[category.permalink].data">
+                                    <a ng-href="#/entity/{{ result.permalink }}">{{ result.name }}</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </li>
             </ul>
