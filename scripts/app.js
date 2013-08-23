@@ -76,8 +76,8 @@ angular.module('wizualy').directive('scrollPane', function () {
 });
 
 //configure routes
-wizualyApp.config(['$routeProvider',
-        function ($routeProvider) {
+wizualyApp.config(['$routeProvider', '$locationProvider',
+        function ($routeProvider, $locationProvider) {
             $routeProvider.
                 when('/', {
                     templateUrl: 'partials/index.html'
@@ -88,6 +88,8 @@ wizualyApp.config(['$routeProvider',
                 otherwise({
                     redirectTo: '/'
                 });
+
+            //$locationProvider.html5Mode(Modernizr.history ? true : false);
         }
     ]).run(function(Data, $http, $rootScope){
         $http({
