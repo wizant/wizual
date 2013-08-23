@@ -39,7 +39,7 @@
         <div class="content">
             <div id="profile" class="clearfix">
                 <div class="col col-span-1">
-                    <a class="pull-left" ng-if="entity.image[0].image" ng-href="entity.homepage_url" target="_blank">
+                    <a class="pull-left" ng-if="entity.image[0].image" ng-href="{{ entity.homepage_url }}" target="_blank">
                         <img ng-src="{{ entity.image[0].image }}" title="{{ entity.name }}" />
                     </a>
                     <ul>
