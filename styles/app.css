@@ -359,7 +359,7 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
     }
 
     .drop-down .scroll-pane {
-        height: 20em;
+        height: 15em;
     }
 
     .drop-down-loaded {

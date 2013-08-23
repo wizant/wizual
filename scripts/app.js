@@ -96,35 +96,50 @@ angular.module('wizualy').directive('dropDown', function () {
     }
 });
 
+//autocomplete
+angular.module('wizualy').directive('autoComplete', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            source: '='
+        },
+        link: function (scope, element, attrs){
+            $(element[0]).autocomplete({
+                'source': scope.source
+            });
+        }
+    }
+});
+
 //configure routes
 wizualyApp.config(['$routeProvider', '$locationProvider',
-        function ($routeProvider, $locationProvider) {
-            $routeProvider.
-                when('/', {
-                    templateUrl: 'partials/index.html'
-                }).
-                when('/entity/:permalink', {
-                    templateUrl: 'partials/entity.html'
-                }).
-                otherwise({
-                    redirectTo: '/'
-                });
+    function ($routeProvider, $locationProvider) {
+        $routeProvider.
+            when('/', {
+                templateUrl: 'partials/index.html'
+            }).
+            when('/entity/:permalink', {
+                templateUrl: 'partials/entity.html'
+            }).
+            otherwise({
+                redirectTo: '/'
+            });
 
-            //$locationProvider.html5Mode(Modernizr.history ? true : false);
+        //$locationProvider.html5Mode(Modernizr.history ? true : false);
+    }
+]).run(function(Data, $http, $rootScope){
+    $http({
+        'method': 'GET',
+        'url': 'data/categories.json'
+    }).success(
+        function(data, status, headers, config){
+            Data.categories = data;
         }
-    ]).run(function(Data, $http, $rootScope){
-        $http({
-            'method': 'GET',
-            'url': 'data/categories.json'
-        }).success(
-            function(data, status, headers, config){
-                Data.categories = data;
-            }
-        ).error(
-            function(data, status, headers, config){
-            }
-        );
-    });
+    ).error(
+        function(data, status, headers, config){
+        }
+    );
+});
 
 /******************************************************************/
 //data
