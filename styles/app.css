@@ -305,6 +305,7 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
 
     /* categories */
     #categories {
+        padding: 6em 0;
         font-size: 1.2em;
         color: #666;
     }
@@ -351,6 +352,10 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         left: 50%;
         margin-left: -3px;
         background: url("../images/dropdown.png") top center no-repeat;
+    }
+
+    .on .drop-down {
+        display: block;
     }
 
     .drop-down .scroll-pane {

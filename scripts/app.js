@@ -75,6 +75,27 @@ angular.module('wizualy').directive('scrollPane', function () {
     }
 });
 
+//dropdowns
+angular.module('wizualy').directive('dropDown', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs){
+            var hideMenu = false;
+
+            $(element[0]).mouseenter(function(){
+                $(this).addClass('on');
+                if(hideMenu){
+                    clearTimeout(hideMenu);
+                }
+            }).mouseleave(function(){
+                hideMenu = setTimeout(function(){
+                    $(element[0]).removeClass('on');
+                }, 1000);
+            });
+        }
+    }
+});
+
 //configure routes
 wizualyApp.config(['$routeProvider', '$locationProvider',
         function ($routeProvider, $locationProvider) {
@@ -124,7 +145,9 @@ wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function
     $scope.results = {};
 
     //get results
-    $scope.getCategoryResults = function(permalink){
+    $scope.getCategoryResults = function(){
+        var permalink = this.category.permalink;
+
         if(!$scope.results[permalink]) {
             $http({
                 'method': 'GET',
@@ -139,25 +162,6 @@ wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function
                 }
             );
         }
-    };
-
-    //show cats
-    var hideMenu = false;
-
-    $scope.showCats = function(){
-        if(hideMenu){
-            clearTimeout(hideMenu);
-        }
-        $('#category-'+this.category.permalink+' .drop-down').show();
-        $scope.getCategoryResults(this.category.permalink);
-    };
-
-    //hide cats
-    $scope.hideCats = function(){
-        var self = this;
-        hideMenu = setTimeout(function(){
-            $('#category-'+self.category.permalink+' .drop-down').hide();
-        }, 1000);
     };
 }]);
 

@@ -4,7 +4,7 @@
         <img src="../images/legend-rounds.png" width="127" height="105" class="pull-right" alt="" title="" />
         <nav id="categories" class="small-cats">
             <ul>
-                <li id="category-{{category.permalink}}" ng-repeat="category in categories" ng-mouseenter="showCats()" ng-mouseleave="hideCats()">
+                <li id="category-{{category.permalink}}" ng-repeat="category in categories" ng-mouseenter="getCategoryResults()" drop-down>
                     <div class="cat-label">
                         <span class="cat-color" style="background: {{category.color}}"></span>
                         <span class="cat-name">{{category.name}}</span>
