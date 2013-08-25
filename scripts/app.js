@@ -101,11 +101,13 @@ angular.module('wizualy').directive('autoComplete', function () {
     return {
         restrict: 'C',
         scope: {
-            source: '@z'
+            source: '@z',
+            minLength: '@acMinlength'
         },
         link: function (scope, element, attrs){
             $(element[0]).autocomplete({
-                'source': scope.source
+                source: scope.source,
+                minLength: scope.minLength
             });
         }
     }
