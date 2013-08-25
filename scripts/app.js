@@ -99,9 +99,9 @@ angular.module('wizualy').directive('dropDown', function () {
 //autocomplete
 angular.module('wizualy').directive('autoComplete', function () {
     return {
-        restrict: 'A',
+        restrict: 'C',
         scope: {
-            source: '='
+            source: '@z'
         },
         link: function (scope, element, attrs){
             $(element[0]).autocomplete({
@@ -118,8 +118,14 @@ wizualyApp.config(['$routeProvider', '$locationProvider',
             when('/', {
                 templateUrl: 'partials/index.html'
             }).
-            when('/entity/:permalink', {
-                templateUrl: 'partials/entity.html'
+            when('/x/:permalink', {
+                templateUrl: 'partials/x.html'
+            }).
+            when('/y/:permalink', {
+                templateUrl: 'partials/y.html'
+            }).
+            when('/z/:permalink', {
+                templateUrl: 'partials/z.html'
             }).
             otherwise({
                 redirectTo: '/'
@@ -189,7 +195,7 @@ wizualyApp.controller('EntityController', ['$scope', 'Data', '$http', function($
             'url': 'http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/relations/su/' + permalink
         }).success(
             function(data, status, headers, config){
-                $scope.entity = data;
+                $scope.x = data;
             }
         ).error(
             function(data, status, headers, config){
@@ -199,8 +205,13 @@ wizualyApp.controller('EntityController', ['$scope', 'Data', '$http', function($
 
     //get entity data when the route has changed
     $scope.$on('$routeChangeSuccess', function(scope, next, current){
-        if(next.templateUrl === 'partials/entity.html') {
+        if(next.templateUrl === 'partials/x.html') {
             $scope.getEntityData(next.params.permalink);
         }
     });
+}]);
+
+//search controller
+wizualyApp.controller('SearchController', ['$scope', function($scope){
+    $scope.z = 'http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/name/pe/';
 }]);

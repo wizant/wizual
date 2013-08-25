@@ -305,9 +305,9 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
 
     /* categories */
     #categories {
-        padding: 6em 0;
+        height: 8em;
         font-size: 1.2em;
-        color: #666;
+        color: #ccc;
     }
 
     #categories.small-cats {
@@ -319,6 +319,10 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         float: left;
         margin-right: 0.8em;
         position: relative;
+    }
+
+    #categories .on {
+        color: #000;
     }
 
     #categories.small-cats > ul > li {
@@ -441,7 +445,6 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
 
     /*------------ =content--------------*/
     #content {
-        min-height: 200px;
     }
 
     #main-content {

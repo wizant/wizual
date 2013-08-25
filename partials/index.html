@@ -6,9 +6,27 @@
 <!--/header-->
 
 <!--content-->
-<div id="content" ng-controller="CategoryController">
+<div id="content">
     <div class="content">
-        <nav id="categories">
+        <!--search-->
+        <div class="search clearfix" ng-controller="SearchController">
+            <div class="col col-span-1">
+                <h2>Venture Capitalists</h2>
+                <input type="text" class="auto-complete" placeholder="Search" autocomplete="off" />
+            </div>
+            <div class="col col-span-1">
+                <h2>Startups</h2>
+                <input type="text" class="auto-complete" placeholder="Search" autocomplete="off" />
+            </div>
+            <div class="col col-span-1">
+                <h2>Founders</h2>
+                <input type="text" class="auto-complete" placeholder="Search" autocomplete="off" z="2" />
+            </div>
+        </div>
+        <!--/search-->
+
+        <!--categories-->
+        <nav id="categories" ng-controller="CategoryController">
             <ul>
                 <li id="category-{{category.permalink}}" ng-repeat="category in categories" ng-mouseenter="getCategoryResults()" drop-down>
                     <div class="cat-label">
@@ -19,7 +37,7 @@
                         <div class="scroll-pane">
                             <ul>
                                 <li ng-repeat="result in results[category.permalink].data">
-                                    <a ng-href="#/entity/{{ result.permalink }}">{{ result.name }}</a>
+                                    <a ng-href="#/x/{{ result.permalink }}">{{ result.name }}</a>
                                 </li>
                             </ul>
                         </div>
@@ -27,6 +45,7 @@
                 </li>
             </ul>
         </nav>
+        <!--/categories-->
     </div>
 </div>
 <!--/content-->
