@@ -1,54 +1,56 @@
-<header id="header">
-    <div class="content">
-        <img src="../images/legend-rounds.png" width="127" height="105" class="pull-right" alt="" title="" />
-    </div>
-</header>
-<!--/header-->
-
-<!--content-->
-<div id="content">
-    <div class="content">
-        <!--search-->
-        <div class="search clearfix" ng-controller="SearchController">
-            <div class="col col-span-1">
-                <h2>Venture Capitalists</h2>
-                <input type="text" class="auto-complete" placeholder="Search" autocomplete="off" />
-            </div>
-            <div class="col col-span-1">
-                <h2>Startups</h2>
-                <input type="text" class="auto-complete" placeholder="Search" autocomplete="off" />
-            </div>
-            <div class="col col-span-1">
-                <h2>Founders</h2>
-                <input type="text" class="auto-complete" placeholder="Search" autocomplete="off" source="http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/name/pe/" minlength="3" />
-            </div>
+<div id="wrapper">
+    <header id="header">
+        <div class="content">
+            <img src="../images/legend-rounds.png" width="127" height="105" class="pull-right" alt="" title="" />
         </div>
-        <!--/search-->
+    </header>
+    <!--/header-->
 
-        <!--categories-->
-        <nav id="categories" ng-controller="CategoryController">
-            <ul>
-                <li id="category-{{category.permalink}}" ng-repeat="category in categories" ng-mouseenter="getCategoryResults()" drop-down>
-                    <div class="cat-label">
-                        <span class="cat-color" style="background: {{category.color}}"></span>
-                        <span class="cat-name">{{category.name}}</span>
-                    </div>
-                    <div ng-class="{'drop-down': true, 'drop-down-loaded': results[category.permalink].data.length}">
-                        <div class="scroll-pane">
-                            <ul>
-                                <li ng-repeat="result in results[category.permalink].data">
-                                    <a ng-href="#/x/{{ result.permalink }}">{{ result.name }}</a>
-                                </li>
-                            </ul>
+    <!--content-->
+    <div id="content">
+        <div class="content">
+            <!--search-->
+            <div class="search clearfix" ng-controller="SearchController">
+                <div class="col col-span-1">
+                    <h2>Venture Capitalists</h2>
+                    <input type="text" class="auto-complete" placeholder="Search" autocomplete="off" />
+                </div>
+                <div class="col col-span-1">
+                    <h2>Startups</h2>
+                    <input type="text" class="auto-complete" placeholder="Search" autocomplete="off" />
+                </div>
+                <div class="col col-span-1">
+                    <h2>Founders</h2>
+                    <input type="text" class="auto-complete" placeholder="Search" autocomplete="off" source="http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/name/pe/" minlength="3" />
+                </div>
+            </div>
+            <!--/search-->
+
+            <!--categories-->
+            <nav id="categories" ng-controller="CategoryController">
+                <ul>
+                    <li id="category-{{category.permalink}}" ng-repeat="category in categories" ng-mouseenter="getCategoryResults()" drop-down>
+                        <div class="cat-label">
+                            <span class="cat-color" style="background: {{category.color}}"></span>
+                            <span class="cat-name">{{category.name}}</span>
                         </div>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-        <!--/categories-->
+                        <div ng-class="{'drop-down': true, 'drop-down-loaded': results[category.permalink].data.length}">
+                            <div class="scroll-pane">
+                                <ul>
+                                    <li ng-repeat="result in results[category.permalink].data">
+                                        <a ng-href="#/x/{{ result.permalink }}">{{ result.name }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <!--/categories-->
+        </div>
     </div>
+    <!--/content-->
 </div>
-<!--/content-->
 
 <!--footer-->
 <footer id="footer">

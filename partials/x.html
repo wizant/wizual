@@ -1,39 +1,40 @@
-<!--header-->
-<header id="header" ng-controller="CategoryController">
-    <div class="content">
-        <img src="../images/legend-rounds.png" width="127" height="105" class="pull-right" alt="" title="" />
-        <nav id="categories" class="small-cats">
-            <ul>
-                <li id="category-{{category.permalink}}" ng-repeat="category in categories" ng-mouseenter="getCategoryResults()" drop-down>
-                    <div class="cat-label">
-                        <span class="cat-color" style="background: {{category.color}}"></span>
-                        <span class="cat-name">{{category.name}}</span>
-                    </div>
-                    <div ng-class="{'drop-down': true, 'drop-down-loaded': results[category.permalink].data.length}">
-                        <div class="scroll-pane">
-                            <ul>
-                                <li ng-repeat="result in results[category.permalink].data">
-                                    <a ng-href="#/x/{{ result.permalink }}">{{ result.name }}</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</header>
-<!--/header-->
-
-<div ng-controller="EntityController">
-    <!--content-->
-    <div id="content">
+<div id="wrapper">
+    <!--header-->
+    <header id="header" ng-controller="CategoryController">
         <div class="content">
-            Insert chart here<div bubble-chart id="chart" entities="x.funding_rounds"></div>
+            <img src="../images/legend-rounds.png" width="127" height="105" class="pull-right" alt="" title="" />
+            <nav id="categories" class="small-cats">
+                <ul>
+                    <li id="category-{{category.permalink}}" ng-repeat="category in categories" ng-mouseenter="getCategoryResults()" drop-down>
+                        <div class="cat-label">
+                            <span class="cat-color" style="background: {{category.color}}"></span>
+                            <span class="cat-name">{{category.name}}</span>
+                        </div>
+                        <div ng-class="{'drop-down': true, 'drop-down-loaded': results[category.permalink].data.length}">
+                            <div class="scroll-pane">
+                                <ul>
+                                    <li ng-repeat="result in results[category.permalink].data">
+                                        <a ng-href="#/x/{{ result.permalink }}">{{ result.name }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!--/header-->
+
+    <!--content-->
+    <div id="content" ng-controller="EntityController">
+        <div class="content">
         </div>
     </div>
     <!--/content-->
+</div>
 
+<div ng-controller="EntityController">
     <!--footer-->
     <footer id="footer">
         <div class="content">
