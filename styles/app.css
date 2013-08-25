@@ -1,3 +1,5 @@
+@import url("http://fonts.googleapis.com/css?family=Roboto:300,400");
+
 @charset "UTF-8";
 
 html, body, div, span, applet, object, iframe,
@@ -237,6 +239,11 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
 }
 
 @media screen, projection, tv, handheld {
+    h1, h2, h3, h4, h5, h6 {
+        font-family: Roboto;
+        font-weight: lighter;
+    }
+
     /* forms */
     input[type="date"],
     input[type="datetime"],
@@ -305,19 +312,20 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
 
     /* categories */
     #categories {
-        height: 8em;
+        padding: 6em 0 2em 0;
         font-size: 1.2em;
         color: #ccc;
     }
 
     #categories.small-cats {
         height: 8em;
+        padding: 0;
         font-size: 1em;
     }
 
     #categories > ul > li {
         float: left;
-        margin-right: 0.8em;
+        margin-right: 1.8em;
         position: relative;
     }
 
@@ -445,6 +453,7 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
 
     /*------------ =content--------------*/
     #content {
+        padding: 1em 0;
     }
 
     #main-content {

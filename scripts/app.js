@@ -97,18 +97,42 @@ angular.module('wizualy').directive('dropDown', function () {
 });
 
 //autocomplete
-angular.module('wizualy').directive('autoComplete', function () {
+angular.module('wizualy').directive('autoComplete', function ($location) {
     return {
         restrict: 'C',
         scope: {
-            source: '@z',
-            minLength: '@acMinlength'
+            source: '@source',
+            minlength: '@minlength'
         },
         link: function (scope, element, attrs){
             $(element[0]).autocomplete({
-                source: scope.source,
-                minLength: scope.minLength
-            });
+                source: function(request, response) {
+                    $.ajax({
+                        'type': 'GET',
+                        'url': scope.source + request.term,
+                        'cache': false,
+                        'success': function(data){
+                            response( $.map(data, function (item)
+                            {
+                                return {
+                                    label: item.name,
+                                    value: item.permalink
+                                }
+                            }));
+                        }
+                    });
+                },
+                minLength: scope.minlength,
+                select: function( event, ui ) {
+                    return false;
+                },
+                focus: function(event, ui){}
+            }).data( "autocomplete" )._renderItem = function( ul, item ) {
+                return $( "<li></li>" )
+                    .data( "item.autocomplete", item )
+                    .append('<a href="' + item.permalink + '">' + item.name + '</a>')
+                    .appendTo( ul );
+            }
         }
     }
 });
