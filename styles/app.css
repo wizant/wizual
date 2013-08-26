@@ -274,6 +274,26 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
 
     }
 
+    ::-webkit-input-placeholder {
+        color: #666;
+    }
+
+    :-moz-placeholder { /* Firefox 18- */
+        color: #666;
+    }
+
+    ::-moz-placeholder {  /* Firefox 19+ */
+        color: #666;
+    }
+
+    :-ms-input-placeholder {
+        color: #666;
+    }
+
+    .has-placeholder {
+        color: #666;
+    }
+
     input.auto-complete {
         width: 13em;
         padding: 0.15em 0.15em 0.15em 20px;
