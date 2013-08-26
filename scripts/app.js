@@ -126,13 +126,16 @@ angular.module('wizualy').directive('autoComplete', function ($location) {
                 select: function( event, ui ) {
                     return false;
                 },
-                focus: function(event, ui){}
-            }).data( "autocomplete" )._renderItem = function( ul, item ) {
-                return $( "<li></li>" )
-                    .data( "item.autocomplete", item )
-                    .append('<a href="' + item.permalink + '">' + item.name + '</a>')
-                    .appendTo( ul );
-            }
+                focus: function(event, ui){},
+                open: function(event, ui){
+                    console.log(event, ui);
+                }
+            }).data("uiAutocomplete")._renderItem = (function (ul, item) {
+                return $("<li></li>")
+                    .data("item.uiAutocomplete", item)
+                    .append('<a href="#/x/' + item.value + '">' + item.label + "</a>")
+                    .appendTo(ul);
+            });
         }
     }
 });

@@ -181,6 +181,12 @@ textarea { height: 100px; overflow: auto;}
 .hide {
     display: none;
 }
+.hidden,
+.ui-helper-hidden-accessible {
+    position: absolute;
+    top: -9999em;
+    text-indent: -99999em;
+}
 .show {
     display: block;
 }
