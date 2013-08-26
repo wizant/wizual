@@ -274,5 +274,4 @@ wizualyApp.controller('EntityController', ['$scope', 'Data', '$http', function($
 
 //search controller
 wizualyApp.controller('SearchController', ['$scope', function($scope){
-    $scope.z = 'http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/name/pe/';
 }]);
