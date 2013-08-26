@@ -8,9 +8,6 @@
     $('a').filter(function(index){
         return /^https?:\/\/(www.)?/i.test($(this).attr('href')) && $(this).attr('href').toLowerCase().indexOf(window.location.hostname) == -1;
     }).attr('target', '_blank').addClass('external');
-
-    //placeholders
-    $('input, textarea').placeholder();
 })(jQuery);
 
 /******************************************************************/
@@ -57,6 +54,36 @@ angular.module('wizualy').directive('bubbleChart', function () {
                     scope.drawBubble(value);
                 });
             });
+        }
+    }
+});
+
+//placeholder
+angular.module('wizualy').directive('placeholder', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs){
+            var self = $(element[0]);
+
+            if(!Modernizr.placeholder && attrs.placeholder != ''){
+                self.val(attrs.placeholder);
+
+                self.addClass('has-placeholder');
+
+                self.focus(function(){
+                    if(self.val() == attrs.placeholder) {
+                        self.val('');
+                        self.removeClass('has-placeholder');
+                    }
+                });
+
+                self.blur(function(){
+                    if(self.val() === ''){
+                        self.val(attrs.placeholder);
+                        self.addClass('has-placeholder');
+                    }
+                });
+            }
         }
     }
 });
@@ -128,7 +155,6 @@ angular.module('wizualy').directive('autoComplete', function ($location) {
                 },
                 focus: function(event, ui){},
                 open: function(event, ui){
-                    console.log(event, ui);
                 }
             }).data("uiAutocomplete")._renderItem = (function (ul, item) {
                 return $("<li></li>")
