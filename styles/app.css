@@ -418,6 +418,10 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         background: #fff url("../images/droplet.gif") center no-repeat;
     }
 
+    .scroll-pane {
+        outline: none;
+    }
+
     .drop-down:before,
     .ui-autocomplete:before{
         display: block;
