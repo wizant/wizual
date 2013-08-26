@@ -220,6 +220,12 @@ wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function
     $scope.categories = Data.categories;
     $scope.results = {};
 
+    $scope.catColor = function(color){
+        return {
+            background: color
+        }
+    };
+
     //get results
     $scope.getCategoryResults = function(){
         var permalink = this.category.permalink;

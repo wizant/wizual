@@ -32,7 +32,7 @@
                 <ul>
                     <li id="category-{{category.permalink}}" ng-repeat="category in categories" ng-mouseenter="getCategoryResults()" drop-down>
                         <div class="cat-label">
-                            <span class="cat-color" style="background: {{category.color}}"></span>
+                            <span class="cat-color" ng-style="catColor(category.color)"></span>
                             <span class="cat-name">{{category.name}}</span>
                         </div>
                         <div ng-class="{'drop-down': true, 'drop-down-loaded': results[category.permalink].data.length}">
