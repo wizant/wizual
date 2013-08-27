@@ -23,6 +23,12 @@ function safeApply(scope, fn) {
 //define applicaton
 var wizualyApp = angular.module('wizualy', ['ngResource', 'ngRoute', 'ngSanitize']);
 
+wizualyApp.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.defaults.useXDomain = true;
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+}
+]);
+
 //chart directive
 angular.module('wizualy').directive('bubbleChart', function () {
     // constants
@@ -214,8 +220,6 @@ wizualyApp.factory('Data', function(){
 /******************************************************************/
 //categories
 wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function($scope, Data, $http){
-    $http.defaults.useXDomain = true;
-
     //store categories
     $scope.categories = Data.categories;
     $scope.results = {};
