@@ -181,7 +181,7 @@ function normalizeCategoryResults(results){
     }
 }
 
-function normalizeXResuls(results){
+function normalizeXResults(results){
     return {
         name: results.name,
         permalink: results.permalink,
@@ -248,9 +248,9 @@ wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function
     $scope.categories = Data.categories;
     $scope.results = {};
 
-    $scope.catColor = function(color){
+    $scope.catColor = function(category){
         return {
-            background: color
+            background: category.color
         }
     };
 
@@ -284,7 +284,7 @@ wizualyApp.controller('XController', ['$scope', 'Data', '$http', function($scope
             'url': 'http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/relations/su/' + permalink
         }).success(
             function(data, status, headers, config){
-                $scope.x = normalizeXResuls(data);
+                $scope.x = normalizeXResults(data);
             }
         ).error(
             function(data, status, headers, config){
