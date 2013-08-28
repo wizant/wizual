@@ -27,7 +27,7 @@
     <!--/header-->
 
     <!--content-->
-    <div id="content" ng-controller="EntityController">
+    <div id="content" ng-controller="XController">
         <div class="content">
             Insert chart here<div bubble-chart id="chart" entities="x.funding_rounds"></div>
         </div>
@@ -35,32 +35,32 @@
     <!--/content-->
 </div>
 
-<div ng-controller="EntityController">
+<div ng-controller="XController">
     <!--footer-->
     <footer id="footer">
         <div class="content">
             <div id="profile" class="clearfix">
                 <div class="col col-span-1">
-                    <a class="pull-left" ng-if="x.image[0].image" ng-href="{{ x.homepage_url }}" target="_blank">
-                        <img ng-src="{{ x.image[0].image }}" title="{{ x.name }}" />
+                    <a class="pull-left" ng-if="x.image" ng-href="{{ x.website }}" target="_blank">
+                        <img ng-src="{{ x.image }}" title="{{ x.name }}" />
                     </a>
                     <ul>
-                        <li ng-if="x.homepage_url">
+                        <li ng-if="x.website">
                             <span class="label">Website:</span>
-                            <a ng-href="{{ x.homepage_url }}" target="_blank">{{ x.homepage_url }}</a>
+                            <a ng-href="{{ x.website }}" target="_blank">{{ x.website }}</a>
                         </li>
-                        <li ng-if="x.twitter_username">
+                        <li ng-if="x.twitter">
                             <span class="label">Twitter:</span>
-                            <a ng-href="https:www.twitter.com/{{ x.twitter_username }}" target="_blank">@{{ x.twitter_username }}</a>
+                            <a ng-href="https:www.twitter.com/{{ x.twitter }}" target="_blank">@{{ x.twitter }}</a>
                         </li>
-                        <li ng-if="x.email_address">
+                        <li ng-if="x.email">
                             <span class="label">Email:</span>
-                            <a ng-href="mailto:{{ x.email_address }}">{{ x.email_address }}</a>
+                            <a ng-href="mailto:{{ x.email }}">{{ x.email }}</a>
                         </li>
-                        <li ng-if="x.offices">
+                        <li ng-if="x.locations">
                             <span class="label">Offices:</span>
-                            <span ng-repeat="office in x.offices">
-                                {{ office.city }}<span ng-if="office.state_code">,</span> {{ office.state_code }}
+                            <span ng-repeat="location in x.locations">
+                                {{ location.city }}<span ng-if="location.state_code">,</span> {{ location.state_code }}
                             </span>
                         </li>
                     </ul>

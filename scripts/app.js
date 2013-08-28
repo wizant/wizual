@@ -172,6 +172,26 @@ angular.module('wizualy').directive('autoComplete', function ($location) {
     }
 });
 
+//normalize JSON structure
+function normalizeCategoryResults(results){
+    
+}
+
+function normalizeXResuls(results){
+    return {
+        name: results.name,
+        permalink: results.permalink,
+        website: results.homepage_url,
+        twitter: results.twitter_user,
+        category: results.category_code,
+        email: results.email_address,
+        description: results.description,
+        overview: results.overview,
+        image: results.image[0].image,
+        locations: results.offices
+    }
+}
+
 //configure routes
 wizualyApp.config(['$routeProvider', '$locationProvider',
     function ($routeProvider, $locationProvider) {
@@ -252,7 +272,7 @@ wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function
 }]);
 
 //entity controller
-wizualyApp.controller('EntityController', ['$scope', 'Data', '$http', function($scope, Data, $http){
+wizualyApp.controller('XController', ['$scope', 'Data', '$http', function($scope, Data, $http){
     //get entity data
     $scope.getEntityData = function(permalink){
         $http({
@@ -260,7 +280,7 @@ wizualyApp.controller('EntityController', ['$scope', 'Data', '$http', function($
             'url': 'http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/relations/su/' + permalink
         }).success(
             function(data, status, headers, config){
-                $scope.x = data;
+                $scope.x = normalizeXResuls(data);
             }
         ).error(
             function(data, status, headers, config){
