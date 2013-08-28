@@ -116,6 +116,7 @@ angular.module('wizualy').directive('dropDown', function () {
             var hideMenu = false;
 
             $(element[0]).mouseenter(function(){
+                $(this).siblings().removeClass('on');
                 $(this).addClass('on');
                 if(hideMenu){
                     clearTimeout(hideMenu);
