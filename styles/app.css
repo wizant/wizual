@@ -359,6 +359,14 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
     }
 
     #logo {
+        display: block;
+        padding: 0.5em 0 0 0.5em;
+        float: left;
+        font-family: Roboto;
+        font-size: 2em;
+        font-weight: lighter;
+        text-decoration: none;
+        color: #000000;
     }
 
     /* categories */

@@ -1,8 +1,9 @@
 <div id="wrapper">
     <!--header-->
     <header id="header" ng-controller="CategoryController">
+        <a href="#/" id="logo">Wizual</a>
+        <img src="../images/legend-rounds.png" width="127" height="105" class="pull-right" alt="" title="" />
         <div class="content">
-            <img src="../images/legend-rounds.png" width="127" height="105" class="pull-right" alt="" title="" />
             <nav id="categories" class="small-cats">
                 <ul>
                     <li id="category-{{category.permalink}}" ng-repeat="category in categories" ng-mouseenter="getCategoryResults()" drop-down>
