@@ -364,14 +364,12 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
     /* categories */
     #categories {
         padding: 6em 0 2em 0;
-        font-size: 1.2em;
         color: #ccc;
     }
 
     #categories.small-cats {
         height: 8em;
         padding: 0;
-        font-size: 1em;
     }
 
     #categories > ul > li {
@@ -388,22 +386,30 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         margin: 6em 2em 0 0;
     }
 
+    .on .drop-down-wrap {
+        display: block;
+    }
+
+    .drop-down-wrap,
+    .ui-autocomplete {
+        display: none;
+        position: absolute;
+        z-index: 100;
+        top: 3.1em;
+        left: -6.5em;
+        z-index: 30;
+    }
+
     .drop-down,
     .ui-autocomplete {
         width: 15em;
         padding: 0.5em !important;
-        position: absolute;
-        z-index: 100;
-        top: 3em;
-        left: -7.5em;
-        z-index: 30;
         border: 1px solid #ccc;
         font-size: 90%;
         background: #fff;
         -moz-border-radius: 11px;
         -webkit-border-radius: 11px;
         border-radius: 11px;
-        display: none;
     }
 
     .ui-autocomplete {
@@ -414,14 +420,6 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         overflow-y: auto;
     }
 
-    .drop-down {
-        background: #fff url("../images/droplet.gif") center no-repeat;
-    }
-
-    .scroll-pane {
-        outline: none;
-    }
-
     .drop-down:before,
     .ui-autocomplete:before{
         display: block;
@@ -429,18 +427,18 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         width: 14px;
         height: 8px;
         position: absolute;
-        top: -8px;
+        top: -7px;
         left: 50%;
         margin-left: -3px;
         background: url("../images/dropdown.png") top center no-repeat;
     }
 
-    .on .drop-down {
-        display: block;
-    }
-
     .drop-down .scroll-pane {
         height: 15em;
+    }
+
+    .drop-down {
+        background: #fff url("../images/droplet.gif") center no-repeat;
     }
 
     .drop-down-loaded {
@@ -469,6 +467,18 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         background: #3399ff;
     }
 
+    .scroll-pane {
+        outline: none;
+    }
+
+    .note {
+        margin-top: 0.5em;
+        font-size: 90%;
+        font-style: italic;
+        color: #666;
+    }
+
+    /* categories */
     .cat-label {
         white-space:nowrap;
         -webkit-transform:rotate(-35deg);
@@ -476,7 +486,12 @@ form,fieldset,ol,ul,header,footer,section,article,#content,.content, .clearfix {
         -ms-transform:rotate(-35deg);
         -o-transform:rotate(-35deg);
         transform:rotate(-35deg);
-        cursor:pointer
+        cursor:pointer;
+        font-size: 1.2em;
+    }
+
+    #categories.small-cats .cat-label {
+        font-size: 1em;
     }
 
     .csstransforms .cat-label {

@@ -174,7 +174,10 @@ angular.module('wizualy').directive('autoComplete', function ($location) {
 
 //normalize JSON structure
 function normalizeCategoryResults(results){
-    
+    return {
+        count: results.count,
+        data: results.data
+    }
 }
 
 function normalizeXResuls(results){

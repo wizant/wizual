@@ -10,14 +10,17 @@
                             <span class="cat-color" style="background: {{category.color}}"></span>
                             <span class="cat-name">{{category.name}}</span>
                         </div>
-                        <div ng-class="{'drop-down': true, 'drop-down-loaded': results[category.permalink].data.length}">
-                            <div class="scroll-pane">
-                                <ul>
-                                    <li ng-repeat="result in results[category.permalink].data">
-                                        <a ng-href="#/x/{{ result.permalink }}">{{ result.name }}</a>
-                                    </li>
-                                </ul>
+                        <div class="drop-down-wrap">
+                            <div ng-class="{'drop-down': true, 'drop-down-loaded': results[category.permalink].data.length}">
+                                <div class="scroll-pane">
+                                    <ul>
+                                        <li ng-repeat="result in results[category.permalink].data">
+                                            <a ng-href="#/x/{{ result.permalink }}">{{ result.name }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
+                            <div class="note">Displaying 50 out of {{ results[category.permalink].count }} startups, sorted descending by total amount raised. Use the search option above if you are looking for a specific company.</div>
                         </div>
                     </li>
                 </ul>
