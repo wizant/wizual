@@ -20,6 +20,16 @@ function safeApply(scope, fn) {
         scope.$apply(fn);
 }
 
+function getDimmensions(element) {
+    return {
+        x: $(element).offset().left,
+        y: $(element).offset().top,
+        height: 480,
+        width: $(element).width()
+    };
+};
+
+
 //define applicaton
 var wizualyApp = angular.module('wizualy', ['ngResource', 'ngRoute', 'ngSanitize']);
 
@@ -32,11 +42,14 @@ wizualyApp.config(['$httpProvider', function($httpProvider) {
 //chart directive
 angular.module('wizualy').directive('bubbleChart', function () {
     // constants
-    var margin = 20,
+    var MAX_BUBBLE_SIZE_RELATIVE = .8,
+        margin = 20,
         width = 960,
         height = 500 - margin,
         color = d3.interpolateRgb("#f77", "#77f"),
-        scale = d3.scale.linear();
+        scale = d3.scale.linear(),
+        cluster = d3.layout.cluster().size([height, width - 160]),
+        diagonal = d3.svg.diagonal().projection(function(d) { return [d.y, d.x]; });
 
     return {
         restrict: 'A',
@@ -46,19 +59,48 @@ angular.module('wizualy').directive('bubbleChart', function () {
             entities: '='
         },
         link: function (scope, element, attrs) {
-            var chart = d3.select(element[0])
-                .append("svg")
-                .attr("width", width)
-                .attr("height", height + margin + 100);
+            var container = getDimmensions(element[0]),
+                chart = d3.select(element[0])
+                    .append("svg")
+                    .attr("width", container.width * MAX_BUBBLE_SIZE_RELATIVE)
+                    .attr("height", container.height * MAX_BUBBLE_SIZE_RELATIVE);
 
             scope.drawBubble = function (entity) {
+
+                console.log('[DEBUG] container: ', container);
+                
+                var g, self = this,
+                    content = $('#content'),
+                    strokeColor = '#000',
+                    cx = Math.ceil((container.x + container.width) / 2) - 300,
+                    cy = Math.ceil((container.y + container.height) / 2) - 80; 
+
+                var g = chart.append("g")
+                    .datum(entity)
+                        .attr("class", "bubble")
+                        .attr("width", container.width)
+                        .attr("height", container.height);
+
+                g.append("circle")
+                    .attr("class", "bubble-round")
+                    .attr("cx", cx)
+                    .attr("cy", cy)
+                    .attr("r", Math.round(Math.min(container.height, container.width) * 0.3) )
+                    .style("fill", '#9d844f');
+
+                angular.forEach(entity.funding_rounds, function() {
+                    // add each funding .. as event timeline
+                });
             };
 
             scope.$watch('entities', function(data){
+                if(typeof data != 'undefined') {
+                    console.log('data: ', data.length);
 
-                angular.forEach(data, function(value, key){
-                    scope.drawBubble(value);
-                });
+                    scope.drawBubble(data);
+                } else {
+                    console.log('[DEBUG] data is undefined');
+                }
             });
         }
     }
@@ -192,7 +234,14 @@ function normalizeXResults(results){
         description: results.description,
         overview: results.overview,
         image: results.image[0].image,
-        locations: results.offices
+        locations: results.offices,
+        funding_rounds : results.funding_rounds,
+        color : '#9D844F',
+        radius : 200, // TODO: compute radius
+        funding: {
+            unit: "USD",
+            total: results.total_founding_raised
+        }
     }
 }
 
@@ -256,6 +305,7 @@ wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function
 
     //get results
     $scope.getCategoryResults = function(){
+        console.log('[DEBUG] showCategoryResults');
         var permalink = this.category.permalink;
 
         if(!$scope.results[permalink]) {
@@ -284,7 +334,11 @@ wizualyApp.controller('XController', ['$scope', 'Data', '$http', function($scope
             'url': 'http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/relations/su/' + permalink
         }).success(
             function(data, status, headers, config){
+                console.log('data: ', data);
+
                 $scope.x = normalizeXResults(data);
+
+                console.log('x: ', $scope.x);
             }
         ).error(
             function(data, status, headers, config){
