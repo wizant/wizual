@@ -43,6 +43,7 @@ wizualyApp.config(['$httpProvider', function($httpProvider) {
 angular.module('wizualy').directive('bubbleChart', function () {
     // constants
     var MAX_BUBBLE_SIZE_RELATIVE = .8,
+        MIN_BUBBLE_SIZE = 2,
         margin = 20,
         width = 960,
         height = 500 - margin,
@@ -67,7 +68,7 @@ angular.module('wizualy').directive('bubbleChart', function () {
 
             scope.drawBubble = function (entity) {
 
-                console.log('[DEBUG] container: ', container);
+                // console.log('[DEBUG] container: ', container);
                 
                 var g, self = this,
                     content = $('#content'),
@@ -83,6 +84,14 @@ angular.module('wizualy').directive('bubbleChart', function () {
 
                 var R = Math.round(Math.min(container.height, container.width) * 0.3);
 
+                console.log('entity: ', entity);
+                console.log('total: ', entity.total, ', length: ', entity.funding_rounds.length);
+
+                var linearScale = d3.scale.linear().domain([0, entity.total]).range([MIN_BUBBLE_SIZE, R]);
+                console.log('linear(2): ', linearScale(2));
+                console.log('linear(167500000): ', linearScale(167500000));
+                console.log('linear(90000000): ', linearScale(90000000));
+
                 g.append("circle")
                     .attr("class", "bubble-round")
                     .attr("cx", cx)
@@ -90,23 +99,29 @@ angular.module('wizualy').directive('bubbleChart', function () {
                     .attr("r", R )
                     .style("fill", '#9d844f');
 
-                g.append("circle")
-                    .attr("class", "bubble-round")
-                    .attr("cx", cx)
-                    .attr("cy", cy)
-                    .attr("r", 100 )
-                    .style("stroke", "#554")
-                    .style("stroke-width", 1.3)
-                    .style("fill", "transparent");
+                var t = 0;
+                angular.forEach(entity.funding_rounds, function(e, i) {
+                    
+                    console.log('e: ', e);
+                    var r = linearScale(e.raised_amount + t);
+                    t += e.raised_amount;
+                    console.log('r: ', r, ', t: ', t);
 
-                angular.forEach(entity.funding_rounds, function() {
                     // add each funding .. as event timeline
+                    g.append("circle")
+                        .attr("class", "bubble-round")
+                        .attr("cx", cx)
+                        .attr("cy", cy)
+                        .attr("r",  r)
+                        .style("stroke", "#554")
+                        .style("stroke-width", 1.3)
+                        .style("fill", "transparent");
                 });
             };
 
             scope.$watch('entities', function(data){
                 if(typeof data != 'undefined') {
-                    console.log('data: ', data.length);
+                    // console.log('data: ', data.length);
 
                     scope.drawBubble(data);
                 } else {
@@ -247,6 +262,7 @@ function normalizeXResults(results){
         image: results.image[0].image,
         locations: results.offices,
         funding_rounds : results.funding_rounds,
+        total : results.total_funding_raised,
         color : '#9D844F',
         radius : 200, // TODO: compute radius
         funding: {
@@ -349,7 +365,7 @@ wizualyApp.controller('XController', ['$scope', 'Data', '$http', function($scope
 
                 $scope.x = normalizeXResults(data);
 
-                console.log('x: ', $scope.x);
+                console.log('data-normalized: ', $scope.x);
             }
         ).error(
             function(data, status, headers, config){
