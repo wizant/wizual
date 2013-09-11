@@ -81,12 +81,23 @@ angular.module('wizualy').directive('bubbleChart', function () {
                         .attr("width", container.width)
                         .attr("height", container.height);
 
+                var R = Math.round(Math.min(container.height, container.width) * 0.3);
+
                 g.append("circle")
                     .attr("class", "bubble-round")
                     .attr("cx", cx)
                     .attr("cy", cy)
-                    .attr("r", Math.round(Math.min(container.height, container.width) * 0.3) )
+                    .attr("r", R )
                     .style("fill", '#9d844f');
+
+                g.append("circle")
+                    .attr("class", "bubble-round")
+                    .attr("cx", cx)
+                    .attr("cy", cy)
+                    .attr("r", 100 )
+                    .style("stroke", "#554")
+                    .style("stroke-width", 1.3)
+                    .style("fill", "transparent");
 
                 angular.forEach(entity.funding_rounds, function() {
                     // add each funding .. as event timeline
