@@ -33,7 +33,19 @@
     <!--content-->
     <div id="content" ng-controller="XController">
         <div class="content">
-            Insert chart here<div bubble-chart id="chart" entities="x"></div>
+                <div class="col col-span-1">
+                        <h2>Venture Capitalists</h2>
+                    <input type="text" class="auto-complete" placeholder="Search" autocomplete="off" source="http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/name/vc/" minlengh="2" />
+                </div>
+                <div class="col col-span-1">
+                    <h2>Startups</h2>
+                    <input type="text" class="auto-complete" placeholder="Search" autocomplete="off" source="http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/name/su/" minlength="2" />
+                    <div bubble-chart id="chart" entities="x" class="col2"></div>
+                </div>
+                <div class="col col-span-1">
+                    <h2>Founders</h2>
+                    <input type="text" class="auto-complete" placeholder="Search" autocomplete="off" source="http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/name/pe/" minlength="2" />
+                </div>
         </div>
     </div>
     <!--/content-->
