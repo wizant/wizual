@@ -101,11 +101,8 @@ angular.module('wizualy').directive('bubbleChart', function () {
 
                 var t = 0;
                 angular.forEach(entity.funding_rounds, function(e, i) {
-                    
-                    console.log('e: ', e);
                     var r = linearScale(e.raised_amount + t);
                     t += e.raised_amount;
-                    console.log('r: ', r, ', t: ', t);
 
                     // add each funding .. as event timeline
                     g.append("circle")
