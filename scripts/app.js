@@ -164,6 +164,7 @@ angular.module('wizualy').directive('scrollPane', function () {
     return {
         restrict: 'C',
         replace: true,
+        priority: 1000,
         link: function (scope, element, attrs){
             $(element[0]).jScrollPane({
                 autoReinitialise: true,
