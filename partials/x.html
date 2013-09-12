@@ -38,7 +38,7 @@
             <div class="scroll-pane">
                 <ul ng-repeat="round in x.funding_rounds">
                     <li ng-repeat="investor in round.investors">
-                        <a ng-href="/#/y/{{ investor.permalink }}">{{ investor.name }}</a>
+                        <a id='vc-{{investor.permalink}}' ng-href="/#/y/{{ investor.permalink }}">{{ investor.name }}</a>
                     </li>
                 </ul>
             </div>

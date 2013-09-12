@@ -61,10 +61,102 @@ angular.module('wizualy').directive('bubbleChart', function () {
         },
         link: function (scope, element, attrs) {
             var container = getDimmensions(element[0]),
-                chart = d3.select(element[0])
+                chart = d3.select( element[0] )
                     .append("svg")
                     .attr("width", container.width * MAX_BUBBLE_SIZE_RELATIVE)
                     .attr("height", container.height * MAX_BUBBLE_SIZE_RELATIVE);
+
+            scope.drawConnection = function(node, htmlId, point) {
+                console.log('point: ', point);
+
+                var x1 = point.x,
+                    y1 = point.y,
+                    x2 = 89,
+                    y2 = 200,
+                    curveX = (x2 + x1) / 2,
+                    controlX1 = x1 + (curveX - x1) / 5,
+                    controlX2 = x1 + (curveX - x1) / 2;
+
+                    console.log('a(', x1, ", ", y1, "), b(", x2, " ,", y2, ")");
+                    console.log("curveX: ", curveX);
+                    console.log("controlX1: ", controlX1);
+                    console.log("controlX2: ", controlX2);
+                    console.log('node:', node);
+
+                    node.append("line")
+                            .attr("x1", x2)
+                            .attr("y1", y2)
+                            .attr("x2", curveX)
+                            .attr("y2", y2);
+
+                    x1 = 240;
+                    y1 = 9.5;
+                    controlX1 = 312.35;
+                    controlX2 = 420.875;
+                    y2 = 210.5;
+                    curveX = 601.75;
+
+                    node.append("path")
+                            .attr("d", "M" + x1 + "," + y1 + "C" + [controlX1, y1, controlX2, y2, curveX, y2].join(","))
+                            .style("fill", "transparent")
+            };
+
+            scope.showConnections = function (investors) {
+                
+                var self = this;
+                console.log('this: ', this);
+
+                var g = chart.append("g")
+                    .datum(investors)
+                        .attr("class", "connections")
+                        .attr("width", container.width)
+                        .attr("height", container.height);
+
+                console.log('investors: ', investors);
+
+                angular.forEach(investors, function(value, i) {
+
+                    console.log('investor: ', value);
+                    var node = g.append("g")
+                        .datum(value)
+                            .attr("class", "link-su link-su-vc");
+
+                    angular.forEach(value.investor.investors, function(investment, ii) {
+                        console.log('investment: ', investment);
+
+                        var point = {x: value.x, y: value.y};
+                        console.log('mypoint: ', point);
+
+                        scope.drawConnection(node, "#vc-"+investment.permalink, point);
+                    });
+                });
+
+                // var vcData = angular.forEach(entity.round_radiuses, function (r, i) {
+                //     var vcPoints = vcPointsByRound[i];
+                //     if (!vcPoints) return null;
+                //     return _.map(vcPoints, function (vcPoint) {
+                //         return {
+                //             x1: vcPoint.x,
+                //             y1: Math.floor(vcPoint.y) + .5,
+                //             x2: startup.x + self.left,
+                //             y2: Math.floor(startup.y + r + self.top) + .5
+                //         }
+                //     })
+                // }).flatten().without(null).value();
+
+                // this.chart.select(".connections").selectAll(".link-su-vc").data(vcData).enter().append("g").attr("class", "link-su link-su-vc").each(function (d) {
+                //     var node = d3.select(this);
+                //     var x1 = d.x1,
+                //         y1 = d.y1,
+                //         x2 = d.x2,
+                //         y2 = d.y2,
+                //         curveX = (x2 + x1) / 2,
+                //         controlX1 = x1 + (curveX - x1) / 5,
+                //         controlX2 = x1 + (curveX - x1) / 2;
+                //     node.append("line").attr("x1", x2).attr("y1", y2).attr("x2", curveX).attr("y2", y2);
+                //     node.append("path").attr("d", "M" + x1 + "," + y1 + "C" + [controlX1, y1, controlX2, y2, curveX, y2].join(",")).style("fill", "transparent")
+                // })
+            };
 
             scope.drawBubble = function (entity) {
 
@@ -100,6 +192,8 @@ angular.module('wizualy').directive('bubbleChart', function () {
                     .style("fill", '#9d844f');
 
                 var t = 0;
+                var round_radiuses = [];
+                var investors = [];
                 angular.forEach(entity.funding_rounds, function(e, i) {
                     var r = linearScale(e.raised_amount + t);
                     t += e.raised_amount;
@@ -113,7 +207,13 @@ angular.module('wizualy').directive('bubbleChart', function () {
                         .style("stroke", "#554")
                         .style("stroke-width", 1.3)
                         .style("fill", "transparent");
+
+                    round_radiuses.push(r);
+                    investors.push({investor: e, x: cx, y: cy + r});
                 });
+
+                // display the links between a VC (col1) and round
+                scope.showConnections(investors);
             };
 
             scope.$watch('entities', function(data){
