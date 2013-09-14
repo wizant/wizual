@@ -761,7 +761,7 @@ var relationships = {
                 self.viewModel.notification(self.messages.networkError)
             }
             self.viewModel.loading(false);
-            self.updateSharingButtons()
+            // self.updateSharingButtons()
         };
         this.viewModel.loading(true);
         _.defer(function () {
@@ -1340,20 +1340,20 @@ var relationships = {
         window.IN.Tags.Share.getCount(url, function (count) {
             $(".linked-button .count").text(self.formatShareCount(count))
         })
-    },
-    updateSharingButtons: function () {
-        console.log('[relationships] updateSharingButtons');
-        try {
-            this.updateTwitterButton()
-        } catch (e) {}
-        if (window.deferIn.state() !== "resolved") return;
-        try {
-            this.updateFacebookButton()
-        } catch (e) {}
-        try {
-            this.updateLinkedButton()
-        } catch (e) {}
     }
+    // updateSharingButtons: function () {
+    //     console.log('[relationships] updateSharingButtons');
+    //     try {
+    //         this.updateTwitterButton()
+    //     } catch (e) {}
+    //     if (window.deferIn.state() !== "resolved") return;
+    //     try {
+    //         this.updateFacebookButton()
+    //     } catch (e) {}
+    //     try {
+    //         this.updateLinkedButton()
+    //     } catch (e) {}
+    // }
 };
 
 _.bindAll(relationships);
@@ -1691,6 +1691,11 @@ Painter.prototype.hideVcConnections = function () {
 };
 Painter.prototype.showSuVcConnections = function (startup, vcPointsByRound) {
     var self = this;
+    console.log('[showSuVcConnections] startup: ', startup);
+
+    if (typeof(startup) === 'undefined')
+        return;
+ 
     var vcData = _.chain(startup.round_radiuses).map(function (r, i) {
         var vcPoints = vcPointsByRound[i];
         if (!vcPoints) return null;
@@ -1718,6 +1723,11 @@ Painter.prototype.showSuVcConnections = function (startup, vcPointsByRound) {
 };
 Painter.prototype.showSuPeConnections = function (startup, pePoints) {
     var self = this;
+    console.log('[showSuPeConnections] startup: ', startup);
+
+    if (typeof(startup) === 'undefined')
+        return;
+
     var x2 = startup.x + this.left,
         y2 = Math.floor(startup.y + this.top) + .5;
     this.chart.select(".connections").selectAll(".link-su-pe").data(pePoints).enter().append("g").attr("class", "link-su link-su-pe").each(function (d) {
