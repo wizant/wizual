@@ -354,7 +354,7 @@ function isMobile() {
 
 var Events = {
     on: function (name, callback, context) {
-        console.log('[Events] on');
+        console.log('[Events on] name: ', name);
         this._events || (this._events = {});
         var list = this._events[name] || (this._events[name] = []);
         list.push({
@@ -448,7 +448,7 @@ var relationships = {
         this.initPainter();
         this.initViewModel();
         this.resize();
-        this.initHistory();
+        // this.initHistory();
         this.initWidgets();
         this.initLiveHandlers();
         // tutorial.init();
@@ -637,16 +637,16 @@ var relationships = {
         });
         $(window).on("resize", _.debounce(_.bind(this.resize, this, true), 200))
     },
-    initHistory: function () {
-        console.log('[relationships] initHistory');
-        var self = this;
-        var state = this.getState();
-        this.pushState(state.mode, state.target, state.data, true);
-        this.applyState(state);
-        $(window).on("statechange", function () {
-            self.applyState(self.getState())
-        })
-    },
+    // initHistory: function () {
+        // console.log('[relationships] initHistory');
+        // var self = this;
+        // var state = this.getState();
+        // this.pushState(state.mode, state.target, state.data, true);
+        // this.applyState(state);
+        // $(window).on("statechange", function () {
+        //     self.applyState(self.getState())
+        // })
+    // },
     initPainter: function () {
         console.log('[relationships] initPainter');
         this.painter = new Painter(d3.select(this.svg[0]));
@@ -716,27 +716,27 @@ var relationships = {
             self.$(".profile-su .scrollable").jScrollPane()
         })
     },
-    getState: function () {
-        console.log('[relationships] getState');
-        var historyState = History.getState(),
-            state = historyState.data;
-        if (!state.mode) {
-            var base = $("head base").attr("href") || "/";
-            var path = historyState.hash.replace(base, "");
-            var parsed = path.match(/^#?(show)\/(su|vc|pe)\/(.+)($|\?)/i);
-            if (parsed) {
-                state = {
-                    mode: parsed[1].toLowerCase(),
-                    target: parsed[2].toLowerCase(),
-                    data: parsed[3]
-                }
-            }
-        }
-        if (!state.mode) {
-            state = {}
-        }
-        return state
-    },
+    // getState: function () {
+    //     console.log('[relationships] getState');
+    //     // var historyState = History.getState(),
+    //     var    state = historyState.data;
+    //     if (!state.mode) {
+    //         var base = $("head base").attr("href") || "/";
+    //         var path = historyState.hash.replace(base, "");
+    //         var parsed = path.match(/^#?(show)\/(su|vc|pe)\/(.+)($|\?)/i);
+    //         if (parsed) {
+    //             state = {
+    //                 mode: parsed[1].toLowerCase(),
+    //                 target: parsed[2].toLowerCase(),
+    //                 data: parsed[3]
+    //             }
+    //         }
+    //     }
+    //     if (!state.mode) {
+    //         state = {}
+    //     }
+    //     return state
+    // },
     applyState: function (state) {
         console.log('[relationships] applyState');
         if (state.mode === "show") {
@@ -1295,10 +1295,10 @@ var relationships = {
         }
         return text
     },
-    getShareUrl: function () {
-        console.log('[relationships] getShareUrl');
-        return History.getState().cleanUrl
-    },
+    // getShareUrl: function () {
+    //     console.log('[relationships] getShareUrl');
+    //     return History.getState().cleanUrl
+    // },
     getShareTitle: function () {
         console.log('[relationships] getShareTitle');
         return "The Startup Universe"
@@ -1309,7 +1309,8 @@ var relationships = {
     },
     updateTwitterButton: function () {
         console.log('[relationships] updateTwitterButton');
-        var text, twitterId, url = this.getShareUrl(),
+        var text, twitterId, 
+            url = "", // this.getShareUrl(),
             mode = this.viewModel.viewMode(),
             data = this.getCurrentObject();
         if (data) {
@@ -1336,7 +1337,7 @@ var relationships = {
     },
     updateFacebookButton: function () {
         console.log('[relationships] updateFacebookButton');
-        var url = this.getShareUrl(),
+        var url = "", // this.getShareUrl(),
             self = this,
             mode = this.viewModel.viewMode(),
             data = this.getCurrentObject();
@@ -1366,7 +1367,7 @@ var relationships = {
     },
     updateLinkedButton: function () {
         console.log('[relationships] updateLinkedButton');
-        var url = this.getShareUrl(),
+        var url = "", // this.getShareUrl(),
             self = this,
             mode = this.viewModel.viewMode(),
             data = this.getCurrentObject();
@@ -2059,7 +2060,7 @@ angular.module('wizualy').directive('bubbleChart', function () {
             };
 
             scope.drawConnection = function(node, htmlId, point) {
-                console.log('point: ', point);
+                // console.log('point: ', point);
 
                 var x1 = point.x,
                     y1 = point.y,
@@ -2069,11 +2070,11 @@ angular.module('wizualy').directive('bubbleChart', function () {
                     controlX1 = x1 + (curveX - x1) / 5,
                     controlX2 = x1 + (curveX - x1) / 2;
 
-                    console.log('a(', x1, ", ", y1, "), b(", x2, " ,", y2, ")");
-                    console.log("curveX: ", curveX);
-                    console.log("controlX1: ", controlX1);
-                    console.log("controlX2: ", controlX2);
-                    console.log('node:', node);
+                    // console.log('a(', x1, ", ", y1, "), b(", x2, " ,", y2, ")");
+                    // console.log("curveX: ", curveX);
+                    // console.log("controlX1: ", controlX1);
+                    // console.log("controlX2: ", controlX2);
+                    // console.log('node:', node);
 
                     node.append("line")
                             .attr("x1", x2)
@@ -2096,7 +2097,7 @@ angular.module('wizualy').directive('bubbleChart', function () {
             scope.showConnections = function (investors) {
                 
                 var self = this;
-                console.log('this: ', this);
+                // console.log('this: ', this);
 
                 var g = chart.append("g")
                     .datum(investors)
@@ -2104,20 +2105,20 @@ angular.module('wizualy').directive('bubbleChart', function () {
                         .attr("width", container.width)
                         .attr("height", container.height);
 
-                console.log('investors: ', investors);
+                // console.log('investors: ', investors);
 
                 angular.forEach(investors, function(value, i) {
 
-                    console.log('investor: ', value);
+                    // console.log('investor: ', value);
                     var node = g.append("g")
                         .datum(value)
                             .attr("class", "link-su link-su-vc");
 
                     angular.forEach(value.investor.investors, function(investment, ii) {
-                        console.log('investment: ', investment);
+                        // console.log('investment: ', investment);
 
                         var point = {x: value.x, y: value.y};
-                        console.log('mypoint: ', point);
+                        // console.log('mypoint: ', point);
 
                         scope.drawConnection(node, "#vc-"+investment.permalink, point);
                     });
