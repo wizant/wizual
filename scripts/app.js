@@ -251,10 +251,6 @@ var Categories = {};
     makeCategory("other", "Other", "#626365");
     makeCategory("undefined", "Not defined", "#bebebf")
 })();
-// start the relationships logic
-$(function () {
-    relationships.init()
-});
 
 (function ($) {
     var defaults = {
@@ -596,18 +592,11 @@ var relationships = {
         addTotal("su");
         addTotal("pe");
         var self = this;
-        var initPlaceholders = function () {
-            _.defer(function () {
-                if (self.$("input").length)
-                    self.$("input").placeholder()
-            })
-        };
         API.counts(function (result) {
             if (!result) return;
             totals["vc"].raw(result.total_vcs);
             totals["su"].raw(result.total_startups);
             totals["pe"].raw(result.total_founders);
-            initPlaceholders()
         })
     },
     initLiveHandlers: function () {
@@ -761,12 +750,17 @@ var relationships = {
     },
     resize: function (needRepaint) {
         console.log('[relationships] resize');
+
+        console.log("[relationships] resize doesn't work  because no content: ", $(".content"));
         if (!this.$(".content").length)
             return;
+
         var headerHeight = this.$(".content").position().top,
             footerHeight = this.$(".footer").outerHeight(true),
             contentHeight = this.element.height() - headerHeight - footerHeight;
         this.$(".content").height(contentHeight);
+        console.log('[DEBUG] needRepaint: ', needRepaint);
+
         if (needRepaint) {
             this.drawStartups();
             this.updateScrollbars();
@@ -1068,7 +1062,8 @@ var relationships = {
         this.updateRelationships()
     },
     drawSingleStartup: function (startup) {
-        console.log('[relationships] drawSingleStartup');     
+        console.log('[DEBUG] drawSingleStartup');
+
         this.viewModel.sliderVisible(false);
         this.painter.setArea(this.getBubblesArea());
         this.painter.drawSingleStartup(startup)
@@ -1415,6 +1410,7 @@ Painter.prototype.MIN_BUBBLE_RADIUS = 2;
 Painter.prototype.MAX_BUBBLE_SIZE_RELATIVE = .8;
 
 Painter.prototype.clear = function () {
+    console.log('[Painter clear]');
     $(this.chart.node()).empty();
     this.initGradients();
     this.bubbles = {};
@@ -1865,18 +1861,45 @@ Painter.prototype.drawPacked = function () {
         }
         onEnd.counter = counter
     }
-    this.chart.selectAll(".bubble-removed").data(removed).enter().append("circle").attr("cx", getX).attr("cy", getY).attr("r", getRadius).style("fill", getColor).transition().style("opacity", 0).remove();
-    this.chart.selectAll(".bubble-added").data(added).enter().append("circle").attr("cx", getX).attr("cy", getY).attr("r", 0).style("fill", getColor).transition().attr("r", getRadius).each("end", onEnd);
-    this.chart.selectAll(".bubble-retained").data(retained).enter().append("circle").attr("cx", function (d) {
-        return d.oldX + self.left
-    }).attr("cy", function (d) {
-        return d.oldY + self.top
-    }).attr("r", function (d) {
-        return d.oldRadius
-    }).style("fill", getColor).transition().attr("cx", getX).attr("cy", getY).attr("r", getRadius).each("end", onEnd);
-    this.renderedStartups = _.map(this.startups, function (s) {
-        return _.clone(s)
-    })
+    
+    console.log('[Painter drawPacked]');
+
+    this.chart.selectAll(".bubble-removed")
+        .data(removed).enter()
+        .append("circle")
+            .attr("cx", getX)
+            .attr("cy", getY)
+            .attr("r", getRadius)
+            .style("fill", getColor)
+            .transition()
+            .style("opacity", 0)
+            .remove();
+
+    this.chart.selectAll(".bubble-added")
+        .data(added).enter()
+        .append("circle")
+            .attr("cx", getX)
+            .attr("cy", getY)
+            .attr("r", 0)
+            .style("fill", getColor)
+            .transition()
+            .attr("r", getRadius)
+            .each("end", onEnd);
+
+    this.chart.selectAll(".bubble-retained")
+        .data(retained).enter()
+        .append("circle")
+            .attr("cx", function (d) { return d.oldX + self.left })
+            .attr("cy", function (d) { return d.oldY + self.top })
+            .attr("r", function (d) { return d.oldRadius })
+            .style("fill", getColor)
+            .transition()
+            .attr("cx", getX)
+            .attr("cy", getY)
+            .attr("r", getRadius)
+            .each("end", onEnd);
+
+    this.renderedStartups = _.map(this.startups, function (s) { return _.clone(s) })
 };
 Painter.prototype.drawBubble = function (startup) {
     console.log('[DEBUG] startup: ', startup);
@@ -1910,6 +1933,9 @@ Painter.prototype.drawBubble = function (startup) {
             index: i
         }
     }).reverse();
+
+    console.log('[Painter drawBubble]');
+
     g.selectAll(".bubble-round")
         .data(roundData)
         .enter()
@@ -1935,9 +1961,18 @@ Painter.prototype.drawBubble = function (startup) {
     if (this.startups.length > 1) {
         name = startup.index + 1 + "." + name
     }
-    var nameElement = g.append("text").attr("class", "bubble-name bubble-clickable").classed("visible", !! titleHeight).text(name).attr("text-anchor", "middle").attr("x", cx).attr("y", titleHeight - 5).style("fill", textColor).on("click", function () {
-        self.trigger("bubble:click", startup)
-    });
+
+    console.log('[Painter drawBubble] add inner circles]');
+
+    var nameElement = g.append("text")
+        .attr("class", "bubble-name bubble-clickable")
+        .classed("visible", !! titleHeight).text(name)
+        .attr("text-anchor", "middle")
+        .attr("x", cx)
+        .attr("y", titleHeight - 5)
+        .style("fill", textColor)
+        .on("click", function () { self.trigger("bubble:click", startup) });
+
     if (!this.startupView) {
         var outer = this.chart.select(".bubble-outers")
             .append("circle")
@@ -2019,8 +2054,7 @@ var wizualyApp = angular.module('wizualy', ['ngResource', 'ngRoute', 'ngSanitize
 wizualyApp.config(['$httpProvider', function($httpProvider) {
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
-}
-]);
+}]);
 
 //chart directive
 angular.module('wizualy').directive('bubbleChart', function () {
@@ -2154,7 +2188,7 @@ angular.module('wizualy').directive('bubbleChart', function () {
             scope.drawBubble = function (entity) {
 
                 // console.log('[DEBUG] container: ', container);
-                
+
                 var g, self = this,
                     content = $('#content'),
                     strokeColor = '#000',
@@ -2340,7 +2374,8 @@ function normalizeCategoryResults(results){
     }
 }
 
-function normalizeXResults(results){
+function normalizeXResults(results) {
+    console.log('normalize results');
     return {
         name: results.name,
         permalink: results.permalink,
@@ -2444,7 +2479,7 @@ wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function
 
 //entity controller
 wizualyApp.controller('XController', ['$scope', 'Data', '$http', function($scope, Data, $http){
-    //get entity data
+
     $scope.getEntityData = function(permalink){
         $http({
             'method': 'GET',
@@ -2452,10 +2487,18 @@ wizualyApp.controller('XController', ['$scope', 'Data', '$http', function($scope
         }).success(
             function(data, status, headers, config){
                 console.log('data: ', data);
+                console.log('Data: ', Data);
+                
+                if (Data.currentStartup && Data.currentStartup.permalink === data.permalink) {
+                    console.log('nothing to do ...');
+                    return;
+                }
 
+                Data.currentStartup = data;
                 $scope.x = normalizeXResults(data);
 
-                console.log('data-normalized: ', $scope.x);
+                relationships.init();
+                // console.log('data-normalized: ', $scope.x);
             }
         ).error(
             function(data, status, headers, config){
