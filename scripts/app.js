@@ -138,9 +138,9 @@ var API = {
     getParentObject: function (target, permalink, data) {
         var list;
         if (target === "vc") {
-            list = _(data).pluck("funding_rounds").flatten().pluck("investors").flatten().value()
+            list = _.chain(data).pluck("funding_rounds").flatten().pluck("investors").flatten().value()
         } else if (target === "pe") {
-            list = _(data).pluck("people").flatten().value()
+            list = _.chain(data).pluck("people").flatten().value()
         }
         return _.find(list, function (item) {
             return item.permalink === permalink
@@ -251,51 +251,6 @@ var Categories = {};
     makeCategory("other", "Other", "#626365");
     makeCategory("undefined", "Not defined", "#bebebf")
 })();
-
-// (function ($) {
-//     var defaults = {
-//         format: function (value) {
-//             return value
-//         }
-//     };
-//     var methods = {
-//         init: function (options) {
-//             var opts = $.extend({}, defaults, options);
-//             opts.change = function (eventName) {
-//                 functions.updateValues(this);
-//                 options.change && options.change.call(this, eventName)
-//             };
-//             this.noUiSlider("init", opts);
-//             this.find(".noUi-handle div").append('<span class="slider-value">');
-//             this.each(function () {
-//                 functions.updateValues($(this))
-//             });
-//             return this
-//         },
-//         toggleHandles: function (visible) {
-//             this.find(".noUi-handle").toggle(visible);
-//             return this
-//         }
-//     };
-//     var functions = {
-//         updateValues: function (slider) {
-//             var values = slider.noUiSlider("value"),
-//                 format = functions.getOptions(slider).format;
-//             slider.find(".noUi-lowerHandle .slider-value").html(format(values[0]));
-//             slider.find(".noUi-upperHandle .slider-value").html(format(values[1]))
-//         },
-//         getOptions: function (slider) {
-//             return slider.data("api").options
-//         }
-//     };
-//     $.fn.noUiSliderMod = function (method, options) {
-//         if (method in methods) {
-//             return methods[method].call(this, options)
-//         } else {
-//             return this.noUiSlider(method, options)
-//         }
-//     }
-// })(jQuery);
 
 (function () {
     var method;
@@ -751,17 +706,13 @@ var relationships = {
     resize: function (needRepaint) {
         console.log('[relationships] resize');
 
-        console.log("[relationships] resize doesn't work  because no content: ", $(".content"));
-        if (!this.$(".content").length)
-            return;
-
         var headerHeight = this.$(".content").position().top,
             footerHeight = this.$(".footer").outerHeight(true),
             contentHeight = this.element.height() - headerHeight - footerHeight;
         this.$(".content").height(contentHeight);
         console.log('[DEBUG] needRepaint: ', needRepaint);
 
-        if (needRepaint) {
+        if ((typeof myVar === 'undefined') || needRepaint) {
             this.drawStartups();
             this.updateScrollbars();
             if (this.viewModel.viewMode() == this.MODE_SHOW_SU) {
@@ -796,10 +747,10 @@ var relationships = {
             self.resize();
             self.clearSVG();
             methods[target].call(self, item);
-            _(["vc", "su", "pe"]).without(target).each(function (t) {
+            _.chain(["vc", "su", "pe"]).without(target).each(function (t) {
                 self.viewModel["active" + t.toUpperCase()](null)
             });
-            _(["vc", "pe"]).without(target).each(function (t) {
+            _.chain(["vc", "pe"]).without(target).each(function (t) {
                 self.viewModel["selected" + t.toUpperCase()](null)
             });
             if (target !== "su") {
@@ -883,7 +834,7 @@ var relationships = {
     },
     getStartupInvestors: function (startup) {
         console.log('[relationships] getStartupInvestors');
-        return _(startup && startup.funding_rounds).pluck("investors").flatten().uniq(function (investor) {
+        return _.chain(startup && startup.funding_rounds).pluck("investors").flatten().uniq(function (investor) {
             return investor.permalink
         }).sortBy("name").value()
     },
@@ -891,6 +842,12 @@ var relationships = {
         console.log('[relationships] updateRelationships');
         var startups = this.painter.getRenderedStartups(),
             mode = this.viewModel.viewMode();
+
+        if(typeof startups === 'undefined') {
+            console.log('no startups to updateRelationships ... nothing to do');
+            return;
+        }
+
         if (mode == this.MODE_SHOW_VC || mode == this.MODE_SHOW_SU) {
             var founders = _.map(startups, this.getStartupFounders);
             this.viewModel.peRelated(founders)
@@ -971,7 +928,7 @@ var relationships = {
     },
     updateLegendCategories: function () {
         console.log('[relationships] updateLegendCategories');
-        var activeCategories = _.isEmpty(this.currentStartups) ? [] : _(this.painter.getRenderedStartups()).pluck("category_code").uniq().value();
+        var activeCategories = _.isEmpty(this.currentStartups) ? [] : _.chain(this.painter.getRenderedStartups()).pluck("category_code").uniq().value();
         _(this.viewModel.legendCategories).each(function (cat) {
             cat.inactive(!_.contains(activeCategories, cat.id))
         })
@@ -1074,7 +1031,13 @@ var relationships = {
         startups = _.filter(startups, function (s) {
             return s.date
         });
-        var dates = _(startups).pluck("date").sortBy(_.identity).value(),
+
+        if (startups.length <= 0) {
+            console.log('no startups to display ... nothing to do');
+            return;
+        }
+
+        var dates = _.chain(startups).pluck("date").sortBy(_.identity).value(),
             minDate = dates[0],
             maxDate = dates[dates.length - 1];
         this.dateSlider.empty();
@@ -1576,8 +1539,8 @@ Painter.prototype.centerVertical = function () {
         return s.y + s.radius + self.BUBBLE_PADDING
     }
     var self = this,
-        minBubbleTop = _(this.startups).map(getBubbleTop).min().value(),
-        maxBubbleBottom = _(this.startups).map(getBubbleBottom).max().value(),
+        minBubbleTop = _.chain(this.startups).map(getBubbleTop).min().value(),
+        maxBubbleBottom = _.chain(this.startups).map(getBubbleBottom).max().value(),
         stretchFactor = (this.height - this.CHART_MARGIN_BOTTOM) / (maxBubbleBottom - minBubbleTop);
     _.each(this.startups, function (s) {
         var top = getBubbleTop(s),
@@ -1628,7 +1591,7 @@ Painter.prototype.packPossibleTitlesCount = function (startups) {
         bestPackData;
     for (var i = 0; i < attempts; i++) {
         var count = Math.floor(countScale(i));
-        this.startups = _(startups).sortBy("sum").each(function (s, i) {
+        this.startups = _.chain(startups).sortBy("sum").each(function (s, i) {
             s.showTitle = len - i <= count
         }).sortBy("date").value();
         bestPackData = this.packWithBestScale();
@@ -1641,16 +1604,17 @@ Painter.prototype.packPossibleCount = function () {
         var dt = new Date(startup.date);
         return dt.getFullYear() * 100 + dt.getMonth()
     }
+
     var attempts = 4,
         len = this.filteredStartups.length,
-        maxCountPerGroup = _(this.filteredStartups).groupBy(getGroupId).map(function (group) {
+        maxCountPerGroup = _.chain(this.filteredStartups).groupBy(getGroupId).map(function (group) {
             return group.length
         }).max().value(),
         step = Math.ceil(maxCountPerGroup / (attempts - 1)),
         bestPackData;
     for (var i = 0; i < attempts; i++) {
         var count = Math.max(maxCountPerGroup - step * i, 0);
-        var startups = _(this.filteredStartups).groupBy(getGroupId).map(function (group) {
+        var startups = _.chain(this.filteredStartups).groupBy(getGroupId).map(function (group) {
             return _(group).sortBy("sum").last(count).value()
         }).flatten().sortBy("date").value();
         bestPackData = this.packPossibleTitlesCount(startups);
@@ -1694,10 +1658,10 @@ Painter.prototype.showVcConnections = function (permalink, point) {
         y = point.y;
     this.runWhenRendered(function () {
         this.chart.selectAll(".link-vc").remove();
-        var minStartupX = _(this.startups).pluck("x").min().value() + this.left;
+        var minStartupX = _.chain(this.startups).pluck("x").min().value() + this.left;
         var curveXScale = d3.scale.linear().domain([self.height, 0]).range([(x + minStartupX) / 2, minStartupX]);
-        var data = _(this.startups).map(function (startup) {
-            return _(startup.round_radiuses).filter(function (r, i) {
+        var data = _.chain(this.startups).map(function (startup) {
+            return _.chain(startup.round_radiuses).filter(function (r, i) {
                 var round = startup.funding_rounds[i];
                 return round && _.any(round.investors, function (vc) {
                     return vc.permalink === permalink
@@ -1727,7 +1691,7 @@ Painter.prototype.hideVcConnections = function () {
 };
 Painter.prototype.showSuVcConnections = function (startup, vcPointsByRound) {
     var self = this;
-    var vcData = _(startup.round_radiuses).map(function (r, i) {
+    var vcData = _.chain(startup.round_radiuses).map(function (r, i) {
         var vcPoints = vcPointsByRound[i];
         if (!vcPoints) return null;
         return _.map(vcPoints, function (vcPoint) {
@@ -1821,7 +1785,7 @@ Painter.prototype.drawPacked = function () {
     var added = _.reject(this.startups, function (s) {
         return s.permalink in oldGrouped
     });
-    var retained = _(this.startups).difference(added).each(function (s) {
+    var retained = _.chain(this.startups).difference(added).each(function (s) {
         var oldStartup = oldGrouped[s.permalink][0];
         s.oldX = oldStartup.x;
         s.oldY = oldStartup.y;
@@ -2189,6 +2153,9 @@ angular.module('wizualy').directive('bubbleChart', function () {
 
                 console.log('[bubbleChart drawBubble]');
 
+                relationships.applyState('show');
+                return;
+
                 var g, self = this,
                     content = $('#content'),
                     strokeColor = '#000',
@@ -2499,6 +2466,7 @@ wizualyApp.controller('XController', ['$scope', 'Data', '$http', function($scope
                 $scope.x = normalizeXResults(data);
 
                 relationships.init();
+                relationships.doShow('su', data.permalink);
                 // console.log('data-normalized: ', $scope.x);
             }
         ).error(
