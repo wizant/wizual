@@ -252,50 +252,50 @@ var Categories = {};
     makeCategory("undefined", "Not defined", "#bebebf")
 })();
 
-(function ($) {
-    var defaults = {
-        format: function (value) {
-            return value
-        }
-    };
-    var methods = {
-        init: function (options) {
-            var opts = $.extend({}, defaults, options);
-            opts.change = function (eventName) {
-                functions.updateValues(this);
-                options.change && options.change.call(this, eventName)
-            };
-            this.noUiSlider("init", opts);
-            this.find(".noUi-handle div").append('<span class="slider-value">');
-            this.each(function () {
-                functions.updateValues($(this))
-            });
-            return this
-        },
-        toggleHandles: function (visible) {
-            this.find(".noUi-handle").toggle(visible);
-            return this
-        }
-    };
-    var functions = {
-        updateValues: function (slider) {
-            var values = slider.noUiSlider("value"),
-                format = functions.getOptions(slider).format;
-            slider.find(".noUi-lowerHandle .slider-value").html(format(values[0]));
-            slider.find(".noUi-upperHandle .slider-value").html(format(values[1]))
-        },
-        getOptions: function (slider) {
-            return slider.data("api").options
-        }
-    };
-    $.fn.noUiSliderMod = function (method, options) {
-        if (method in methods) {
-            return methods[method].call(this, options)
-        } else {
-            return this.noUiSlider(method, options)
-        }
-    }
-})(jQuery);
+// (function ($) {
+//     var defaults = {
+//         format: function (value) {
+//             return value
+//         }
+//     };
+//     var methods = {
+//         init: function (options) {
+//             var opts = $.extend({}, defaults, options);
+//             opts.change = function (eventName) {
+//                 functions.updateValues(this);
+//                 options.change && options.change.call(this, eventName)
+//             };
+//             this.noUiSlider("init", opts);
+//             this.find(".noUi-handle div").append('<span class="slider-value">');
+//             this.each(function () {
+//                 functions.updateValues($(this))
+//             });
+//             return this
+//         },
+//         toggleHandles: function (visible) {
+//             this.find(".noUi-handle").toggle(visible);
+//             return this
+//         }
+//     };
+//     var functions = {
+//         updateValues: function (slider) {
+//             var values = slider.noUiSlider("value"),
+//                 format = functions.getOptions(slider).format;
+//             slider.find(".noUi-lowerHandle .slider-value").html(format(values[0]));
+//             slider.find(".noUi-upperHandle .slider-value").html(format(values[1]))
+//         },
+//         getOptions: function (slider) {
+//             return slider.data("api").options
+//         }
+//     };
+//     $.fn.noUiSliderMod = function (method, options) {
+//         if (method in methods) {
+//             return methods[method].call(this, options)
+//         } else {
+//             return this.noUiSlider(method, options)
+//         }
+//     }
+// })(jQuery);
 
 (function () {
     var method;
@@ -2187,7 +2187,7 @@ angular.module('wizualy').directive('bubbleChart', function () {
 
             scope.drawBubble = function (entity) {
 
-                // console.log('[DEBUG] container: ', container);
+                console.log('[bubbleChart drawBubble]');
 
                 var g, self = this,
                     content = $('#content'),
@@ -2203,13 +2203,13 @@ angular.module('wizualy').directive('bubbleChart', function () {
 
                 var R = Math.round(Math.min(container.height, container.width) * 0.3);
 
-                console.log('entity: ', entity);
-                console.log('total: ', entity.total, ', length: ', entity.funding_rounds.length);
+                // console.log('entity: ', entity);
+                // console.log('total: ', entity.total, ', length: ', entity.funding_rounds.length);
 
                 var linearScale = d3.scale.linear().domain([0, entity.total]).range([MIN_BUBBLE_SIZE, R]);
-                console.log('linear(2): ', linearScale(2));
-                console.log('linear(167500000): ', linearScale(167500000));
-                console.log('linear(90000000): ', linearScale(90000000));
+                // console.log('linear(2): ', linearScale(2));
+                // console.log('linear(167500000): ', linearScale(167500000));
+                // console.log('linear(90000000): ', linearScale(90000000));
 
                 g.append("circle")
                     .attr("class", "bubble-round")
@@ -2375,7 +2375,7 @@ function normalizeCategoryResults(results){
 }
 
 function normalizeXResults(results) {
-    console.log('normalize results');
+    // console.log('normalize results');
     return {
         name: results.name,
         permalink: results.permalink,
@@ -2457,7 +2457,7 @@ wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function
 
     //get results
     $scope.getCategoryResults = function(){
-        console.log('[DEBUG] showCategoryResults');
+        // console.log('[DEBUG] showCategoryResults');
         var permalink = this.category.permalink;
 
         if(!$scope.results[permalink]) {
@@ -2486,11 +2486,12 @@ wizualyApp.controller('XController', ['$scope', 'Data', '$http', function($scope
             'url': 'http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/relations/su/' + permalink
         }).success(
             function(data, status, headers, config){
-                console.log('data: ', data);
-                console.log('Data: ', Data);
+                // console.log('data: ', data);
+                // console.log('Data: ', Data);
                 
+                // TODO: refactor this test, to be better (like Data.currentStartup === data), but to work recursivly
                 if (Data.currentStartup && Data.currentStartup.permalink === data.permalink) {
-                    console.log('nothing to do ...');
+                    // console.log('nothing to do ...');
                     return;
                 }
 
