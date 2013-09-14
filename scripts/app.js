@@ -1615,7 +1615,7 @@ Painter.prototype.packPossibleCount = function () {
     for (var i = 0; i < attempts; i++) {
         var count = Math.max(maxCountPerGroup - step * i, 0);
         var startups = _.chain(this.filteredStartups).groupBy(getGroupId).map(function (group) {
-            return _(group).sortBy("sum").last(count).value()
+            return _.chain(group).sortBy("sum").last(count).value()
         }).flatten().sortBy("date").value();
         bestPackData = this.packPossibleTitlesCount(startups);
         if (bestPackData) break
