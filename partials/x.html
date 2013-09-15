@@ -36,6 +36,13 @@
         <div class="col col-span-1">
             <h2>Venture Capitalists</h2>
             <input type="text" class="auto-complete" placeholder="Search" autocomplete="off" source="http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/name/vc/" minlengh="2" />
+            <div class="scroll-pane list-related list-vc list-vc-rounds">
+                <ul class="list-content" ng-repeat="round in x.funding_rounds">
+                    <li class="item" ng-repeat="investor in round.investors">
+                        <label><span>{{ investor.name }}</span></label>
+                    </li>
+                </ul>
+            </div>            
         </div>
         <div class="col col-span-1 column-su">
             <h2>Startups</h2>

@@ -1714,13 +1714,17 @@ Painter.prototype.pack = function () {
     this.centerVertical()
 };
 Painter.prototype.showVcConnections = function (permalink, point) {
+    console.log('[Painter showVcConnections] permalink: ', permalink, ', point: ', point);
     var self = this,
         x = point.x,
         y = point.y;
     this.runWhenRendered(function () {
+        console.log('[Painter showVcConnections runWhenRendered] removing all link-vc');
         this.chart.selectAll(".link-vc").remove();
+        console.log('[Painter showVcConnections runWhenRendered] chart: ', this.chart);
         var minStartupX = _.chain(this.startups).pluck("x").min().value() + this.left;
         var curveXScale = d3.scale.linear().domain([self.height, 0]).range([(x + minStartupX) / 2, minStartupX]);
+        console.log('[Painter showVcConnections runWhenRendered] minStartupX: ', minStartupX, ', domain[', self.height, ', 0], range[', (x + minStartupX) / 2, ', ', minStartupX);
         var data = _.chain(this.startups).map(function (startup) {
             return _.chain(startup.round_radiuses).filter(function (r, i) {
                 var round = startup.funding_rounds[i];
@@ -1734,15 +1738,30 @@ Painter.prototype.showVcConnections = function (permalink, point) {
                 }
             }).value()
         }).flatten().value();
-        this.chart.select(".connections").selectAll(".link-vc").data(data).enter().append("g").attr("class", "link-vc").each(function (d) {
-            var node = d3.select(this);
-            var x2 = d.x + self.left,
-                y2 = Math.floor(d.y + self.top) + .5,
-                curveX = curveXScale(Math.abs(y2 - y)),
-                controlX = x + (curveX - x) / 3;
-            node.append("line").attr("x1", x2).attr("y1", y2).attr("x2", curveX).attr("y2", y2);
-            node.append("path").attr("d", "M" + x + "," + y + "C" + [controlX, y, x, y2, curveX, y2].join(",")).style("fill", "transparent")
-        })
+
+        console.log('[Painter showVcConnections runWhenRendered] data: ', data);
+
+        this.chart.select(".connections")
+            .selectAll(".link-vc")
+            .data(data).enter()
+                .append("g")
+                .attr("class", "link-vc")
+                .each(function (d) {
+                    var node = d3.select(this);
+                    var x2 = d.x + self.left,
+                        y2 = Math.floor(d.y + self.top) + .5,
+                        curveX = curveXScale(Math.abs(y2 - y)),
+                        controlX = x + (curveX - x) / 3;
+                    node.append("line")
+                        .attr("x1", x2)
+                        .attr("y1", y2)
+                        .attr("x2", curveX)
+                        .attr("y2", y2);
+
+                    node.append("path")
+                        .attr("d", "M" + x + "," + y + "C" + [controlX, y, x, y2, curveX, y2].join(","))
+                        .style("fill", "transparent")
+                })
     })
 };
 Painter.prototype.hideVcConnections = function () {
@@ -1752,15 +1771,12 @@ Painter.prototype.hideVcConnections = function () {
 };
 Painter.prototype.showSuVcConnections = function (startup, vcPointsByRound) {
     var self = this;
-    console.log('[showSuVcConnections] startup: ', startup);
+    console.log('[Painter showSuVcConnections] startup: ', startup, ', vcPointsByRound: ', vcPointsByRound);
 
-    if (typeof(startup) === 'undefined')
-        return;
- 
     var vcData = _.chain(startup.round_radiuses).map(function (r, i) {
         var vcPoints = vcPointsByRound[i];
         if (!vcPoints) return null;
-        return _.map(vcPoints, function (vcPoint) {
+        return _(vcPoints).map(function (vcPoint) {
             return {
                 x1: vcPoint.x,
                 y1: Math.floor(vcPoint.y) + .5,
@@ -1769,18 +1785,35 @@ Painter.prototype.showSuVcConnections = function (startup, vcPointsByRound) {
             }
         })
     }).flatten().without(null).value();
-    this.chart.select(".connections").selectAll(".link-su-vc").data(vcData).enter().append("g").attr("class", "link-su link-su-vc").each(function (d) {
-        var node = d3.select(this);
-        var x1 = d.x1,
-            y1 = d.y1,
-            x2 = d.x2,
-            y2 = d.y2,
-            curveX = (x2 + x1) / 2,
-            controlX1 = x1 + (curveX - x1) / 5,
-            controlX2 = x1 + (curveX - x1) / 2;
-        node.append("line").attr("x1", x2).attr("y1", y2).attr("x2", curveX).attr("y2", y2);
-        node.append("path").attr("d", "M" + x1 + "," + y1 + "C" + [controlX1, y1, controlX2, y2, curveX, y2].join(",")).style("fill", "transparent")
-    })
+
+    console.log('[Painter showSuVcConnections] vcData: ', vcData);    
+
+    this.chart.select(".connections")
+        .selectAll(".link-su-vc")
+        .data(vcData).enter()
+        .append("g")
+           .attr("class", "link-su link-su-vc")
+           .each(function (d) {
+                console.log('[Painter showSuVcConnections] vcData.each: ', d);
+                var node = d3.select(this);
+                var x1 = d.x1,
+                    y1 = d.y1,
+                    x2 = d.x2,
+                    y2 = d.y2,
+                    curveX = (x2 + x1) / 2,
+                    controlX1 = x1 + (curveX - x1) / 5,
+                    controlX2 = x1 + (curveX - x1) / 2;
+                    
+                    node.append("line")
+                        .attr("x1", x2)
+                        .attr("y1", y2)
+                        .attr("x2", curveX)
+                        .attr("y2", y2);
+
+                    node.append("path")
+                        .attr("d", "M" + x1 + "," + y1 + "C" + [controlX1, y1, controlX2, y2, curveX, y2].join(","))
+                        .style("fill", "transparent")
+            })
 };
 Painter.prototype.showSuPeConnections = function (startup, pePoints) {
     var self = this;
@@ -1803,12 +1836,13 @@ Painter.prototype.showSuPeConnections = function (startup, pePoints) {
     })
 };
 Painter.prototype.showSuConnections = function (permalink, vcPointsByRound, pePoints) {
-    console.log('[Painter] showSuConnections');
+    console.log('[Painter showSuConnections] permalink: ', permalink, ', vcPointsByRound: ', vcPointsByRound, ', pePoints: ', pePoints);
     this.runWhenRendered(function () {
         var startup = _.find(this.startups, function (s) {
             return s.permalink === permalink
         });
         this.chart.selectAll(".link-su").remove();
+        console.log('[Painter] showSuConnections ... calling showSuVcConnections');
         this.showSuVcConnections(startup, vcPointsByRound);
         this.showSuPeConnections(startup, pePoints)
     })
@@ -2132,9 +2166,9 @@ angular.module('wizualy').directive('bubbleChart', function () {
                 // this.initGradients();
                 this.bubbles = {};
                 this.bubbleDates = {};
-                this.chart.append("g").attr("class", "bubbles");
-                this.chart.append("g").attr("class", "connections");
-                this.chart.append("g").attr("class", "bubble-outers")
+                // this.chart.append("g").attr("class", "bubbles");
+                // this.chart.append("g").attr("class", "connections");
+                // this.chart.append("g").attr("class", "bubble-outers")
             };
 
             scope.drawConnection = function(node, htmlId, point) {
