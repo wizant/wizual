@@ -2417,7 +2417,7 @@ wizualyApp.config(['$routeProvider', '$locationProvider',
     }).success(
         function(data, status, headers, config){
             Data.categories = data;
-            Categories.makeCategory(data.permalink, data.name, data.color);
+            // Categories.makeCategory(data.permalink, data.name, data.color);
         }
     ).error(
         function(data, status, headers, config){
