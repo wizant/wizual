@@ -159,34 +159,37 @@ var API = {
             object.image_url = ""
         }
     },
-    send: function (path, callback, tryCount) {
-        $.getJSON(this.root + path, callback).fail(function () {
-            if (tryCount == null) {
-                tryCount = 0
-            }
-            tryCount++;
-            if (tryCount < API.retryLimit) {
-                API.send(path, callback, tryCount)
-            } else {
-                callback(null)
-            }
-        })
-    },
-    categories: function (category, count, callback) {
-        this.send(this.pathCategories + category + "/" + count, callback)
-    },
-    counts: function (callback) {
-        this.send(this.pathCounts, callback)
-    },
-    search: function (target, string, callback) {
-        this.send(this.pathSearch[target] + string, callback)
-    },
-    relations: function (target, permalink, callback) {
+    // send: function (path, callback, tryCount) {
+    //     $.getJSON(this.root + path, callback).fail(function () {
+    //         if (tryCount == null) {
+    //             tryCount = 0
+    //         }
+    //         tryCount++;
+    //         if (tryCount < API.retryLimit) {
+    //             API.send(path, callback, tryCount)
+    //         } else {
+    //             callback(null)
+    //         }
+    //     })
+    // },
+    // categories: function (category, count, callback) {
+    //     this.send(this.pathCategories + category + "/" + count, callback)
+    // },
+    // counts: function (callback) {
+    //     this.send(this.pathCounts, callback)
+    // },
+    // search: function (target, string, callback) {
+    //     this.send(this.pathSearch[target] + string, callback)
+    // },
+    relations: function (target, permalink, callback, data, status, headers, config) {
         var self = this;
 
         function onLoad(data) {
+            console.log('[relationships onLoad]');
+            console.log('data: ', data);
             if (data) {
                 var startups = target === "su" ? [data] : data.startups;
+                console.log('startups: ', startups);
                 self.prepareStartups(startups);
                 if (target !== "su") {
                     var parentObject = self.getParentObject(target, permalink, startups);
@@ -202,6 +205,7 @@ var API = {
                     result: data
                 }
             }
+
             callback(data)
         }
         if (this.lastRelationsData.target === target && this.lastRelationsData.permalink === permalink) {
@@ -215,7 +219,7 @@ var API = {
                 return
             }
         }
-        this.send(this.pathRelations[target] + permalink, onLoad)
+        onLoad(data);
     }
 };
 var Categories = {};
@@ -374,6 +378,8 @@ var Events = {
 };
 
 var relationships = {
+    initialized: false,
+    categories: [],
     MODE_HOME: 0,
     MODE_SHOW_VC: 4,
     MODE_SHOW_SU: 5,
@@ -391,6 +397,9 @@ var relationships = {
         return $(selector, this.element)
     },
     init: function () {
+        if (this.initialized)
+            return;
+        this.initialized = true;
         console.log('[relationships] init');
         this.element = $(".relationships");
         this.svg = this.$(".startup-graph svg");
@@ -547,12 +556,12 @@ var relationships = {
         addTotal("su");
         addTotal("pe");
         var self = this;
-        API.counts(function (result) {
-            if (!result) return;
-            totals["vc"].raw(result.total_vcs);
-            totals["su"].raw(result.total_startups);
-            totals["pe"].raw(result.total_founders);
-        })
+        // API.counts(function (result) {
+        //     if (!result) return;
+        //     totals["vc"].raw(result.total_vcs);
+        //     totals["su"].raw(result.total_startups);
+        //     totals["pe"].raw(result.total_founders);
+        // })
     },
     initLiveHandlers: function () {
         console.log('[relationships] initLiveHandlers');
@@ -592,7 +601,7 @@ var relationships = {
         // })
     // },
     initPainter: function () {
-        console.log('[relationships] initPainter');
+        console.log('[relationships initPainter] svg: ', this.svg[0]);
         this.painter = new Painter(d3.select(this.svg[0]));
         this.painter.on("bubble:click", function (startup) {
             if (this.viewModel.viewMode() == this.MODE_SHOW_SU) return;
@@ -682,7 +691,7 @@ var relationships = {
     //     return state
     // },
     applyState: function (state) {
-        console.log('[relationships] applyState');
+        console.log('[relationships] applyState ... UNDERCONSTRUCTION');
         if (state.mode === "show") {
             this.doShow(state.target, state.data)
         } else {
@@ -704,7 +713,7 @@ var relationships = {
         this.viewModel.viewMode(this[modeName])
     },
     resize: function (needRepaint) {
-        console.log('[relationships] resize');
+        console.log('[relationships] content: ', this.$(".content"));
 
         var headerHeight = this.$(".content").position().top,
             footerHeight = this.$(".footer").outerHeight(true),
@@ -732,8 +741,9 @@ var relationships = {
         if (!permalink) return;
         this.pushState("show", target, permalink)
     },
-    doShow: function (target, permalink) {
+    doShow: function (target, permalink, data, status, headers, config) {
         console.log('[relationships] doShow');
+
         if (!permalink) return;
         var self = this,
             methods = {
@@ -741,11 +751,16 @@ var relationships = {
                 su: this.showSU,
                 pe: this.showPE
             };
+        console.log('[relationships doShow] methods: ', methods);
+
         var callback = function (item) {
-            console.log('[relationships] callback');
+            console.log('[relationships] callback ... setting view mode: ', target);
             self.setViewMode("show", target);
+            console.log('[relationships] callback ... resizing');
             self.resize();
+            console.log('[relationships] callback ... clear SVG');
             self.clearSVG();
+            console.log('[relationships] callback ...  item: ', item);
             methods[target].call(self, item);
             _.chain(["vc", "su", "pe"]).without(target).each(function (t) {
                 self.viewModel["active" + t.toUpperCase()](null)
@@ -763,9 +778,11 @@ var relationships = {
             self.viewModel.loading(false);
             // self.updateSharingButtons()
         };
+
         this.viewModel.loading(true);
+        console.log('[relationships doShow] viewModel: ', this.viewModel);
         _.defer(function () {
-            API.relations(target, permalink, callback)
+            API.relations(target, permalink, callback, data, status, headers, config)
         })
     },
     showVC: function (investor) {
@@ -1008,7 +1025,7 @@ var relationships = {
         }, this)
     },
     drawStartups: function () {
-        console.log('[relationships] drawStartups');
+        console.log('[relationships] drawStartups ... preparing startups');
         this.prepareStartups();
         this.painter.setStartupView(this.viewModel.viewMode() === this.MODE_SHOW_SU);
         if (this.currentStartups.length === 1) {
@@ -1020,7 +1037,6 @@ var relationships = {
     },
     drawSingleStartup: function (startup) {
         console.log('[DEBUG] drawSingleStartup');
-
         this.viewModel.sliderVisible(false);
         this.painter.setArea(this.getBubblesArea());
         this.painter.drawSingleStartup(startup)
@@ -1195,16 +1211,16 @@ var relationships = {
         tooltip.css({
             left: left
         });
-        API.categories(category.id, this.viewModel.homeCategoryDataLimit(), function (data) {
-            if (vm.homeCategory() !== category) return;
-            if (!data) return;
-            vm.homeCategoryData(data);
-            vm.homeCategoryLoading(false);
-            _.defer(function () {
-                tooltip.find(".acResultsInner").jScrollPane();
-                self.trigger(self.events.CATEGORY_TOOLTIP_RENDER)
-            })
-        })
+        // API.categories(category.id, this.viewModel.homeCategoryDataLimit(), function (data) {
+        //     if (vm.homeCategory() !== category) return;
+        //     if (!data) return;
+        //     vm.homeCategoryData(data);
+        //     vm.homeCategoryLoading(false);
+        //     _.defer(function () {
+        //         tooltip.find(".acResultsInner").jScrollPane();
+        //         self.trigger(self.events.CATEGORY_TOOLTIP_RENDER)
+        //     })
+        // })
     },
     toggleAboutPage: function (visible, callback) {
         console.log('[relationships] toggleAboutPage');
@@ -1360,6 +1376,7 @@ _.bindAll(relationships);
 _.extend(relationships, Events);
 
 var Painter = function (chart) {
+    console.log('[Painter] chart: ', chart);
     this.chart = chart;
     this.renderQueue = []
 };
@@ -1383,12 +1400,15 @@ Painter.prototype.clear = function () {
     this.chart.append("g").attr("class", "bubble-outers")
 };
 Painter.prototype.setArea = function (area) {
+    console.log('[Painter setArea] area: ', area);
     _.extend(this, area);
     this.chartMargin = this.width * this.CHART_MARGIN_RELATIVE;
+    console.log('[Painter setArea] chartMargin: ', this.chartMargin);
     this.left += this.chartMargin;
     this.width -= this.chartMargin * 2;
     this.top += this.TITLE_HEIGHT;
-    this.height -= this.TITLE_HEIGHT
+    this.height -= this.TITLE_HEIGHT;
+    console.log('[Painter setArea] coordinates: (left: ', this.left, ', width', this.width, ', top: ', this.top, ', height: ', this.height, ')')
 };
 Painter.prototype.setStartups = function (startups) {
     this.allStartups = startups
@@ -1403,12 +1423,14 @@ Painter.prototype.setStartupView = function (isStartupView) {
     this.startupView = isStartupView
 };
 Painter.prototype.drawSingleStartup = function (startup) {
+    console.log('[Painter drawSingleStartup] startup: ', startup);
     var originalDate = startup.date;
     if (!startup.date) {
         startup.date = Date.now()
     }
     this.minDate = startup.date - 1e3;
     this.maxDate = startup.date + 1e3;
+    console.log('[Painter drawSingleStartup] originalDate: ', originalDate, ', minDate: ', this.minDate, ', maxDate: ', this.maxDate);
     this.filteredStartups = [startup];
     this.pack();
     startup.date = originalDate;
@@ -1439,15 +1461,26 @@ Painter.prototype.getGradientId = function (category) {
     return "gradient-" + category
 };
 Painter.prototype.getGradientUrl = function (category) {
-    var path = location.pathname.replace(BASE_PATH, "");
-    return path + "#" + this.getGradientId(category)
+    return '#999';
+    // TODO: underconstruction
+    // var path = location.pathname.replace(BASE_PATH, "");
+    // return path + "#" + this.getGradientId(category)
 };
 Painter.prototype.createXScale = function () {
     var padding = 84600;
     return d3.scale.linear().domain([this.minDate - padding, this.maxDate + padding]).range([0, this.width])
 };
 Painter.prototype.getTitleBBox = function (startup) {
-    var text = this.chart.append("svg:text").text("11." + startup.name).attr("text-anchor", "middle").attr("x", startup.x).attr("y", 0).style("fill", "transparent");
+    var text = this.chart
+        .append("svg:text")
+            .text("11." + startup.name)
+            .attr("text-anchor", "middle")
+            .attr("x", startup.x)
+            .attr("y", 0)
+            .style("fill", "transparent");
+    console.log('[Painter getTitleBBox] chart: ', this.chart, ', startup: ', startup);        
+    console.log('[Painter getTitleBBox] text: ', text);
+
     var bbox = text.node().getBBox();
     text.remove();
     return bbox
@@ -1531,6 +1564,7 @@ Painter.prototype.getPackedPositions = function (bubbleScale) {
     return positions
 };
 Painter.prototype.centerVertical = function () {
+    console.log('[Painter centerVertical] ');
     function getBubbleTop(s) {
         return s.y - s.radius - self.getTitleHeight(s)
     }
@@ -1546,10 +1580,13 @@ Painter.prototype.centerVertical = function () {
         var top = getBubbleTop(s),
             bottom = getBubbleBottom(s),
             newTop = (top - minBubbleTop) * stretchFactor;
+        console.log('[Painter centerVertical] newTop: ', newTop, ', radius: ', s.radius, ', titleHeights: ', self.getTitleHeight(s) );
         s.y = newTop + s.radius + self.getTitleHeight(s)
     })
 };
 Painter.prototype.packWithBestScale = function () {
+    console.log('[Painter packWithBestScale]');
+
     function isPackingValid(positions) {
         return _.every(positions, function (pos) {
             return pos != null
@@ -1561,8 +1598,10 @@ Painter.prototype.packWithBestScale = function () {
     var MAX_ATTEMPTS = 10,
         scale, positions, isValid, lastGood, lastBadScale;
     scale = maxBubbleScale;
+    console.log('[Painter packWithBestScale] ');
     for (var i = 0; i < MAX_ATTEMPTS; i++) {
         positions = this.getPackedPositions(scale);
+        console.log('[Painter packWithBestScale] ' + i + ' positions: ', positions);
         if (isPackingValid(positions)) {
             lastGood = {
                 scale: scale,
@@ -1583,23 +1622,31 @@ Painter.prototype.packWithBestScale = function () {
     return lastGood
 };
 Painter.prototype.packPossibleTitlesCount = function (startups) {
+    console.log('[Painter packPossibleTitlesCount]');
     var attempts = 3,
         len = startups.length,
         maxCount = Math.min(len, 30),
         minCount = 6,
         countScale = d3.scale.linear().domain([0, attempts - 1]).range([maxCount, minCount]),
         bestPackData;
+    console.log('[Painter packPossibleTitlesCount] len: ', len, ', maxCount: ', maxCount, ', startups: ', startups);
     for (var i = 0; i < attempts; i++) {
         var count = Math.floor(countScale(i));
-        this.startups = _.chain(startups).sortBy("sum").each(function (s, i) {
+        console.log('[Painter packPossibleTitlesCount] count: ', count);
+        this.startups = _.chain(startups).sortBy("sum").value();
+        _(this.startups).each(function (s, i) {
             s.showTitle = len - i <= count
-        }).sortBy("date").value();
+        });
+        this.startups = _(this.startups).sortBy("date");
+        // TODO: this function modifies the painter itself
+        console.log('[Painter packPossibleTitlesCount] ' + i + ' count: ', count, ', startups: ', this.startups);
         bestPackData = this.packWithBestScale();
         if (bestPackData) break
     }
     return bestPackData
 };
 Painter.prototype.packPossibleCount = function () {
+    console.log('[Painter packPossibleCount]');
     function getGroupId(startup) {
         var dt = new Date(startup.date);
         return dt.getFullYear() * 100 + dt.getMonth()
@@ -1612,33 +1659,41 @@ Painter.prototype.packPossibleCount = function () {
         }).max().value(),
         step = Math.ceil(maxCountPerGroup / (attempts - 1)),
         bestPackData;
+
+    console.log('[Painter packPossibleCount] len: ', len, ', maxCountPerGroup', maxCountPerGroup, ', step: ', step);
     for (var i = 0; i < attempts; i++) {
         var count = Math.max(maxCountPerGroup - step * i, 0);
         var startups = _.chain(this.filteredStartups).groupBy(getGroupId).map(function (group) {
             return _.chain(group).sortBy("sum").last(count).value()
         }).flatten().sortBy("date").value();
+        console.log('[Painter packPossibleCount] count: ', count, ', startups: ', startups);
         bestPackData = this.packPossibleTitlesCount(startups);
+        console.log('[Painter packPossibleCount] ' + i + ' bestPackData: ', bestPackData);
         if (bestPackData) break
     }
     return bestPackData
 };
 Painter.prototype.pack = function () {
-    var bestPackData, xScale = this.createXScale();
+    console.log('[Painter pack]');
+    var xScale = this.createXScale();
     _.each(this.filteredStartups, function (s) {
         s.x = xScale(s.date)
     });
-    bestPackData = this.packPossibleCount();
+    console.log('[Painter pack] filteredStartups: ', this.filteredStartups);
+    var bestPackData = this.packPossibleCount();
     if (!bestPackData) {
         this.scale = 0;
         this.startups = [];
         return
-    }
+    };
+    console.log('[Painter pack] bestPackData: ', bestPackData);
     this.scale = bestPackData.scale;
     _.each(this.startups, function (s, index) {
         s.y = bestPackData.positions[index];
         s.radius = Math.max(s.sum / bestPackData.scale, this.MIN_BUBBLE_RADIUS);
         s.index = index;
         var realScale = (s.sum || 1) / s.radius;
+        console.log('[Painter pack] y: ', s.y, ', radius: ', s.radius, ', index: ', s.index, ', realScale: ', realScale);
         s.round_radiuses = _.map(s.running_totals, function (sum, index) {
             var radius = sum / realScale;
             if (index === s.running_totals.length - 1 && !sum) {
@@ -1649,6 +1704,7 @@ Painter.prototype.pack = function () {
         if (_.isEmpty(s.round_radiuses)) {
             s.round_radiuses = [this.MIN_BUBBLE_RADIUS]
         }
+        console.log('[Painter pack] round_radiuses: ', s.round_radiuses);
     }, this);
     this.centerVertical()
 };
@@ -1742,6 +1798,7 @@ Painter.prototype.showSuPeConnections = function (startup, pePoints) {
     })
 };
 Painter.prototype.showSuConnections = function (permalink, vcPointsByRound, pePoints) {
+    console.log('[Painter] showSuConnections');
     this.runWhenRendered(function () {
         var startup = _.find(this.startups, function (s) {
             return s.permalink === permalink
@@ -1779,6 +1836,7 @@ Painter.prototype.runWhenRendered = function (task) {
     }
 };
 Painter.prototype.drawPacked = function () {
+    console.log('[Painter drawPacked');
     this.clear();
     var self = this,
         dateBlocks = this.drawBubbleDates(),
@@ -1795,12 +1853,13 @@ Painter.prototype.drawPacked = function () {
     var added = _.reject(this.startups, function (s) {
         return s.permalink in oldGrouped
     });
-    var retained = _.chain(this.startups).difference(added).each(function (s) {
+    var retained = _.chain(this.startups).difference(added).value();
+    _(retained).each(function (s) {
         var oldStartup = oldGrouped[s.permalink][0];
         s.oldX = oldStartup.x;
         s.oldY = oldStartup.y;
         s.oldRadius = oldStartup.radius
-    }).value();
+    });
 
     function getX(d) {
         return d.x + self.left
@@ -1836,7 +1895,7 @@ Painter.prototype.drawPacked = function () {
         onEnd.counter = counter
     }
     
-    console.log('[Painter drawPacked]');
+    console.log('[Painter drawPacked] ... bubble-removed');
 
     this.chart.selectAll(".bubble-removed")
         .data(removed).enter()
@@ -1887,6 +1946,7 @@ Painter.prototype.drawBubble = function (startup) {
         color = Categories[startup.category_code].color,
         strokeColor = d3.rgb(color).darker(1.5),
         textColor = color;
+
     g = this.chart.select(".bubbles")
             .append("g")
                 .datum(startup)
@@ -1894,6 +1954,8 @@ Painter.prototype.drawBubble = function (startup) {
                 .attr("width", (startup.radius + this.BUBBLE_PADDING) * 2)
                 .attr("height", startup.radius * 2 + this.BUBBLE_PADDING + titleHeight)
                 .attr("transform", "translate(" + x + "," + y + ")");
+
+    console.log('[Painter drawBubble] g: ', g,', titleHeight: ', titleHeight, ', {cx: ', cx, ', cy: ', cy, ', x: ', x, ', y: ', y, '), len: ', len, ', color: ', color, ', strokeColor: ', strokeColor, ', textColor: ', textColor);
 
     g.append("circle")
         .attr("cx", cx)
@@ -2443,6 +2505,8 @@ wizualyApp.controller('CategoryController', ['$scope', 'Data', '$http', function
                 'url': 'http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/categories/su/' + permalink + '/50'
             }).success(
                 function(data, status, headers, config){
+                    relationships.init();
+                    relationships.categories = Data.categories;
                     $scope.results[permalink] = data;
                 }
             ).error(
@@ -2476,7 +2540,7 @@ wizualyApp.controller('XController', ['$scope', 'Data', '$http', function($scope
                 $scope.x = normalizeXResults(data);
 
                 relationships.init();
-                relationships.doShow('su', data.permalink);
+                relationships.doShow('su', data.permalink, data, status, headers, config);
                 // console.log('data-normalized: ', $scope.x);
             }
         ).error(
