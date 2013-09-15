@@ -33,7 +33,7 @@
     <!--content-->
   <div class="relationships">
     <div id="content" class="content" ng-controller="XController">
-        <div class="col col-span-1">
+        <div class="col col-span-1 column1">
             <h2>Venture Capitalists</h2>
             <input type="text" class="auto-complete" placeholder="Search" autocomplete="off" source="http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/name/vc/" minlengh="2" />
             <div class="scroll-pane list-related list-vc list-vc-rounds">
@@ -44,12 +44,12 @@
                 </ul>
             </div>            
         </div>
-        <div class="col col-span-1 column-su">
+        <div class="col col-span-1 column-su column2">
             <h2>Startups</h2>
             <input type="text" class="auto-complete" placeholder="Search" autocomplete="off" source="http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/name/su/" minlength="2" />
             <div bubble-chart class="startup-graph" entities="x"></div>
         </div>
-        <div class="col col-span-1">
+        <div class="col col-span-1 column3">
             <h2>Founders</h2>
             <input type="text" class="auto-complete" placeholder="Search" autocomplete="off" source="http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/name/pe/" minlength="2" />
         </div>
