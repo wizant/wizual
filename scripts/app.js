@@ -1461,10 +1461,9 @@ Painter.prototype.getGradientId = function (category) {
     return "gradient-" + category
 };
 Painter.prototype.getGradientUrl = function (category) {
-    return '#999';
-    // TODO: underconstruction
-    // var path = location.pathname.replace(BASE_PATH, "");
-    // return path + "#" + this.getGradientId(category)
+    var BASE_PATH = window.location.pathname;
+    var path = location.pathname.replace(BASE_PATH, "");
+    return path + "#" + this.getGradientId(category)
 };
 Painter.prototype.createXScale = function () {
     var padding = 84600;
@@ -1478,8 +1477,12 @@ Painter.prototype.getTitleBBox = function (startup) {
             .attr("x", startup.x)
             .attr("y", 0)
             .style("fill", "transparent");
+
     console.log('[Painter getTitleBBox] chart: ', this.chart, ', startup: ', startup);        
     console.log('[Painter getTitleBBox] text: ', text);
+    console.log('[Painter getTitleBBox] text: ', text.node());
+    console.log('[Painter getTitleBBox] text: ', text.node().getBoundingClientRect());
+    console.log('[Painter getTitleBBox] text: ', text.node().getBBox());
 
     var bbox = text.node().getBBox();
     text.remove();
@@ -1534,6 +1537,8 @@ Painter.prototype.getPackedPositions = function (bubbleScale) {
                 x: blockLeft,
                 width: 0
             }, spareSpaceStart, y;
+
+            console.log('[Painter positions] blockLeft: ', blockLeft, ', title: ', title);
         for (var i = 1, len = levels.length; i < len; ++i) {
             var level = levels[i],
                 levelEnd = level[0],
@@ -1940,7 +1945,8 @@ Painter.prototype.drawBubble = function (startup) {
         g, titleHeight = this.getTitleHeight(startup),
         cx = startup.radius + this.BUBBLE_PADDING,
         cy = startup.radius + titleHeight,
-        x = startup.x - cx + this.left,
+        // x = startup.x - cx + this.left,
+        x = 0,
         y = startup.y - cy + this.top,
         len = startup.round_radiuses.length,
         color = Categories[startup.category_code].color,
@@ -2039,6 +2045,7 @@ Painter.prototype.drawBubbleDates = function () {
         var text = g.append("text").attr("class", "bubble-date").attr("text-anchor", "middle").attr("x", x).attr("y", y);
         text.append("tspan").attr("dy", -YEAR_HEIGHT).text(stringDayMonth);
         text.append("tspan").attr("class", "year").attr("x", x).attr("y", y).text(startup.founded_year);
+        console.log('[Painter drawBubbleDates] text: ', text.node().getBBox());
         var top = text.node().getBBox().y || y;
         g.append("line").attr("x1", x).attr("y1", self.top + startup.y + startup.radius).attr("x2", x).attr("y2", top);
         return g
@@ -2057,6 +2064,7 @@ Painter.prototype.drawBubbleDates = function () {
             dateBlock.classed("visible", true)
         }
         if (!textWidth) {
+            console.log('[Painter drawBubbleDates] textWidth: ', dateBlock.select("text").node().getBBox());
             textWidth = dateBlock.select("text").node().getBBox().width + 5
         }
         dateBlocks[startup.permalink] = dateBlock
@@ -2222,69 +2230,12 @@ angular.module('wizualy').directive('bubbleChart', function () {
             };
 
             scope.drawBubble = function (entity) {
-
                 console.log('[bubbleChart drawBubble]');
-
-                relationships.applyState('show');
-                return;
-
-                var g, self = this,
-                    content = $('#content'),
-                    strokeColor = '#000',
-                    cx = Math.ceil((container.x + container.width) / 2) - 300,
-                    cy = Math.ceil((container.y + container.height) / 2) - 80; 
-
-                var g = chart.append("g")
-                    .datum(entity)
-                        .attr("class", "bubble")
-                        .attr("width", container.width)
-                        .attr("height", container.height);
-
-                var R = Math.round(Math.min(container.height, container.width) * 0.3);
-
-                // console.log('entity: ', entity);
-                // console.log('total: ', entity.total, ', length: ', entity.funding_rounds.length);
-
-                var linearScale = d3.scale.linear().domain([0, entity.total]).range([MIN_BUBBLE_SIZE, R]);
-                // console.log('linear(2): ', linearScale(2));
-                // console.log('linear(167500000): ', linearScale(167500000));
-                // console.log('linear(90000000): ', linearScale(90000000));
-
-                g.append("circle")
-                    .attr("class", "bubble-round")
-                    .attr("cx", cx)
-                    .attr("cy", cy)
-                    .attr("r", R )
-                    .style("fill", '#9d844f');
-
-                var t = 0;
-                var round_radiuses = [];
-                var investors = [];
-                angular.forEach(entity.funding_rounds, function(e, i) {
-                    var r = linearScale(e.raised_amount + t);
-                    t += e.raised_amount;
-
-                    // add each funding .. as event timeline
-                    g.append("circle")
-                        .attr("class", "bubble-round")
-                        .attr("cx", cx)
-                        .attr("cy", cy)
-                        .attr("r",  r)
-                        .style("stroke", "#554")
-                        .style("stroke-width", 1.3)
-                        .style("fill", "transparent");
-
-                    round_radiuses.push(r);
-                    investors.push({investor: e, x: cx, y: cy + r});
-                });
-
-                // display the links between a VC (col1) and round
-                scope.showConnections(investors);
             };
 
             scope.$watch('entities', function(data){
                 if(typeof data != 'undefined') {
-                    // console.log('data: ', data.length);
+                    console.log('[watch entities] data: ', data.length);
 
                     scope.drawBubble(data);
                 } else {
@@ -2424,7 +2375,7 @@ function normalizeXResults(results) {
         email: results.email_address,
         description: results.description,
         overview: results.overview,
-        image: results.image[0].image,
+        image: results.image && results.image.length > 0 ? results.image[0].image : null,
         locations: results.offices,
         funding_rounds : results.funding_rounds,
         total : results.total_funding_raised,
@@ -2466,6 +2417,7 @@ wizualyApp.config(['$routeProvider', '$locationProvider',
     }).success(
         function(data, status, headers, config){
             Data.categories = data;
+            Categories.makeCategory(data.permalink, data.name, data.color);
         }
     ).error(
         function(data, status, headers, config){
