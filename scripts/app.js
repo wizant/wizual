@@ -2597,6 +2597,11 @@ wizualyApp.controller('YController', ['$scope', 'Data', '$http', function($scope
             $scope.getEntityData(next.params.permalink);
         }
     });
+
+    $scope.chartVisible = function() {
+        console.log("[YController chartVisible] visible: ", relationships.viewModel().chartVisible);
+        return relationships.viewModel().chartVisible
+    }
 }]);
 
 //search controller
