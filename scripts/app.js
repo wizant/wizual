@@ -2548,6 +2548,45 @@ wizualyApp.controller('XController', ['$scope', 'Data', '$http', function($scope
     });
 }]);
 
+//entity controller
+wizualyApp.controller('YController', ['$scope', 'Data', '$http', function($scope, Data, $http){
+
+    $scope.getEntityData = function(permalink){
+        $http({
+            'method': 'GET',
+            'url': 'http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com/vc-webapp/api/v3/relations/vc/' + permalink
+        }).success(
+            function(data, status, headers, config){
+                console.log('data: ', data);
+                console.log('Data: ', Data);
+                
+                // TODO: refactor this test, to be better (like Data.currentStartup === data), but to work recursivly
+                if (Data.currentY && Data.currentY.permalink === data.permalink) {
+                    // console.log('nothing to do ...');
+                    return;
+                }
+
+                Data.currentY = data;
+                // $scope.y = normalizeYResults(data);
+
+                relationships.init();
+                relationships.doShow('vc', data.permalink, data, status, headers, config);
+                // console.log('data-normalized: ', $scope.x);
+            }
+        ).error(
+            function(data, status, headers, config){
+            }
+        );
+    };
+
+    //get entity data when the route has changed
+    $scope.$on('$routeChangeSuccess', function(scope, next, current){
+        if(next.templateUrl === 'partials/y.html') {
+            $scope.getEntityData(next.params.permalink);
+        }
+    });
+}]);
+
 //search controller
 wizualyApp.controller('SearchController', ['$scope', function($scope){
 }]);
