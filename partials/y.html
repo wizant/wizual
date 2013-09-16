@@ -30,48 +30,48 @@
     <!--/header-->
 
     <!--content-->
-  <div class="relationships">
+  <div class="relationships" ng-controller="YController">
+    <div class="arrow-scale-container"></div>
     <div id="content" class="content" ng-controller="YController">
+        <div class="startup-graph" ></div>
+        <div class="column1">
+            <div class="list-container scrollable"></div>
+        </div>
+        <div class="column2 column-su"></div>
+        <div class="column3">
+            <div class="list-container scrollable"></div>
+        </div>
     </div>
   </div>
     <!--/content-->
 </div>
 
-<div ng-controller="XController">
+<div ng-controller="YController">
     <!--footer-->
     <footer id="footer">
-        <div class="content">
-            <div id="profile" class="clearfix">
-                <div class="col col-span-1">
-                    <a class="pull-left" ng-if="x.image" ng-href="{{ x.website }}" target="_blank">
-                        <img ng-src="{{ x.image }}" title="{{ x.name }}" />
-                    </a>
-                    <ul>
-                        <li ng-if="x.website">
-                            <span class="label">Website:</span>
-                            <a ng-href="{{ x.website }}" target="_blank">{{ x.website }}</a>
-                        </li>
-                        <li ng-if="x.twitter">
-                            <span class="label">Twitter:</span>
-                            <a ng-href="https:www.twitter.com/{{ x.twitter }}" target="_blank">@{{ x.twitter }}</a>
-                        </li>
-                        <li ng-if="x.email">
-                            <span class="label">Email:</span>
-                            <a ng-href="mailto:{{ x.email }}">{{ x.email }}</a>
-                        </li>
-                        <li ng-if="x.locations">
-                            <span class="label">Offices:</span>
-                            <span ng-repeat="location in x.locations">
-                                {{ location.city }}<span ng-if="location.state_code">,</span> {{ location.state_code }}
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col col-span-2 scroll-pane">
-                    <div ng-bind-html="x.overview"></div>
+        <div class="column2 bottom-controls">
+            <div class="slider-axis">
+                <div class="axis-chart"></div>
+                <div class="date-slider-container">
+                    <div class="slider-limit-low"></div>
+                    <div class="slider-limit-high"></div>
+                    <div class="date-slider" style="position: relative;"></div>
                 </div>
             </div>
         </div>
+        <div class="profiles">
+            <div class="col col-span-1">
+                <a class="pull-left" ng-if="y.image" ng-href="{{ y.website }}" target="_blank">
+                    <img ng-src="{{ y.image }}" title="No name" />
+                </a>
+                <ul>
+                    <li ng-if="y.website">
+                        <a ng-href="{{ y.website }}" target="_blank">{{ y.website }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
     </footer>
     <!--/footer-->
 </div>

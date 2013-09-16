@@ -2427,6 +2427,18 @@ function normalizeXResults(results) {
     }
 }
 
+function normalizeYResults(results) {
+    console.log('normalize Y results');
+    return {
+        type: results.type,
+        website: results.homepage_url,
+        twitter: results.twitter_username,
+        founded_year: results.founded_year ? results.founded_year : 'unknown',
+        image: results.image && results.image.length > 0 ? results.image[0].image : null,
+        startups: results.startups
+    }
+}
+
 //configure routes
 wizualyApp.config(['$routeProvider', '$locationProvider',
     function ($routeProvider, $locationProvider) {
@@ -2567,11 +2579,11 @@ wizualyApp.controller('YController', ['$scope', 'Data', '$http', function($scope
                 }
 
                 Data.currentY = data;
-                // $scope.y = normalizeYResults(data);
+                $scope.y = normalizeYResults(data);
 
                 relationships.init();
                 relationships.doShow('vc', data.permalink, data, status, headers, config);
-                // console.log('data-normalized: ', $scope.x);
+                console.log('data-normalized: ', $scope.y);
             }
         ).error(
             function(data, status, headers, config){
