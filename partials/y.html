@@ -1,0 +1,77 @@
+<div id="wrapper">
+    <header id="header" ng-controller="CategoryController">
+        <a href="#/" id="logo">Wizual</a>
+        <img src="../images/legend-rounds.png" width="127" height="105" class="pull-right" alt="" title="" />
+        <div class="content">
+            <nav id="categories" class="small-cats">
+                <ul>
+                    <li id="category-{{category.permalink}}" ng-repeat="category in categories" ng-mouseenter="getCategoryResults()" drop-down>
+                        <div class="cat-label">
+                            <span class="cat-color" ng-style="catColor(category, true)"></span>
+                            <span class="cat-name">{{category.name}}</span>
+                        </div>
+                        <div class="drop-down-wrap">
+                            <div ng-class="{'drop-down': true, 'drop-down-loaded': results[category.permalink].data.length}">
+                                <div class="scroll-pane">
+                                    <ul>
+                                        <li ng-repeat="result in results[category.permalink].data">
+                                            <a ng-href="#/x/{{ result.permalink }}">{{ result.name }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="note">Displaying 50 out of {{ results[category.permalink].count }} startups, sorted descending by total amount raised. Use the search option above if you are looking for a specific company.</div>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!--/header-->
+
+    <!--content-->
+  <div class="relationships">
+    <div id="content" class="content" ng-controller="YController">
+    </div>
+  </div>
+    <!--/content-->
+</div>
+
+<div ng-controller="XController">
+    <!--footer-->
+    <footer id="footer">
+        <div class="content">
+            <div id="profile" class="clearfix">
+                <div class="col col-span-1">
+                    <a class="pull-left" ng-if="x.image" ng-href="{{ x.website }}" target="_blank">
+                        <img ng-src="{{ x.image }}" title="{{ x.name }}" />
+                    </a>
+                    <ul>
+                        <li ng-if="x.website">
+                            <span class="label">Website:</span>
+                            <a ng-href="{{ x.website }}" target="_blank">{{ x.website }}</a>
+                        </li>
+                        <li ng-if="x.twitter">
+                            <span class="label">Twitter:</span>
+                            <a ng-href="https:www.twitter.com/{{ x.twitter }}" target="_blank">@{{ x.twitter }}</a>
+                        </li>
+                        <li ng-if="x.email">
+                            <span class="label">Email:</span>
+                            <a ng-href="mailto:{{ x.email }}">{{ x.email }}</a>
+                        </li>
+                        <li ng-if="x.locations">
+                            <span class="label">Offices:</span>
+                            <span ng-repeat="location in x.locations">
+                                {{ location.city }}<span ng-if="location.state_code">,</span> {{ location.state_code }}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col col-span-2 scroll-pane">
+                    <div ng-bind-html="x.overview"></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--/footer-->
+</div>

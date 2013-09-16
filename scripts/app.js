@@ -1104,11 +1104,14 @@ var relationships = {
         })
     },
     onVcMouseover: function (event) {
-        console.log('[relationships] onVcMouseover');
+        console.log('[relationships onVcMouseover]');
+
         if (this.viewModel.viewMode() == this.MODE_SHOW_SU) return;
         var $el = $(event.currentTarget);
         var permalink = $el.data("permalink"),
             point = this.getVcConnectionPoint($el);
+
+        console.log('[relationships onVcMouseover] permalink: ', permalink, ', point: ', point);
         this.painter.showVcConnections(permalink, point)
     },
     showSuConnections: function () {
@@ -1765,6 +1768,8 @@ Painter.prototype.showVcConnections = function (permalink, point) {
     })
 };
 Painter.prototype.hideVcConnections = function () {
+    console.log('[Painter hideVcConnections]');
+
     this.runWhenRendered(function () {
         this.chart.selectAll(".link-vc").remove()
     })

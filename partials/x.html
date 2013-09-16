@@ -39,7 +39,7 @@
             <div class="scroll-pane list-related list-vc list-vc-rounds">
                 <ul class="list-content" ng-repeat="round in x.funding_rounds">
                     <li class="item" ng-repeat="investor in round.investors">
-                        <label><span>{{ investor.name }}</span></label>
+                        <a ng-href="#/y/{{investor.permalink}}">{{ investor.name }}</a>
                     </li>
                 </ul>
             </div>            
