@@ -8,6 +8,49 @@
     $('a').filter(function(index){
         return /^https?:\/\/(www.)?/i.test($(this).attr('href')) && $(this).attr('href').toLowerCase().indexOf(window.location.hostname) == -1;
     }).attr('target', '_blank').addClass('external');
+
+    var defaults = {
+        format: function (value) {
+            return value
+        }
+    };
+    var methods = {
+        init: function (options) {
+            var opts = $.extend({}, defaults, options);
+            opts.change = function (eventName) {
+                functions.updateValues(this);
+                options.change && options.change.call(this, eventName)
+            };
+            this.noUiSlider("init", opts);
+            this.find(".noUi-handle div").append('<span class="slider-value">');
+            this.each(function () {
+                functions.updateValues($(this))
+            });
+            return this
+        },
+        toggleHandles: function (visible) {
+            this.find(".noUi-handle").toggle(visible);
+            return this
+        }
+    };
+    var functions = {
+        updateValues: function (slider) {
+            var values = slider.noUiSlider("value"),
+                format = functions.getOptions(slider).format;
+            slider.find(".noUi-lowerHandle .slider-value").html(format(values[0]));
+            slider.find(".noUi-upperHandle .slider-value").html(format(values[1]))
+        },
+        getOptions: function (slider) {
+            return slider.data("api").options
+        }
+    };
+    $.fn.noUiSliderMod = function (method, options) {
+        if (method in methods) {
+            return methods[method].call(this, options)
+        } else {
+            return this.noUiSlider(method, options)
+        }
+    }
 })(jQuery);
 
 /******************************************************************/
@@ -716,7 +759,7 @@ var relationships = {
         }, null, url)
     },
     setViewMode: function (action, target) {
-        console.log('[relationships] setViewMode');
+        console.log('[relationships] setViewMode');1
         var modeName = ("mode_" + action + "_" + target).toLocaleUpperCase();
         this.viewModel.viewMode(this[modeName])
     },
