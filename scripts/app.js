@@ -393,7 +393,6 @@ var relationships = {
     TIMEPOINT_FOUNDATION: 1,
     TIMEPOINT_ROUND1: 2,
     $: function (selector) {
-        console.log('[relationships] $');
         return $(selector, this.element)
     },
     init: function () {
@@ -997,7 +996,6 @@ var relationships = {
     },
     updateTimeAxis: function () {
         console.log('[relationships] updateTimeAxis');
-        this.initDateSlider();
         var values = this.dateSlider.noUiSliderMod("value"),
             yearWidth = this.calculateYearWidth(values[0], values[1]),
             handle1 = this.dateSlider.find(".noUi-lowerHandle"),
@@ -1067,7 +1065,6 @@ var relationships = {
             maxDate = dates[dates.length - 1];
 
         console.log('[relationships drawMultipleStartups] dates: ', dates, ', minDate: ', minDate, ', maxDate: ', maxDate);
-        this.initDateSlider();
         console.log('[relationships drawMultipleStartups] dateSlider: ', this.dateSlider);
         this.dateSlider.empty();
         this.viewModel.sliderVisible( !! minDate && startups.length > 1);
