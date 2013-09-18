@@ -403,7 +403,7 @@ var relationships = {
         console.log('[relationships] init');
         this.element = $(".relationships");
         this.svg = this.$(".startup-graph svg");
-        this.dateSlider = this.$(".date-slider");
+        this.initDateSlider();
         this.currentStartups = [];
         this.initPainter();
         this.initViewModel();
@@ -416,6 +416,15 @@ var relationships = {
             this.showSuConnectionsDeferred = _.throttle(this.showSuConnections, 100)
         }
         // window.deferRelationships.resolve()
+    },
+    initDateSlider: function () {
+        if (this.dateSlider == null) {
+            var dateSlider = this.$(".date-slider");
+            console.log('[relationships init] dateSlider: ', dateSlider);
+            this.dateSlider = dateSlider.length ? dateSlider : null;    
+        }
+        
+        console.log('[relationships init] this.dateSlider: ', this.dateSlider);
     },
     initViewModel: function () {
         console.log('[relationships] initViewModel');
@@ -742,7 +751,7 @@ var relationships = {
         this.pushState("show", target, permalink)
     },
     doShow: function (target, permalink, data, status, headers, config) {
-        console.log('[relationships] doShow');
+        console.log('[relationships doShow] target: ', target, ', permalink: ', permalink, ', data: ', data);
 
         if (!permalink) return;
         var self = this,
@@ -988,6 +997,7 @@ var relationships = {
     },
     updateTimeAxis: function () {
         console.log('[relationships] updateTimeAxis');
+        this.initDateSlider();
         var values = this.dateSlider.noUiSliderMod("value"),
             yearWidth = this.calculateYearWidth(values[0], values[1]),
             handle1 = this.dateSlider.find(".noUi-lowerHandle"),
@@ -1016,6 +1026,7 @@ var relationships = {
     prepareStartups: function () {
         console.log('[relationships] prepareStartups');
         var timepoint = this.viewModel.timePoint();
+        console.log('[relationships prepareStartups] timepoint: ', timepoint);
         _(this.currentStartups).each(function (startup) {
             if (timepoint == this.TIMEPOINT_FOUNDATION) {
                 startup.date = startup.founded_date
@@ -1047,15 +1058,17 @@ var relationships = {
         startups = _.filter(startups, function (s) {
             return s.date
         });
-
         if (startups.length <= 0) {
-            console.log('no startups to display ... nothing to do');
+            console.log('[relationships drawMultipleStartups] no startups to display ... nothing to do');
             return;
-        }
-
+        };
         var dates = _.chain(startups).pluck("date").sortBy(_.identity).value(),
             minDate = dates[0],
             maxDate = dates[dates.length - 1];
+
+        console.log('[relationships drawMultipleStartups] dates: ', dates, ', minDate: ', minDate, ', maxDate: ', maxDate);
+        this.initDateSlider();
+        console.log('[relationships drawMultipleStartups] dateSlider: ', this.dateSlider);
         this.dateSlider.empty();
         this.viewModel.sliderVisible( !! minDate && startups.length > 1);
         this.dateSlider.noUiSliderMod("init", {
@@ -2435,6 +2448,7 @@ function normalizeYResults(results) {
         twitter: results.twitter_username,
         founded_year: results.founded_year ? results.founded_year : 'unknown',
         image: results.image && results.image.length > 0 ? results.image[0].image : null,
+        permalink: results.crunchbase_url.split('/').slice(-1)[0],
         startups: results.startups
     }
 }
@@ -2571,18 +2585,15 @@ wizualyApp.controller('YController', ['$scope', 'Data', '$http', function($scope
             function(data, status, headers, config){
                 console.log('data: ', data);
                 console.log('Data: ', Data);
-                
-                // TODO: refactor this test, to be better (like Data.currentStartup === data), but to work recursivly
-                if (Data.currentY && Data.currentY.permalink === data.permalink) {
-                    // console.log('nothing to do ...');
-                    return;
-                }
 
+                if (!data.crunchbase_url)
+                    return;
+                
                 Data.currentY = data;
                 $scope.y = normalizeYResults(data);
 
                 relationships.init();
-                relationships.doShow('vc', data.permalink, data, status, headers, config);
+                relationships.doShow('vc', $scope.y.permalink, data, status, headers, config);
                 console.log('data-normalized: ', $scope.y);
             }
         ).error(
@@ -2599,8 +2610,8 @@ wizualyApp.controller('YController', ['$scope', 'Data', '$http', function($scope
     });
 
     $scope.chartVisible = function() {
-        console.log("[YController chartVisible] visible: ", relationships.viewModel().chartVisible);
-        return relationships.viewModel().chartVisible
+        console.log('[YController] chartVisible: ', relationships.initialized ? relationships.viewModel.chartVisible() : false);
+        return relationships.initialized && relationships.viewModel && relationships.viewModel.chartVisible();
     }
 }]);
 
