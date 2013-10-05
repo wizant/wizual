@@ -1,17 +1,18 @@
 var API = {
-    root: API_BASE_PATH + "/api/v3/",
+    // root: API_BASE_PATH + "/api/v3/",
+    root: API_BASE_PATH + "/",
     pathSearch: {
-        vc: "name/vc/",
-        su: "name/su/",
-        pe: "name/pe/"
+        vc: "name/3p/",
+        su: "name/case/",
+        pe: "name/law/"
     },
     pathCounts: "stats/count",
-    pathCategories: "categories/su/",
+    pathCategories: "categories/case/",
     retryLimit: 3,
     pathRelations: {
-        vc: "relations/vc/",
-        su: "relations/su/",
-        pe: "relations/pe/"
+        vc: "relations/3p/",
+        su: "relations/case/",
+        pe: "relations/law/"
     },
     lastRelationsData: {
         target: null,
