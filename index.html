@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="The Startup Universe"/>
+        <meta property="og:description" content="Uncover new stories and make sense of the complex relationships between startups, founders and Venture Capitalists with Visually's Startup Universe" />
+        <meta property="og:image"       content="http://visual.ly/vizbox/startup-universe/img/preview2.png" />
+
+        <base href="">
+
+        <script>
+            var BASE_PATH = document.getElementsByTagName('base')[0].getAttribute('href');
+            var API_BASE_PATH = "http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com:80/vc-webapp";
+        </script>
+
+        <script>
+            var supportsHistory = !!(window.history && history.pushState);
+
+            // redirect from a 'true' human-readable url to 'hashtag' navigation in browsers not supporting History API (IE<10)
+            if (!supportsHistory && location.href.indexOf(BASE_PATH + '#') === -1) {
+                location.replace(location.href.replace(BASE_PATH, BASE_PATH + '#'));
+            }
+        </script>
+
+        <link rel="stylesheet" href="startup-universe/css/normalize.css">
+        <link rel="stylesheet" href="startup-universe/css/main.css">
+    </head>
+    <body>
+        <!-- Content -->
+        <div id="fb-root"></div>
+
+        <div class="tab relationships" data-bind="css: {
+            'home-page': isHomeMode,
+            'about-page-mode': isAboutPage,
+            'view-mode-su': viewMode() == relationships.MODE_SHOW_SU,
+            'view-mode-pe': viewMode() == relationships.MODE_SHOW_PE
+        }">
+            <div class="legend">
+                <div class="column1">
+                    <a class="title" href="startup-universe.html">
+                        <h1>The Startup Universe</h1>
+                        <h2>A Visual Guide to Startups, Founders & Venture Capitalists</h2>
+                    </a>
+                    <div class="about-button" data-bind="click: showAboutPage">About</div>
+                </div>
+                <div class="column2 hidden" data-bind="css: {hidden: isHomeMode}">
+                    <div class="categories-wrapper">
+                        <ul class="categories" data-bind="foreach: legendCategories">
+                            <li class="item" data-bind="attr: {'data-category': id}, css: {inactive: inactive, active: $root.homeCategory() && $root.homeCategory().id === id}">
+                                <div class="inner">
+                                    <span class="mark" data-bind="style: {backgroundColor: color}"></span>
+                                    <span class="name" data-bind="text: name"></span>
+                                </div>
+                            </li>
+                            <!-- ko if: $index() == $parent.legendCategories.length - 1 -->
+                            <div class="tooltip" data-bind="visible: $root.homeCategory, css: {loading: $root.homeCategoryLoading}, with: $root">
+                                <div class="acResultsInner">
+                                    <ul data-bind="template: {name: 'template-tooltip-results'}">
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- /ko -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="column3 hidden" data-bind="css: {hidden: isHomeMode}">
+                    <div class="legend-rounds"></div>
+                </div>
+                <div class="column3 home-only">
+                    <div class="crunchbase-attribution">
+                        <a class="crunchbase-logo" href="http://www.crunchbase.com/" title="CrunchBase"></a>
+                        <span>data from </span>
+                    </div>
+                </div>
+            </div>
+            <h2 class="home-caption home-only" data-bind="visible: isHomeMode">Search, view startups by category</h2>
+            <div class="search-block">
+                <div class="column1 column-vc">
+                    <h2 class="column-title">Venture Capitalists</h2>
+                    <div class="search-widget">
+                        <input type="text" data-bind="attr: {'placeholder': totals.vc.prompt}">
+                    </div>
+                </div>
+                <div class="column2 column-su">
+                    <h2 class="column-title">Startups</h2>
+                    <div class="search-widget">
+                        <input type="text" data-bind="attr: {'placeholder': totals.su.prompt}">
+                        <div class="sharing hidden" data-bind="css: {hidden: isHomeMode}">
+                            <span class="enabled share-button facebook-button" data-bind="attr: {'title': 'Share ' + activeObjectName()}"><span class="icon">
+                                <svg x="0px" y="0px" width="100%" height="100%" viewBox="0 0 13.769 13.771" enable-background="new 0 0 13.769 13.771">
+                                    <g>
+                                        <path class="icon-outline" fill="#BFBEBF" d="M13.769,12.882c0,0.491-0.396,0.889-0.888,0.889H0.888C0.397,13.771,0,13.373,0,12.882V0.889 C0,0.398,0.397,0,0.888,0h11.993c0.491,0,0.888,0.398,0.888,0.889V12.882z"/>
+                                        <rect x="0.407" y="10.77" fill="#BFBEBF" width="12.956" height="2.004"/>
+                                        <path fill="#FFFFFF" d="M10.147,12.772H7.796V7.081H6.621v-1.96h1.175V3.943c0-1.601,0.663-2.551,2.547-2.551h1.568v1.96h-0.979 c-0.733,0-0.782,0.274-0.782,0.785L10.147,5.12h1.776l-0.207,1.961h-1.569V12.772z"/>
+                                    </g>
+                                </svg>
+                            </span><span class="count"></span></span>
+                            <span class="enabled share-button twitter-button" st_via="" st_username="visually" data-bind="attr: {'title': 'Share ' + activeObjectName()}"><span class="icon">
+                                <svg x="0px" y="0px" width="100%" height="100%" viewBox="0 0 16.822 13.77" enable-background="new 0 0 16.822 13.77">
+                                    <g transform="translate(-282.07284,-395.84327)">
+                                        <g transform="matrix(0.125,0,0,-0.125,280.82284,538.26355)">
+                                            <path class="icon-outline" fill="#878787" d="M94.305,1138.065c-12.152-4.383-19.836-15.656-18.961-28.008l0.289-4.766l-4.859,0.586 c-17.695,2.242-33.156,9.82-46.285,22.555l-6.418,6.328l-1.652-4.672c-3.504-10.406-1.27-21.391,6.027-28.781 c3.891-4.086,3.012-4.664-3.695-2.234c-2.332,0.773-4.375,1.359-4.57,1.063c-0.68-0.68,1.652-9.523,3.5-13.023 c2.527-4.867,7.684-9.633,13.32-12.453l4.766-2.234l-5.641-0.094c-5.445,0-5.637-0.102-5.055-2.141 c1.945-6.328,9.629-13.031,18.184-15.945l6.031-2.047l-5.25-3.109c-7.785-4.477-16.922-7-26.063-7.195 c-4.379-0.102-7.973-0.484-7.973-0.781c0-0.969,11.863-6.414,18.766-8.547c20.711-6.328,45.316-3.609,63.789,7.188 c13.125,7.68,26.258,22.953,32.383,37.727c3.305,7.875,6.617,22.273,6.617,29.18c0,4.469,0.289,5.055,5.734,10.398 c3.211,3.117,6.219,6.516,6.805,7.492c0.977,1.852,0.875,1.852-4.086,0.195c-8.266-2.922-9.43-2.531-5.344,1.844 c3.016,3.117,6.609,8.75,6.609,10.406c0,0.289-1.453-0.203-3.109-1.07c-1.75-0.969-5.641-2.43-8.563-3.305l-5.25-1.648 l-4.766,3.203c-2.625,1.75-6.313,3.695-8.266,4.273C106.367,1139.815,98.773,1139.62,94.305,1138.065z"/>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </span><span class="count"></span></span>
+                            <span class="enabled share-button linked-button" data-bind="attr: {'title': 'Share ' + activeObjectName()}"><span class="icon">
+                                <svg x="0px" y="0px" width="100%" height="100%" viewBox="0 0 13.181 13.181" enable-background="new 0 0 13.181 13.181">
+                                    <g>
+                                        <path class="icon-outline" fill="#878787" d="M11.191,0H1.989C0.891,0,0,0.891,0,1.99v9.2c0,1.1,0.891,1.99,1.989,1.99h9.202 c1.099,0,1.989-0.891,1.989-1.99v-9.2C13.181,0.892,12.29,0,11.191,0z M3.988,11.064H2.006V5.104h1.982V11.064z M2.997,4.29H2.984 c-0.665,0-1.096-0.458-1.096-1.03c0-0.585,0.443-1.03,1.121-1.03c0.679,0,1.096,0.445,1.109,1.03 C4.119,3.832,3.688,4.29,2.997,4.29z M11.132,11.064h-1.98V7.875c0-0.801-0.287-1.348-1.004-1.348 c-0.548,0-0.873,0.368-1.017,0.726C7.078,7.38,7.064,7.558,7.064,7.736v3.328h-1.98c0,0,0.026-5.402,0-5.961h1.98v0.844 C7.328,5.542,7.798,4.963,8.85,4.963c1.306,0,2.282,0.852,2.282,2.684V11.064z"/>
+                                        <path class="icon-outline" fill="#878787" d="M7.064,5.967v-0.02c-0.004,0.006-0.008,0.014-0.013,0.02H7.064z"/>
+                                    </g>
+                                </svg>
+                            </span><span class="count"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="column3 column-pe">
+                    <h2 class="column-title">Founders</h2>
+                    <div class="search-widget">
+                        <input type="text" data-bind="attr: {'placeholder': totals.pe.prompt}">
+                    </div>
+                </div>
+            </div>
+            <div class="home-controls home-only">
+                <div class="home-categories">
+                    <div class="categories-wrapper">
+                        <ul class="categories" data-bind="foreach: legendCategories">
+                            <li class="item" data-bind="attr: {'data-category': id}, css: {active: $root.homeCategory() && $root.homeCategory().id === id}">
+                                <div class="inner">
+                                    <span class="mark" data-bind="style: {backgroundColor: color}"></span>
+                                    <span class="name" data-bind="text: name"></span>
+                                </div>
+                            </li>
+                            <!-- ko if: $index() == $parent.legendCategories.length - 1 -->
+                            <div class="tooltip" data-bind="visible: $root.homeCategory, css: {loading: $root.homeCategoryLoading}, with: $root">
+                                <div class="acResultsInner">
+                                    <ul data-bind="template: {name: 'template-tooltip-results'}">
+                                    </ul>
+                                </div>
+                                <div class="note">Displaying
+                                    <span data-bind="visible: !homeCategoryDataTruncated()">all <span data-bind="text: homeCategoryDataCount"></span></span>
+                                    <span data-bind="visible: homeCategoryDataTruncated"><span data-bind="text: homeCategoryDataLimit"></span> out of <span data-bind="text: homeCategoryDataCount"></span></span>
+                                    startups, sorted descending by total amount raised. Use the search option above if you are looking for a specific company.</div>
+                            </div>
+                            <!-- /ko -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="guide-prompt-container">
+                    <span class="guide-prompt" data-bind="click: startTutorial">or see our guide here <span class="play-button"></span></span>
+                </div>
+                <div class="following">
+                    <div class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="true" data-href="http://visual.ly/vizbox/startup-universe/"></div>
+                    <a href="https://twitter.com/visually" class="twitter-follow-button" data-show-count="false">Follow @visually</a>
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                </div>
+            </div>
+            <div class="arrow-scale-container">
+                <div class="arrow-scale-floater">
+                    <div class="arrow-scale-value" data-bind="text: scaleFormatted"></div>
+                    <div class="arrow-scale-outer">
+                        <div class="arrow-scale-inner"></div>
+                    </div>
+                    <div class="arrow-scale-round-info" data-bind="html: scaleRoundInfo"></div>
+                </div>
+            </div>
+            <div class="content clearfix" data-bind="css: {loading: loading}">
+                <div class="startup-graph" data-bind="visible: chartVisible">
+                    <svg></svg>
+                </div>
+                <div class="column1">
+                    <div class="list-container scrollable">
+                        <div class="list-related list-vc" data-bind="foreach: vcRelated, css: {'list-vc-rounds': activeSU}">
+                            <ul class="list-content" data-bind="foreach: $data">
+                                <li class="item" data-bind="attr: {'data-permalink': permalink}">
+                                    <label>
+                                        <span class="index" data-bind="visible: $root.vcRelated().length > 1, text: ($parentContext.$index()+1)+'. '"></span>
+                                        <input type="radio" name="vc-list-item" data-bind="value: permalink, checked: $root.selectedVC">
+                                        <span data-bind="text: name"></span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="column2 column-su"></div>
+                <div class="column3">
+                    <div class="list-container scrollable">
+                        <div class="list-related list-pe" data-bind="template: {name: 'template-related-pe'}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="column2 bottom-controls hidden" data-bind="css: {hidden: !chartVisible()}">
+                    <div class="slider-axis" data-bind="css: {'slider-hidden': !sliderVisible()}">
+                        <div class="axis-chart"><svg>
+                            <line class="axis-selected" x1="0" y1="0" x2="100%" y2="0"></line>
+                            <g class="axis-total">
+                                <line class="segment1" x1="0" y1="100%" x2="100%" y2="100%"></line>
+                                <line class="segment2" x1="0%" y1="100%" x2="100%" y2="100%"></line>
+                            </g>
+                            <g class="axis-connection axis-connection-1">
+                                <line class="segment1" x1="0" y1="20%" x2="0" y2="50%"></line>
+                                <line class="segment2" x1="0" y1="50%" x2="0" y2="50%"></line>
+                                <line class="segment3" x1="0" y1="50%" x2="0" y2="80%"></line>
+                            </g>
+                            <g class="axis-connection axis-connection-2">
+                                <line class="segment1" x1="100%" y1="20%" x2="100%" y2="50%"></line>
+                                <line class="segment2" x1="100%" y1="50%" x2="100%" y2="50%"></line>
+                                <line class="segment3" x1="100%" y1="50%" x2="100%" y2="80%"></line>
+                            </g>
+                        </svg></div>
+                        <div class="date-slider-container">
+                            <div class="slider-limit-low" data-bind="html: sliderLimitLow"></div>
+                            <div class="slider-limit-high" data-bind="html: sliderLimitHigh"></div>
+                            <div class="date-slider noUiSlider"></div>
+                        </div>
+                    </div>
+                    <div class="timepoint">
+                        <label for="timepoint-selector">TIME of</label>
+                        <select id="timepoint-selector" data-bind="value: timePoint">
+                            <option value="1">FOUNDATION</option>
+                            <option value="2">ROUND 1</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="profiles">
+                    <div class="column1">
+                        <div class="profile profile-vc hidden" data-bind="css: {hidden: viewMode() != relationships.MODE_SHOW_VC}, with: activeVC">
+                            <img class="profile-image" data-bind="attr: {'src': image_url}, visible: image_url" />
+                            <div class="attributes">
+                                <div class="value-row value name" data-bind="text: name, attr: {title: name}"></div>
+                                <div class="value-row value year" data-bind="visible: founded_year > 0, text: founded_year"></div>
+                                <div class="value-row homepage" data-bind="visible: homepage_url">
+                                    <a class="value" data-bind="attr: {href: homepage_url}, text: homepage_url"></a>
+                                </div>
+                                <div class="value-row twitter" data-bind="visible: twitter_username">
+                                    <a class="value" data-bind="attr: {href: 'https://twitter.com/' + twitter_username}, text: twitter_username && ('@' + twitter_username)"></a>
+                                </div>
+                            </div>
+                            <div class="crunchbase-link">
+                                <a data-bind="attr: {'href': crunchbase_url}" target="_blank">Is this you? Update CrunchBase here</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column2">
+                        <div class="profile profile-su hidden" data-bind="css: {hidden: !activeSU()}, with: activeSU">
+                            <div class="col col1">
+                                <div class="attributes-container scrollable">
+                                    <div class="logo-container">
+                                        <img class="logo" data-bind="visible: image_url, attr: {src: image_url}" alt="logo">
+                                    </div>
+                                    <ul class="startup-attributes">
+                                        <li>
+                                            <span class="attribute">Category</span>
+                                            <span class="value" data-bind="text: Categories[category_code].name"></span>
+                                        </li>
+                                        <li>
+                                            <span class="attribute">Website</span>
+                                            <a class="value" data-bind="attr: {href: homepage_url}, text: homepage_url"></a>
+                                        </li>
+                                        <li>
+                                            <span class="attribute">Twitter</span>
+                                            <a class="value" data-bind="attr: {href: 'https://twitter.com/' + twitter_username}, text: twitter_username && ('@' + twitter_username)"></a>
+                                        </li>
+                                        <li>
+                                            <span class="attribute">Email</span>
+                                            <a class="value" data-bind="attr: {href: 'mailto:' + email_address}, text: email_address"></a>
+                                        </li>
+                                        <li>
+                                            <span class="attribute">Offices</span>
+                                            <span class="value" data-bind="text: officeString"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="crunchbase-link">
+                                    <a data-bind="attr: {'href': crunchbase_url}" target="_blank">Is this you? Update CrunchBase here</a>
+                                </div>
+                            </div>
+                            <div class="col col2 scrollable">
+                                <div class="overview" data-bind="html: overview"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column3">
+                        <div class="profile profile-pe hidden" data-bind="css: {hidden: viewMode() != relationships.MODE_SHOW_PE}, with: activePE">
+                            <img class="profile-image" data-bind="attr: {'src': image_url}, visible: image_url" />
+                            <div class="attributes">
+                                <div class="value-row value name" data-bind="text: name, attr: {title: name}"></div>
+                                <div class="value-row value year" data-bind="visible: born_year > 0, text: born_year"></div>
+                                <div class="value-row homepage" data-bind="visible: homepage_url">
+                                    <a class="value" data-bind="attr: {href: homepage_url}, text: homepage_url"></a>
+                                </div>
+                                <div class="value-row twitter" data-bind="visible: twitter_username">
+                                    <a class="value" data-bind="attr: {href: 'https://twitter.com/' + twitter_username}, text: twitter_username && ('@' + twitter_username)"></a>
+                                </div>
+                            </div>
+                            <div class="crunchbase-link">
+                                <a data-bind="attr: {'href': crunchbase_url}" target="_blank">Is this you? Update CrunchBase here</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="logo-visually" href="http://visual.ly/"></a>
+            </div>
+
+            <div class="about-page-container">
+
+                <div class="about-page">
+                    <div class="about-overlay">
+                        <svg class="about-decoration" viewBox="0 0 30 100" preserveAspectRatio="none">
+                        	<path d="M-0.5,-0.5 a90,70,0,0,1,0,101 z"></path>
+                    	</svg>
+                    </div>
+
+                    <a class="title" href="startup-universe.html">
+                        <h1>The Startup Universe</h1>
+                        <h2>A Visual Guide to Startups, Founders & Venture Capitalists</h2>
+                    </a>
+
+                    <div class="about-content">
+                        <p>The Startup Universe displays and explores the relationships between startup companies and their founders and investors (Venture Capitalists) since 1990.</p>
+                        <p>Startups are grouped into 19 categories, based on the type of products or services they deliver. Each category is represented by an unique color. In addition to that, startups are visually sized according to the amount of financing they have raised, with each individual round displayed as well.</p>
+                        <p>Startups are positioned within the main interface on a horizontal interactive timeline, based on the year they were founded. Details about each company are provided below the timeline.</p>
+                        <p>By clicking on the left or right columns - Venture Capitalist or Founders' names - tangential stories can be explored: how many startups has a VC company funded and are there any time or startup category trends or patterns? How many startups have been founded by the same person?</p>
+                        <p>Startups, VCs and founders can also be directly browsed by entering a name in the search field.</p>
+                        <p>All data comes from the <a href="http://www.crunchbase.com/">CrunchBase</a> API.</p>
+                        <p>The Startup Universe aims at being a comprehensive exploratory view of the past 22 years (and counting) of startup life. As you explore our tool, we hope you will discover new stories, relationships and trends.</p>
+                        <div class="credits"><p><h3>Credits:</h3></p>
+                            <div class="logos clearfix">
+                                <div class="credit">
+                                    <a class="credit-logo logo-accurat" href="http://visual.ly/users/accurat"></a><br>
+                                    <a class="credit-name" href="http://visual.ly/users/accurat">Accurat</a><br>
+                                    <span class="credit-role">Design & Back End Development</span>
+                                </div>
+                                <div class="credit">
+                                    <a class="credit-logo logo-ben" href="http://visual.ly/users/bwillers"></a><br>
+                                    <a class="credit-name" href="http://visual.ly/users/bwillers">Ben Willers</a><br>
+                                    <span class="credit-role">Graphic<br>Design</span>
+                                </div>
+                                <div class="credit">
+                                    <a class="credit-logo logo-visually-icon" href="http://visual.ly/"></a><br>
+                                    <a class="credit-name" href="http://visual.ly/">Visual.ly</a><br>
+                                    <span class="credit-role">Concept, Direction & Front End Development</span>
+                                </div>
+                            </div>
+                            <p class="credit-marketplace">Produced and created in the <a href="https://marketplace.visual.ly/?source=startupuniverse&utm_campagin=suu&utm_source=suu">Visual.ly marketplace</a></p>
+                            <a class="credit-team" href="https://marketplace.visual.ly/?source=startupuniverse&utm_campagin=suu&utm_source=suu" target="_blank">Work with this team in the marketplace</a>
+                        </div>
+                    </div>
+
+                    <div class="exit-button" data-bind="click: hideAboutPage">exit</div>
+                </div>
+            </div>
+
+            <div class="tutorial-container hidden">
+                <svg></svg>
+                <div class="tutorial-contols-container">
+                    <div class="tutorial-controls">
+                        <div class="exit-button">exit</div>
+                        <div class="slide-title"></div>
+                        <button class="play-button"></button>
+                        <div class="slide-number">
+                            <span class="slide-index"></span>/<span class="slide-count"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="notification-container" data-bind="style: {display: notification() ? 'block' : 'none'}">
+                <div class="notification" data-bind="html: notification"></div>
+            </div>
+        </div>
+
+        <!-- Templates -->
+        <script type="text/x-template" id="template-tooltip-results">
+            <% _.each(homeCategoryDataToShow(), function (item) { %>
+                <li class="tooltip-item" data-permalink="<%= item.permalink %>"><%- item.name %></li>
+            <% }) %>
+        </script>
+
+        <script type="text/x-template" id="template-related-pe">
+            <% _.each(peRelated(), function (peGroup, groupIndex) { %>
+            <ul class="list-content">
+                <% _.each(peGroup, function (pe) { %>
+                <li class="item" data-permalink= "<%= pe.permalink %>">
+                    <label class="founder">
+                        <% if (peRelated().length > 1) { %>
+                        <span><% print( (groupIndex + 1) + '. ' ) %></span>
+                        <% } %>
+                        <input type="radio" name="pe-list-item" value="<%= pe.permalink %>" data-bind="checked: $root.selectedPE">
+                        <span><%= pe.name %></span>
+                    </label>
+                </li>
+                <% }) %>
+            </ul>
+            <% }) %>
+        </script>
+
+        <!-- Scripts -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <!-- script>window.jQuery || document.write('<script src="http://visual.ly/vizbox/startup-universe/js/vendor/jquery-1.8.3.min.js"><\/script>')</script -->
+
+        <script>
+            // Facebook & LinkedIn stuff
+            // Need to make sure FB api method is called first, otherwise it gets broken forever for some reason
+            var deferFb = $.Deferred(),
+                deferIn = $.Deferred(),
+                deferRelationships = $.Deferred();
+
+            $.when(deferFb, deferIn, deferRelationships).done(function () {
+                relationships.updateLinkedButton();
+            });
+
+            function onLinkedLoad () {
+                deferIn.resolve();
+            }
+
+            window.fbAsyncInit = function () {
+                try{
+                    FB.init({ appId: 378603928924142,
+                        cookie: true, xfbml: true, oauth: true });
+
+                    if (typeof facebookInit == 'function') {
+                        facebookInit();
+                    }
+
+                    deferRelationships.done(function () {
+                        relationships.updateFacebookButton()
+                                .done(deferFb.resolve);
+                    });
+                }catch(err){}
+            };
+
+            (function(d){
+                var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+                js = d.createElement('script'); js.id = id; js.async = true;
+                js.src = "//connect.facebook.net/en_US/all.js";
+                d.getElementsByTagName('head')[0].appendChild(js);
+            })(document);
+
+            $(document).ready(function() {
+                $.getScript(
+                    "http://platform.linkedin.com/in.js?async=true",
+                    function success() { IN.init({ onLoad: "onLinkedLoad" }); }
+                );
+            });
+        </script>
+
+        <script src="startup-universe/js/vendor.js"></script>
+        <script src="startup-universe/js/user.js"></script>
+
+        <script type="text/javascript">stLight.options({publisher: "01481fa9-0114-4da1-835c-ba700063a231",onhover: false}); </script>
+    </body>
+</html>
