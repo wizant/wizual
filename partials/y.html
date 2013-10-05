@@ -2,7 +2,7 @@
     <header id="header" ng-controller="CategoryController">
         <a href="#/" id="logo">Wizual</a>
         <img src="../images/legend-rounds.png" width="127" height="105" class="pull-right" alt="" title="" />
-        <div class="content">
+        <div>
             <nav id="categories" class="small-cats">
                 <ul>
                     <li id="category-{{category.permalink}}" ng-repeat="category in categories" ng-mouseenter="getCategoryResults()" drop-down>
@@ -53,7 +53,11 @@
                 <div class="date-slider-container">
                     <div class="slider-limit-low"></div>
                     <div class="slider-limit-high"></div>
-                    <div class="date-slider" style="position: relative;"></div>
+                    <div class="date-slider" style="position: relative;">
+                        <div class="noUi-handle noUi-lowerHandle" style="position: absolute; left: 0px; z-index: 1;"></div>
+                        <div class="noUi-midBar" style="position: absolute; left: 0px; right: 0px;"></div>
+                        <div class="noUi-handle noUi-upperHandle" style="position: absolute; left: 560px; z-index: 2;"></div>
+                    </div>
                 </div>
             </div>
         </div>

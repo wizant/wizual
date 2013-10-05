@@ -14,37 +14,49 @@
             return value
         }
     };
+
     var methods = {
         init: function (options) {
+            console.log('[noUiSlider init]');
             var opts = $.extend({}, defaults, options);
+            console.log('[noUiSlider change');
             opts.change = function (eventName) {
                 functions.updateValues(this);
                 options.change && options.change.call(this, eventName)
             };
-            this.noUiSlider("init", opts);
+            console.log('[noUiSlider again init with opts: ', opts, ' options: ', options);
+            if (opts != options)
+                this.noUiSlider("init", opts);
+            
+            console.log('[noUiSlider find');
             this.find(".noUi-handle div").append('<span class="slider-value">');
+            console.log('[noUiSlider updatevalues');
             this.each(function () {
                 functions.updateValues($(this))
             });
             return this
         },
         toggleHandles: function (visible) {
+            console.log('[noUiSlider toggleHandles]');
             this.find(".noUi-handle").toggle(visible);
             return this
         }
     };
     var functions = {
         updateValues: function (slider) {
+            console.log('[noUiSlider updateValues]');
             var values = slider.noUiSlider("value"),
                 format = functions.getOptions(slider).format;
             slider.find(".noUi-lowerHandle .slider-value").html(format(values[0]));
             slider.find(".noUi-upperHandle .slider-value").html(format(values[1]))
         },
         getOptions: function (slider) {
+            console.log('[noUiSlider getOptions]');
             return slider.data("api").options
         }
     };
     $.fn.noUiSliderMod = function (method, options) {
+        console.log('[noUiSlider constructor]');
         if (method in methods) {
             return methods[method].call(this, options)
         } else {
@@ -1123,6 +1135,9 @@ var relationships = {
                 self.resetScaleLegend()
             }
         });
+
+        console.log('[relationships drawMultipleStartups] dateSlider: ');
+
         this.initTimeAxis(minDate, maxDate);
         this.updateTimeAxis();
         this.viewModel.sliderLimitLow(formatDate(minDate));
