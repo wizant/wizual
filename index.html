@@ -7,8 +7,8 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <meta property="og:type" content="website"/>
-        <meta property="og:title" content="The Startup Universe"/>
-        <meta property="og:description" content="Uncover new stories and make sense of the complex relationships between startups, founders and Venture Capitalists with Visually's Startup Universe" />
+        <meta property="og:title" content="The Case Universe"/>
+        <meta property="og:description" content="Uncover new stories and make sense of the complex relationships between startups, Lawyers and Third Parties with Visually's Startup Universe" />
         <meta property="og:image"       content="http://visual.ly/vizbox/startup-universe/img/preview2.png" />
 
         <base href="">
@@ -18,6 +18,7 @@
             // var API_BASE_PATH = "http://vc-interactive-lb-393591138.us-east-1.elb.amazonaws.com:80/vc-webapp";
             var API_BASE_PATH = BASE_PATH + "/data";
         </script>
+
 
         <script>
             var supportsHistory = !!(window.history && history.pushState);
@@ -43,9 +44,9 @@
         }">
             <div class="legend">
                 <div class="column1">
-                    <a class="title" href="startup-universe.html">
-                        <h1>The Startup Universe</h1>
-                        <h2>A Visual Guide to Startups, Founders & Venture Capitalists</h2>
+                    <a class="title" href="index.html">
+                        <h1>The Case Universe</h1>
+                        <h2>A Visual Guide to Cases, Lawyers & Third Parties</h2>
                     </a>
                     <div class="about-button" data-bind="click: showAboutPage">About</div>
                 </div>
@@ -79,16 +80,16 @@
                     </div>
                 </div>
             </div>
-            <h2 class="home-caption home-only" data-bind="visible: isHomeMode">Search, view startups by category</h2>
+            <h2 class="home-caption home-only" data-bind="visible: isHomeMode">Search, view cases by category</h2>
             <div class="search-block">
                 <div class="column1 column-vc">
-                    <h2 class="column-title">Venture Capitalists</h2>
+                    <h2 class="column-title">Third Parties</h2>
                     <div class="search-widget">
                         <input type="text" data-bind="attr: {'placeholder': totals.vc.prompt}">
                     </div>
                 </div>
                 <div class="column2 column-su">
-                    <h2 class="column-title">Startups</h2>
+                    <h2 class="column-title">Cases</h2>
                     <div class="search-widget">
                         <input type="text" data-bind="attr: {'placeholder': totals.su.prompt}">
                         <div class="sharing hidden" data-bind="css: {hidden: isHomeMode}">
@@ -122,7 +123,7 @@
                     </div>
                 </div>
                 <div class="column3 column-pe">
-                    <h2 class="column-title">Founders</h2>
+                    <h2 class="column-title">Lawyers</h2>
                     <div class="search-widget">
                         <input type="text" data-bind="attr: {'placeholder': totals.pe.prompt}">
                     </div>
@@ -147,7 +148,7 @@
                                 <div class="note">Displaying
                                     <span data-bind="visible: !homeCategoryDataTruncated()">all <span data-bind="text: homeCategoryDataCount"></span></span>
                                     <span data-bind="visible: homeCategoryDataTruncated"><span data-bind="text: homeCategoryDataLimit"></span> out of <span data-bind="text: homeCategoryDataCount"></span></span>
-                                    startups, sorted descending by total amount raised. Use the search option above if you are looking for a specific company.</div>
+                                    cases, sorted descending by total amount raised. Use the search option above if you are looking for a specific company.</div>
                             </div>
                             <!-- /ko -->
                         </ul>
@@ -322,19 +323,19 @@
                     	</svg>
                     </div>
 
-                    <a class="title" href="startup-universe.html">
-                        <h1>The Startup Universe</h1>
-                        <h2>A Visual Guide to Startups, Founders & Venture Capitalists</h2>
+                    <a class="title" href="index.html">
+                        <h1>The Case Universe</h1>
+                        <h2>A Visual Guide to Cases, Lawyers & Third Parties</h2>
                     </a>
 
                     <div class="about-content">
-                        <p>The Startup Universe displays and explores the relationships between startup companies and their founders and investors (Venture Capitalists) since 1990.</p>
-                        <p>Startups are grouped into 19 categories, based on the type of products or services they deliver. Each category is represented by an unique color. In addition to that, startups are visually sized according to the amount of financing they have raised, with each individual round displayed as well.</p>
-                        <p>Startups are positioned within the main interface on a horizontal interactive timeline, based on the year they were founded. Details about each company are provided below the timeline.</p>
-                        <p>By clicking on the left or right columns - Venture Capitalist or Founders' names - tangential stories can be explored: how many startups has a VC company funded and are there any time or startup category trends or patterns? How many startups have been founded by the same person?</p>
-                        <p>Startups, VCs and founders can also be directly browsed by entering a name in the search field.</p>
+                        <p>The Case Universe displays and explores the relationships between startup companies and their Lawyers and investors (Third Parties) since 1990.</p>
+                        <p>Cases are grouped into 19 categories, based on the type of products or services they deliver. Each category is represented by an unique color. In addition to that, startups are visually sized according to the amount of financing they have raised, with each individual round displayed as well.</p>
+                        <p>Cases are positioned within the main interface on a horizontal interactive timeline, based on the year they were founded. Details about each company are provided below the timeline.</p>
+                        <p>By clicking on the left or right columns - Venture Capitalist or Lawyers' names - tangential stories can be explored: how many startups has a VC company funded and are there any time or startup category trends or patterns? How many startups have been founded by the same person?</p>
+                        <p>Cases, VCs and Lawyers can also be directly browsed by entering a name in the search field.</p>
                         <p>All data comes from the <a href="http://www.crunchbase.com/">CrunchBase</a> API.</p>
-                        <p>The Startup Universe aims at being a comprehensive exploratory view of the past 22 years (and counting) of startup life. As you explore our tool, we hope you will discover new stories, relationships and trends.</p>
+                        <p>The Case Universe aims at being a comprehensive exploratory view of the past 22 years (and counting) of startup life. As you explore our tool, we hope you will discover new stories, relationships and trends.</p>
                         <div class="credits"><p><h3>Credits:</h3></p>
                             <div class="logos clearfix">
                                 <div class="credit">
