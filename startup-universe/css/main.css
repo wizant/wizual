@@ -426,24 +426,16 @@ select {
     background-size:contain;
 }
 
-.relationships .logo-accurat {
-    background-image:url(../img/logo-accurat.png);
-    background-repeat:no-repeat;
-    width:53px;
-    height:53px;
-    background-size:contain;
-}
-
-.relationships .logo-ben {
-    background-image:url(../img/logo-ben.png);
-    background-repeat:no-repeat;
-    width:53px;
-    height:53px;
-    background-size:contain;
-}
-
 .relationships .logo-visually-icon {
     background-image:url(../img/logo-visually-icon.png);
+    background-repeat:no-repeat;
+    width:53px;
+    height:53px;
+    background-size:contain;
+}
+
+.relationships .logo-wizant-icon {
+    background-image:url(../img/logo-wizant-icon.png);
     background-repeat:no-repeat;
     width:53px;
     height:53px;
@@ -540,7 +532,7 @@ select {
     top:-3px;
 }
 
-.relationships .legend .column3 .legend-rounds {
+.legend-rounds {
     background-image:url(../img/legend-rounds.png);
     background-repeat:no-repeat;
     width:127px;
@@ -1350,7 +1342,7 @@ html,button,input,select,textarea,.sharing .share-button.enabled:hover {
     left:0;
 }
 
-.jspCap,.relationships .categories .tooltip.loading .note,.relationships .categories .tooltip.loading .acResultsInner,.relationships .home-only,.relationships.home-page .content,.relationships.home-page .arrow-scale-outer,.relationships.home-page .legend-rounds,.relationships .content .list-related .list-content .item input,.relationships .content .list-related.list-vc-rounds .index {
+.jspCap,.relationships .categories .tooltip.loading .note,.relationships .categories .tooltip.loading .acResultsInner,.relationships .home-only,.relationships.home-page .content,.relationships.home-page .arrow-scale-outer,.relationships .content .list-related .list-content .item input,.relationships .content .list-related.list-vc-rounds .index {
     display:none;
 }
 
@@ -1410,10 +1402,6 @@ html,body,.relationships .footer .profiles .profile-su .col {
 
 .relationships .logo-accurat {
     background-image:url(../img/logo-accurat@2x.png);
-}
-
-.relationships .legend .column3 .legend-rounds {
-    background-image:url(../img/legend-rounds@2x.png);
 }
 
 .relationships .legend .crunchbase-attribution .crunchbase-logo {
