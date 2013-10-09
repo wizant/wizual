@@ -951,6 +951,10 @@ select {
     margin-left:100px;
 }
 
+.relationships .footer .profiles .profile-su .col1 .startup-subsidiaries {
+    margin-top: 20px;
+}
+
 .relationships .footer .profiles .profile-su .col1 .startup-attributes .attribute {
     display:inline-block;
     width:5em;

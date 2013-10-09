@@ -40,14 +40,6 @@ var API = {
         startup.officeString = _.map(startup.offices, function (o) {
             return _.without([o.city, o.state_code || o.country_code], undefined).join(", ")
         }).join("; ")
-
-        startup.subsidiaryString = '<ul class="startup-attributes startup-subsidiaries"><li><span class="attribute">Subsidiaries</span></li><li>';
-
-        startup.subsidiaryString += _.map(startup.subsidiaries, function (o) {
-            return _.without([o.name], undefined);
-        }).join("</li><li>");
-
-        startup.subsidiaryString += '</li></ul>';
     },
     prepareStartups: function (startups) {
         _.each(startups, function (startup) {

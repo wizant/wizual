@@ -278,7 +278,12 @@
                                             <a class="value" data-bind="attr: {href: 'mailto:' + email_address}, text: email_address"></a>
                                         </li>
                                     </ul>
-                                    <div data-bind="html: subsidiaryString"></div>
+                                    <div class="startup-attributes startup-subsidiaries">
+                                        <span class="attribute">Subsidiaries</span>
+                                        <ul data-bind="foreach: subsidiaries">
+                                            <li data-bind="text: name" class="value"></li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <div class="crunchbase-link">
                                     <a data-bind="attr: {'href': crunchbase_url}" target="_blank">Is this you? Update CrunchBase here</a>
