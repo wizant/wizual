@@ -277,11 +277,8 @@
                                             <span class="attribute">Email</span>
                                             <a class="value" data-bind="attr: {href: 'mailto:' + email_address}, text: email_address"></a>
                                         </li>
-                                        <li>
-                                            <span class="attribute">Offices</span>
-                                            <span class="value" data-bind="text: officeString"></span>
-                                        </li>
                                     </ul>
+                                    <div data-bind="html: subsidiaryString"></div>
                                 </div>
                                 <div class="crunchbase-link">
                                     <a data-bind="attr: {'href': crunchbase_url}" target="_blank">Is this you? Update CrunchBase here</a>

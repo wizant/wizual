@@ -93,5 +93,16 @@
             "longitude": null
         }
     ],
+    "subsidiaries": [
+        {
+            "name": "Birch Communications Corporate Services"
+        },
+        {
+            "name": "Birch Communications"
+        },
+        {
+            "name": "Birch Communications (India)"
+        }
+    ],
     "dl_process": 42
 }
