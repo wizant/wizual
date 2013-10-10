@@ -326,7 +326,7 @@ select {
     cursor:pointer;
 }
 
-.relationships .categories .item .inner .mark {
+.mark {
     position:relative;
     display:inline-block;
     border-radius:50%;
@@ -335,7 +335,7 @@ select {
     border:1px solid transparent;
 }
 
-.relationships .categories .item .inner .mark::after {
+.mark::after {
     content:"";
     display:block;
     position:absolute;
@@ -1394,6 +1394,44 @@ html,body,.relationships .footer .profiles .profile-su .col {
 .relationships .bubble .bubble-name.visible,.relationships .bubble-date-block.visible,.relationships .highlight-one .highlighted.bubble-date-block,.relationships .highlight-one .highlighted .bubble-name {
     visibility:visible;
 }
+
+
+/* categories legend */
+.legend-table {
+    margin: 2em 0;
+    width: 50%;
+}
+
+.legend-table th {
+    padding-left: 1em;
+    text-align: left;
+    font-weight: normal;
+}
+
+.legend-table td {
+    text-align: right;
+}
+
+.mark-1 {
+    background: #E1B375;
+}
+
+.mark-2 {
+    background: #9d844f;
+}
+
+.mark-3 {
+    background: #ccac3a;
+}
+.mark-4 {
+    background: #606b3e;
+}
+
+.mark-5 {
+    background: #b0b960;
+}
+
+
 
 @media min--moz-device-pixel-ratio 13,-o-min-device-pixel-ratio 26 2,-webkit-min-device-pixel-ratio 13,min-device-pixel-ratio 13,min-resolution 13dppx{
 .relationships .logo-visually {
