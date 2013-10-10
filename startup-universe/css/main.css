@@ -1431,6 +1431,17 @@ html,body,.relationships .footer .profiles .profile-su .col {
     background: #b0b960;
 }
 
+.mark-6 {
+    background: #497874;
+}
+
+.mark-7 {
+    background: #67adbb;
+}
+
+.mark-8 {
+    background: #b2cdcf;
+}
 
 
 @media min--moz-device-pixel-ratio 13,-o-min-device-pixel-ratio 26 2,-webkit-min-device-pixel-ratio 13,min-device-pixel-ratio 13,min-resolution 13dppx{
