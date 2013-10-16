@@ -170,7 +170,7 @@ var Categories = {};
             order: order++
         }
     }
-    makeCategory("advertising", "Advertising", "#e1b375");
+    makeCategory("advertising", "Lysol", "#e1b375");
     makeCategory("public_relations", "Communication", "#9d844f");
     makeCategory("education", "Education", "#ccac3a");
     makeCategory("web", "Consumer Web", "#606b3e");
